@@ -1,0 +1,51 @@
+:root {
+  --color-background: rgb(25, 25, 25);
+  --color-text-primary: rgb(245, 245, 245);
+
+  --color-black: rgb(10, 10, 10);
+  --color-white: rgb(245, 245, 245);
+
+  --color-grey: rgb(130, 130, 130);
+  --color-disabled: rgb(78, 78, 78);
+
+  --color-red: rgb(230, 75, 61);
+  --color-blue: rgb(0, 127, 227);
+  --color-green: rgb(44, 148, 24);
+
+  --border-default: 1px solid black;
+  --color-background-lighter: rgb(34, 34, 34);
+
+  --color-widget: rgb(30, 30, 34);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  font-size: 16px;
+  color: var(--color-text-primary);
+  background: var(--color-background);
+  
+  position: fixed;
+  height: 100%;
+  width: 100%;
+}
+
+/** Material styling */
+button.MuiIconButton-root {
+  color: var(--color-grey);
+}
+
+button.MuiIconButton-root.Mui-disabled {
+  color: var(--color-disabled);
+  cursor: not-allowed;
+}

@@ -1,0 +1,122 @@
+
+.wrapper {
+  --playhead-size: 14px;
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  box-sizing: border-box;
+  position: relative;
+
+  background: var(--color-widget);
+  border: var(--border-default);
+  padding: 16px 24px;
+  padding-bottom: 32px;
+}
+
+.controls {
+  display: flex;
+  flex-flow: row;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border-top: none;
+  height: 60px;
+  position: relative;
+  margin-top: 8px;
+}
+
+.spacer {
+  width: 100%;
+  height: 20px;
+}
+
+.zone {
+  display: flex;
+  flex: 1;
+  border: 1px solid var(--color-grey);
+}
+
+.keyframes {
+  position: absolute;
+  left: 0;
+  top: 20px;
+  height: 40px;
+  width: calc(100% - 1px);
+}
+
+.playhead {
+  animation: play-right;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+
+  animation-play-state: paused;
+
+  position: absolute;
+  top: 20px;
+  left: 0%;
+}
+
+.playhead-head {
+  background: var(--color-red);
+  position: absolute;
+  left: calc(var(--playhead-size) / -2);
+  top: calc(var(--playhead-size) * -1.5);
+
+  width: calc(var(--playhead-size) + 1px);
+  height: var(--playhead-size);
+  border-top-left-radius: calc(var(--playhead-size) / 5);
+  border-top-right-radius: calc(var(--playhead-size) / 5);
+}
+
+.playhead-head:hover {
+  cursor: grab;
+}
+
+.playhead-head::after {
+  content: "";
+  position: absolute;
+  bottom: calc(var(--playhead-size) / -2);
+  left: 0;
+  width: 1px;
+  height: 0;
+  border-left: calc(var(--playhead-size) / 2) solid transparent;
+  border-right: calc(var(--playhead-size) / 2) solid transparent;
+  border-top: calc(var(--playhead-size) / 2) solid var(--color-red);
+}
+
+.playhead-head::after:hover {
+  cursor: grab;
+}
+
+.playhead-tail {
+  height: 40px;
+  width: 1px;
+  background: var(--color-red);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+@keyframes play {
+  from {
+    left: 0%;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes play2 {
+  from {
+    left: 0%;
+  }
+  to {
+    left: 100%;
+  }
+}

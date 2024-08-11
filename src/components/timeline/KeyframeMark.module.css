@@ -1,0 +1,49 @@
+
+.mark {
+  position: absolute;
+  font-family: monospace;
+  font-size: 14px;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2px;
+  height: 40px;
+}
+
+.mark-head {
+  position: absolute;
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  padding: 2px 3px;
+}
+
+.mark:hover {
+  cursor: pointer;
+
+  .mark-head {
+    padding: 4px;
+  }
+}
+
+.mark.selected .mark-head {
+  padding: 4px;
+  outline: 1px solid white;
+}
+
+.temporary {
+  opacity: 0.6;
+}
+
+.green {
+  background: var(--color-green);
+}
+
+.blue {
+  background: var(--color-blue);
+}

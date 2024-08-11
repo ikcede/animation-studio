@@ -1,0 +1,15 @@
+.wrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+}
+
+.group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  color: var(--color-grey);
+  margin-right: 24px;
+}
