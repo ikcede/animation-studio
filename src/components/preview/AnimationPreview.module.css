@@ -1,0 +1,29 @@
+.wrapper {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  position: relative;
+
+  background: rgb(34, 34, 34);
+}
+
+.target-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.target {
+  animation: default-animation;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+
+  animation-play-state: paused;
+}

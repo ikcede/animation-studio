@@ -49,3 +49,27 @@ button.MuiIconButton-root.Mui-disabled {
   color: var(--color-disabled);
   cursor: not-allowed;
 }
+
+.MuiInputBase-input {
+  color: rgb(245, 245, 245);
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+.MuiInputBase-root.MuiOutlinedInput-root {
+  color: var(--color-white);
+  background: var(--color-background);
+
+  .MuiInputBase-input {
+    color: var(--color-white);
+    font-size: 14px;
+  }
+
+  .MuiOutlinedInput-notchedOutline {
+    border-color: var(--color-black);
+  }
+}
+
+.MuiFormLabel-root.MuiInputLabel-root {
+  color: var(--color-grey);
+}

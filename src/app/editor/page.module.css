@@ -1,0 +1,39 @@
+.App {
+  display: flex;
+  flex: 1;
+  padding: 16px;
+  height: 100%;
+
+  flex-flow: wrap;
+  align-items: stretch;
+  overflow: auto;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.preview {
+  display: flex;
+  flex: 1;
+  align-items: stretch;
+  justify-content: center;
+  border: 1px solid black;
+  padding: 16px;
+}
+
+.sidebar {
+  display: flex;
+  width: 350px;
+  border: 1px solid black;
+  background: rgb(30, 30, 34);
+}
+
+@media (max-width: 850px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+  }
+}
