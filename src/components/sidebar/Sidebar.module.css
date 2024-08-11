@@ -1,0 +1,6 @@
+.wrapper {
+  display: flex;
+  flex-flow: column;
+  flex: 1;
+  padding-bottom: 16px;
+}

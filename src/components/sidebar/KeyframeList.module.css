@@ -1,0 +1,7 @@
+.green :global(.MuiListItemIcon-root) {
+  color: rgb(44, 148, 24);
+}
+
+.blue :global(.MuiListItemIcon-root) {
+  color: rgb(0, 127, 227);
+}

@@ -1,0 +1,35 @@
+.editor {
+  padding: 8px 0;
+}
+
+.editor :global(.MuiButton-root) {
+  line-height: 1em;
+  padding: 6px 8px;
+  color: var(--color-grey);
+  border: var(--border-default);
+  text-transform: none;
+}
+
+.editor :global(.MuiInputBase-root.MuiOutlinedInput-root) {
+  padding: 0;
+}
+
+.row {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.row :global(.MuiButtonBase-root .MuiSvgIcon-root) {
+  width: 0.8em;
+  height: 0.8em;
+}
+
+.property {
+  min-width: 150px;
+  margin-right: 8px;
+}
+
+.value {
+  display: flex;
+  flex: 1;
+}

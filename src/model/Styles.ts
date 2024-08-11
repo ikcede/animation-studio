@@ -1,11 +1,11 @@
 
-type Style = {
+export type Style = {
   prop: string,
   val: string,
   error?: string,
 }
 
-type Properties = {
+export type Properties = {
   [prop: string]: string;
 }
 

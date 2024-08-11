@@ -40,6 +40,11 @@ body {
   width: 100%;
 }
 
+p {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
 /** Material styling */
 button.MuiIconButton-root {
   color: var(--color-grey);
@@ -50,19 +55,18 @@ button.MuiIconButton-root.Mui-disabled {
   cursor: not-allowed;
 }
 
-.MuiInputBase-input {
-  color: rgb(245, 245, 245);
-  padding: 6px 10px;
-  font-size: 14px;
-}
-
 .MuiInputBase-root.MuiOutlinedInput-root {
   color: var(--color-white);
   background: var(--color-background);
 
-  .MuiInputBase-input {
+  .MuiInputBase-input, .MuiInputBase-input.MuiAutocomplete-input {
     color: var(--color-white);
+    padding: 6px 10px;
     font-size: 14px;
+  }
+
+  textarea.MuiInputBase-input {
+    padding: 0;
   }
 
   .MuiOutlinedInput-notchedOutline {
@@ -72,4 +76,106 @@ button.MuiIconButton-root.Mui-disabled {
 
 .MuiFormLabel-root.MuiInputLabel-root {
   color: var(--color-grey);
+}
+
+.MuiTabs-root {
+  background: var(--color-background);
+  border-bottom: var(--border-default);
+}
+
+.MuiButtonBase-root.MuiTab-root {
+  color: var(--color-grey);
+  font-size: 12px;
+  text-transform: none;
+  min-width: 70px;
+  padding: 4px 8px;
+}
+
+.MuiButtonBase-root.MuiTab-root.Mui-selected {
+  color: var(--color-white);
+}
+
+span.MuiTabs-indicator {
+  background: var(--color-red);
+}
+
+.MuiListItem-root {
+  border: var(--border-default);
+  border-bottom: none;
+  border-radius: 2px;
+  background: var(--color-background);
+}
+
+.MuiListItem-root:hover {
+  background: var(--color-background-lighter);
+}
+
+.MuiListItem-root:last-of-type {
+  border-bottom: var(--border-default);
+}
+
+.MuiListItem-root.selected {
+  background: var(--color-background-lighter);
+  border-left: 2px solid var(--color-red);
+}
+
+.MuiListItemButton-root {
+  .MuiListItemIcon-root {
+    min-width: initial;
+    margin-right: 16px;
+  }
+
+  .MuiListItemText-root {
+    font-size: 14px;
+  }
+
+  .MuiButtonBase-root .MuiSvgIcon-root {
+    width: 0.8em;
+    height: 0.8em;
+  }
+}
+
+/** Form styling **/
+
+/* TODO: Make this a mixin */
+.input-row {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 16px;
+
+  label {
+    margin-right: 8px;
+    padding-bottom: 1px;
+  }
+
+  .MuiTextField-root {
+    display: flex;
+    flex: 1;
+  }
+
+  .MuiInputBase-root {
+    display: flex;
+    flex: 1;
+    font-size: 14px;
+
+    .MuiInputBase-input {
+      font-size: 14px;
+    }
+  }
+
+  .small {
+    min-width: 90px;
+    flex: 0;
+  }
+
+  .MuiTypography-root {
+    color: var(--color-white);
+    font-size: 14px;
+  }
+}
+
+.input-row:last-of-type {
+  margin-bottom: 0;
 }

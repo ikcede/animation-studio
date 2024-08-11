@@ -4,6 +4,8 @@ import React from 'react';
 import styling from './page.module.css';
 import AnimationPreview from "@/components/preview/AnimationPreview";
 import Timeline from "@/components/timeline/Timeline";
+import Sidebar from '@/components/sidebar/Sidebar';
+
 import { KeyframesContext } from '@/providers/KeyframesProvider';
 import { cloneKeyframes } from '@/util';
 
@@ -28,7 +30,7 @@ export default function Page() {
         </div>
       </main>
       <div className={styling.sidebar}>
-        {/* <Sidebar></Sidebar> */}
+        <Sidebar></Sidebar>
       </div>
     </div>
   );
