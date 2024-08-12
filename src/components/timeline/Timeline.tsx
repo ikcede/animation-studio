@@ -35,6 +35,7 @@ const Timeline: React.FC = ({}) => {
 
   const [addMode, setAddMode] = React.useState(false);
   const [tempKeyframe, setTempKeyframe] = React.useState(0);
+  const [keyframeDown, setKeyframeDown] = React.useState(-1);
 
   const mainRef = React.createRef<HTMLDivElement>();
 
@@ -74,6 +75,19 @@ const Timeline: React.FC = ({}) => {
     }, [animation]
   );
 
+  const handleKeyframeDown = React.useCallback(
+    (index: number) => {
+      setKeyframeDown(index);
+    }, []
+  );
+
+  const getDownStyle = React.useCallback(
+    (): string => {
+      return playheadDown || keyframeDown > -1 ?
+        styling.down : '';
+    }, [playheadDown, keyframeDown]
+  );
+
   const handleMouseMove = React.useCallback(
     (e: React.MouseEvent) => {
       if (addMode) {
@@ -87,8 +101,17 @@ const Timeline: React.FC = ({}) => {
           type: 'setTime',
           value: (percent * animation.duration).toString()
         });
-      } else if (playheadDown) {
+      } else if (e.buttons === 1 && keyframeDown > -1) {
+        let percent = round(getPercent(e) * 100);
+        if (keyframes!.findRule(percent + '%') === null) {
+          keyframes[keyframeDown].keyText = percent + '%';
+          let newKeyframesRule = createKeyframeRule(keyframes.cssText);
+          keyframesDispatch({keyframes: newKeyframesRule!});
+          keyframeSelectionDispatch({value: percent});
+        }
+      } else if (playheadDown || keyframeDown > -1) {
         setPlayheadDown(false);
+        setKeyframeDown(-1);
       }
     }, [addMode, mainRef, playheadDown, keyframes]
   ); 
@@ -180,17 +203,18 @@ const Timeline: React.FC = ({}) => {
             onDeleteKeyframe={deleteSelectedKeyframe}
         ></KeyframeControls>
       </div>
-      <div className={styling.main}
+      <div className={styling.main + ' ' + getDownStyle()}
            ref={mainRef}
            onClick={onTimelineClick}>
         <div className={styling.spacer}></div>
         <div className={styling.zone}>
           <div className={styling.keyframes}>
-            {getKeyframes().map((percent) => (
+            {getKeyframes().map((percent, index) => (
               <KeyframeMark key={percent}
                             percent={percent}
                             selected={selectedKeyframe == percent}
                             onKeyframeClick={selectKeyframe}
+                            onKeyframeDown={() => handleKeyframeDown(index)}
               ></KeyframeMark>
             ))}
             {addMode && (

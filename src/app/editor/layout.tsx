@@ -6,10 +6,8 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className='animation-editor'>
-      <EditorProvider>
-        {children}
-      </EditorProvider>
-    </div>
+    <EditorProvider>
+      {children}
+    </EditorProvider>
   );
 }

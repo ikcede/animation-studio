@@ -2,14 +2,6 @@
   padding: 8px 0;
 }
 
-.editor :global(.MuiButton-root) {
-  line-height: 1em;
-  padding: 6px 8px;
-  color: var(--color-grey);
-  border: var(--border-default);
-  text-transform: none;
-}
-
 .editor :global(.MuiInputBase-root.MuiOutlinedInput-root) {
   padding: 0;
 }

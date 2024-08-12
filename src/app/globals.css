@@ -5,8 +5,8 @@
   --color-black: rgb(10, 10, 10);
   --color-white: rgb(245, 245, 245);
 
-  --color-grey: rgb(130, 130, 130);
-  --color-disabled: rgb(78, 78, 78);
+  --color-grey: rgb(173, 173, 173);
+  --color-disabled: rgb(100, 100, 100);
 
   --color-red: rgb(230, 75, 61);
   --color-blue: rgb(0, 127, 227);
@@ -41,8 +41,8 @@ body {
 }
 
 p {
-  margin-top: 8px;
-  margin-bottom: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 /** Material styling */
@@ -81,6 +81,32 @@ button.MuiIconButton-root.Mui-disabled {
 .MuiTabs-root {
   background: var(--color-background);
   border-bottom: var(--border-default);
+}
+
+.MuiButton-root.button {
+  line-height: 1em;
+  padding: 6px 8px;
+  color: var(--color-grey);
+  border: var(--border-default);
+  text-transform: none;
+}
+
+.MuiToggleButtonGroup-root {
+  .MuiToggleButton-root {
+    color: var(--color-grey);
+    border: var(--border-default);
+  }
+
+  .MuiToggleButton-root.Mui-selected {
+    background: var(--color-background-lighter);
+    color: var(--color-white);
+    border-bottom: 1px solid var(--color-red);
+  }
+
+  .MuiSvgIcon-root {
+    width: 0.8em;
+    height: 0.8em;
+  }
 }
 
 .MuiButtonBase-root.MuiTab-root {

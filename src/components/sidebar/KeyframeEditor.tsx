@@ -141,7 +141,8 @@ const KeyframeEditor: React.FC = () => {
           </div>
         ))}
         <div className='property-row'>
-          <Button size='small'
+          <Button className='button'
+                  size='small'
                   variant='outlined'
                   startIcon={<AddIcon aria-label='Add' />}
                   onClick={addStyle}>

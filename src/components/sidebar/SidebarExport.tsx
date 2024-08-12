@@ -20,7 +20,7 @@ const SidebarExport: React.FC = () => {
   }, []);
 
   return (
-    <Box sx={{ padding: '24px 8px 8px' }}>
+    <Box sx={{ padding: '24px 0 8px' }}>
       <TextField
           label="Keyframes"
           multiline

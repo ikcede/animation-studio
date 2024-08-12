@@ -48,6 +48,10 @@
   width: calc(100% - 1px);
 }
 
+.down {
+  cursor: grab;
+}
+
 .playhead {
   animation: play-right;
   animation-duration: 1s;

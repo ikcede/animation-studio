@@ -9,10 +9,11 @@ export interface KeyframeMarkProps {
   precision?: number,
   selected?: boolean,
   temporary?: boolean,
-  onKeyframeClick?: KeyframeClickFunction
+  onKeyframeClick?: KeyframeMouseFunction,
+  onKeyframeDown?: KeyframeMouseFunction,
 }
 
-export type KeyframeClickFunction = (percent: number) => void;
+export type KeyframeMouseFunction = (percent: number) => void;
 
 const KeyframeMark: React.FC<KeyframeMarkProps> = ({
   percent = 0,
@@ -20,6 +21,7 @@ const KeyframeMark: React.FC<KeyframeMarkProps> = ({
   selected = false,
   temporary = false,
   onKeyframeClick = () => {},
+  onKeyframeDown = () => {},
 }) => {
 
   const handleClick = (event: React.MouseEvent) => {
@@ -27,6 +29,14 @@ const KeyframeMark: React.FC<KeyframeMarkProps> = ({
       event.preventDefault();
       event.stopPropagation();
       onKeyframeClick(percent);
+    }
+  }
+
+  const handleDown = (event: React.MouseEvent) => {
+    if (!temporary) {
+      event.preventDefault();
+      event.stopPropagation();
+      onKeyframeDown(percent);
     }
   }
 
@@ -40,7 +50,8 @@ const KeyframeMark: React.FC<KeyframeMarkProps> = ({
             ${color} \
             ${selected ? styling.selected : ''} \
             ${temporary ? styling.temporary : ''}`}
-         onClick={handleClick}>
+         onClick={handleClick}
+         onMouseDown={handleDown}>
       <div className={styling['mark-head'] + ' ' + color}>
         {round(percent, precision)}
       </div>
