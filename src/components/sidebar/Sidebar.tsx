@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import GetAppIcon from '@mui/icons-material/GetApp';
+import CodeIcon from '@mui/icons-material/Code';
 import SidebarKeyframes from './SidebarKeyframes';
 import SidebarExport from './SidebarExport';
 import SidebarAnimation from './SidebarAnimation';
@@ -57,10 +58,11 @@ const Sidebar: React.FC = ({ }) => {
               sx={{paddingLeft: '8px', paddingRight: '8px'}}>
           <Tab icon={<BookmarksIcon />} label="Keyframes" {...a11yProps(0)} />
           <Tab icon={<PlayCircleIcon />} label="Animation" {...a11yProps(1)} />
-          <Tab icon={<GetAppIcon />} label="Export" {...a11yProps(2)} />
+          <Tab icon={<CodeIcon />} label="Target" {...a11yProps(2)} />
+          <Tab icon={<GetAppIcon />} label="Export" {...a11yProps(3)} />
         </Tabs>
       </Box>
-      <Box sx={{paddingLeft: '16px', paddingRight: '16px'}}>
+      <Box sx={{paddingLeft: '16px', paddingRight: '16px', overflowY: 'auto'}}>
         <CustomTabPanel value={value} index={0}>
           <SidebarKeyframes />
         </CustomTabPanel>
@@ -68,6 +70,9 @@ const Sidebar: React.FC = ({ }) => {
           <SidebarAnimation></SidebarAnimation>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
+          Target
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={3}>
           <SidebarExport></SidebarExport>
         </CustomTabPanel>
       </Box>

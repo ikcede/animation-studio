@@ -29,8 +29,10 @@ export default function Page() {
           <Timeline></Timeline>
         </div>
       </main>
-      <div className={styling.sidebar}>
-        <Sidebar></Sidebar>
+      <div className={styling['sidebar-container']}>
+        <div className={styling.sidebar}>
+          <Sidebar></Sidebar>
+        </div>
       </div>
     </div>
   );

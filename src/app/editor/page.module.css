@@ -13,6 +13,7 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+  max-width: calc(100vw - 376px);
 }
 
 .preview {
@@ -24,14 +25,37 @@
   padding: 16px;
 }
 
+.sidebar-container {
+  display: flex;
+  align-items: stretch;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 360px;
+  padding: 16px;
+}
+
 .sidebar {
   display: flex;
-  width: 350px;
+  flex: 1;
   border: 1px solid black;
   background: rgb(30, 30, 34);
+  height: 100%;
 }
 
 @media (max-width: 850px) {
+  .main {
+    max-width: 100%;
+  }
+
+  .sidebar-container {
+    position: relative;
+    height: auto;
+    width: 100%;
+    padding: 0;
+  }
+
   .sidebar {
     width: 100%;
     height: auto;
