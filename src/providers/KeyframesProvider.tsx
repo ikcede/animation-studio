@@ -1,7 +1,8 @@
 'use client'
 
 import React from 'react';
-import { createDefaultKeyframes } from '@/util';
+import { createDefaultKeyframes, createKeyframeRule } from '@/util';
+import debounce from 'lodash.debounce';
 
 export const KeyframesContext = 
     React.createContext<CSSKeyframesRule>(createDefaultKeyframes());
@@ -9,13 +10,22 @@ export const KeyframesDispatchContext =
     React.createContext<React.Dispatch<KeyframesAction>>(() => {});
 
 type KeyframesAction = {
-  keyframes: CSSKeyframesRule
+  keyframes: CSSKeyframesRule,
+  save?: boolean
 };
+
+const save = debounce((keyframes: string) => {
+  console.log(`Saving... ${keyframes}`);
+  localStorage.setItem('currentKeyframes', keyframes);
+}, 2000);
 
 const keyframesReducer = (
   state: CSSKeyframesRule,
   action: KeyframesAction
 ): CSSKeyframesRule => {
+  if (action.save) {
+    save(action.keyframes.cssText);
+  }
   return action.keyframes;
 };
 
@@ -24,6 +34,17 @@ const KeyframesProvider = (
 ) => {
   const [keyframes, dispatch] = 
       React.useReducer(keyframesReducer, createDefaultKeyframes());
+
+  React.useEffect(() => {
+    let loadedKeyframes = localStorage.getItem('currentKeyframes') || '';
+    if (loadedKeyframes.length > 0) {
+      let newKeyframes = createKeyframeRule(loadedKeyframes) || keyframes;
+      dispatch({
+        keyframes: newKeyframes,
+        save: false,
+      });
+    }
+  }, []);
 
   return (
     <KeyframesContext.Provider value={keyframes}>

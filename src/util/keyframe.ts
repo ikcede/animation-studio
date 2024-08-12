@@ -1,3 +1,5 @@
+'use client'
+
 export const createKeyframeRule = 
     (ruleString: string): CSSKeyframesRule | null => {
   const styleSheet = new CSSStyleSheet();

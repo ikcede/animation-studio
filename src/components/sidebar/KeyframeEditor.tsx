@@ -68,7 +68,10 @@ const KeyframeEditor: React.FC = () => {
         ruleStyle.setProperty(style.prop, style.val);
       }
     }
-    keyframesDispatch({keyframes: cloneKeyframes(keyframes)});
+    keyframesDispatch({
+      keyframes: cloneKeyframes(keyframes),
+      save: true
+    });
   }
 
   const setStyleValue = (

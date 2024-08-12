@@ -34,14 +34,14 @@ const SidebarKeyframes: React.FC = () => {
   return (
     <div className={styling.wrapper}>
       {selectedKeyframe == -1 ? (
-        <>
+        <div className='list'>
           <p>
             Active Keyframes
           </p>
           <KeyframeList></KeyframeList>
-        </>
+        </div>
       ) : (
-        <>
+        <div className='editor'>
           <div className={styling.controls}>
             <Button className='button'
                     size='small'
@@ -68,7 +68,7 @@ const SidebarKeyframes: React.FC = () => {
             Editing: {selectedKeyframe}%
           </p>
           <KeyframeEditor></KeyframeEditor>
-        </>
+        </div>
       )}
     </div>
   );

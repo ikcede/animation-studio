@@ -43,7 +43,8 @@ const KeyframeList: React.FC = () => {
     if (keyframe !== '0%' && keyframe !== '100%') {
       keyframes.deleteRule(keyframe);
       keyframesDispatch({
-        keyframes: keyframes
+        keyframes: keyframes,
+        save: true
       });
       selectedKeyframeDispatch({value: -1});
     }
