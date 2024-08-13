@@ -12,6 +12,9 @@ const roboto = Roboto({
 export const metadata: Metadata = {
   title: "Animation Studio",
   description: "Generate and customize CSS animations",
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({
