@@ -244,6 +244,7 @@ const Timeline: React.FC = ({}) => {
               ...animation.toReactProps(),
               animationName: animation.useClone ? 
                 animationClone : animationName,
+              animationTimingFunction: 'linear',
              }}>
           <div className={styling['playhead-head']}></div>
           <div className={styling['playhead-tail']}></div>
