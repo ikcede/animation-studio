@@ -8,7 +8,7 @@ import KeyframeMark from './KeyframeMark';
 import TimelineControls from './TimelineControls';
 import KeyframeControls from './KeyframeControls';
 
-import { createKeyframeRule, round } from '@/util';
+import { round } from '@/util';
 
 import { KeyframesContext, KeyframesDispatchContext } from '@/providers/KeyframesProvider';
 import { AnimationContext, AnimationDispatchContext } from '@/providers/AnimationProvider';
@@ -36,15 +36,20 @@ const Timeline: React.FC = ({}) => {
   const [addMode, setAddMode] = React.useState(false);
   const [tempKeyframe, setTempKeyframe] = React.useState(0);
   const [keyframeDown, setKeyframeDown] = React.useState(-1);
+  const [ruleList, setRuleList] = React.useState<number[]>([]);
 
   const mainRef = React.createRef<HTMLDivElement>();
 
-  const getKeyframes = React.useCallback(() => {
-    let rules = [];
-    for (let i = 0; i < keyframes.length; i++) {
-      rules.push(parseFloat(keyframes[i].keyText));
+  React.useEffect(() => {
+    if (keyframes.keyframes == null) {
+      setRuleList([]);
+    } else {
+      let rules = [];
+      for (let i = 0; i < keyframes.keyframes.length; i++) {
+        rules.push(parseFloat(keyframes.keyframes[i].keyText));
+      }
+      setRuleList(rules);
     }
-    return rules;
   }, [keyframes]);
 
   const getPercent = React.useCallback(
@@ -92,7 +97,7 @@ const Timeline: React.FC = ({}) => {
     (e: React.MouseEvent) => {
       if (addMode) {
         let percent = round(getPercent(e), 2) * 100;
-        if (keyframes!.findRule(round(percent) + '%') === null) {
+        if (keyframes.keyframes!.findRule(round(percent) + '%') === null) {
           setTempKeyframe(percent);
         }
       } else if (e.buttons === 1 && playheadDown) {
@@ -103,11 +108,10 @@ const Timeline: React.FC = ({}) => {
         });
       } else if (e.buttons === 1 && keyframeDown > -1) {
         let percent = round(getPercent(e) * 100);
-        if (keyframes!.findRule(percent + '%') === null) {
-          keyframes[keyframeDown].keyText = percent + '%';
-          let newKeyframesRule = createKeyframeRule(keyframes.cssText);
+        if (keyframes.keyframes!.findRule(percent + '%') === null) {
+          keyframes.keyframes![keyframeDown].keyText = percent + '%';
           keyframesDispatch({
-            keyframes: newKeyframesRule!,
+            keyframes: keyframes.clone(),
             save: true
           });
           keyframeSelectionDispatch({value: percent});
@@ -124,12 +128,11 @@ const Timeline: React.FC = ({}) => {
 
     if (addMode) {
       percent = round(getPercent(event), 2) * 100;
-      if (keyframes.findRule(percent + '%') === null) {
-        keyframes.appendRule(`${percent}% { }`);
+      if (keyframes.keyframes!.findRule(percent + '%') === null) {
+        keyframes.keyframes!.appendRule(`${percent}% { }`);
       }
-      let newKeyframesRule = createKeyframeRule(keyframes.cssText);
       keyframesDispatch({
-        keyframes: newKeyframesRule!,
+        keyframes: keyframes.clone(),
         save: true,
       });
       setAddMode(false);
@@ -181,10 +184,9 @@ const Timeline: React.FC = ({}) => {
     selectedKeyframe > 0 && selectedKeyframe !== 100;
 
   const deleteSelectedKeyframe = () => {
-    keyframes.deleteRule(selectedKeyframe + '%');
-    let newKeyframesRule = createKeyframeRule(keyframes.cssText);
+    keyframes.keyframes!.deleteRule(selectedKeyframe + '%');
     keyframesDispatch({
-      keyframes: newKeyframesRule!,
+      keyframes: keyframes.clone(),
       save: true,
     });
     keyframeSelectionDispatch({value: -1});
@@ -218,7 +220,7 @@ const Timeline: React.FC = ({}) => {
         <div className={styling.spacer}></div>
         <div className={styling.zone}>
           <div className={styling.keyframes}>
-            {getKeyframes().map((percent, index) => (
+            {ruleList.map((percent, index) => (
               <KeyframeMark key={percent}
                             percent={percent}
                             selected={selectedKeyframe == percent}

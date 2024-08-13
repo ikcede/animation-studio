@@ -7,20 +7,25 @@ import Timeline from "@/components/timeline/Timeline";
 import Sidebar from '@/components/sidebar/Sidebar';
 
 import { KeyframesContext } from '@/providers/KeyframesProvider';
-import { cloneKeyframes } from '@/util';
 
 export default function Page() {
   const keyframes = React.useContext(KeyframesContext);
+  const [styleText, setStyleText] = React.useState('');
 
-  const getStyleText = React.useCallback(() => {
-    let clone = cloneKeyframes(keyframes);
-    clone.name = clone.name + '2';
-    return keyframes.cssText + '\n' + clone.cssText;
+  React.useEffect(() => {
+    if (keyframes.keyframes == null) {
+      setStyleText('');
+      return;
+    }
+    let clone = keyframes.clone();
+    clone.keyframes!.name = clone.keyframes!.name + '2';
+    setStyleText(
+      keyframes.keyframes.cssText + '\n' + clone.keyframes!.cssText);
   }, [keyframes]);
 
   return (
     <div className={styling.App}>
-      <style>{getStyleText()}</style>
+      <style>{styleText}</style>
       <main className={styling.main}>
         <div className={styling.preview}>
           <AnimationPreview></AnimationPreview>

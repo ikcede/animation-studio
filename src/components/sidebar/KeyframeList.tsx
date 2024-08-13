@@ -21,13 +21,19 @@ const KeyframeList: React.FC = () => {
   const selectedKeyframeDispatch = 
       React.useContext(KeyframeSelectionDispatchContext);
   
-  const getKeyframes = React.useCallback(() => {
-    let rules = [];
-    for (let i = 0; i < keyframes.length; i++) {
-      rules.push(keyframes[i].keyText);
+  const [ruleList, setRuleList] = React.useState<string[]>([]);
+
+  React.useEffect(() => {
+    if (keyframes.keyframes == null) {
+      setRuleList([]);
+    } else {
+      let rules = [];
+      for (let i = 0; i < keyframes.keyframes.length; i++) {
+        rules.push(keyframes.keyframes[i].keyText);
+      }
+      rules.sort((a, b) => parseFloat(a) - parseFloat(b));
+      setRuleList(rules);
     }
-    rules.sort((a, b) => parseFloat(a) - parseFloat(b));
-    return rules;
   }, [keyframes]);
 
   const handleClick = (e: React.MouseEvent, keyframe: string) => {
@@ -41,9 +47,9 @@ const KeyframeList: React.FC = () => {
     e.preventDefault();
     e.stopPropagation();
     if (keyframe !== '0%' && keyframe !== '100%') {
-      keyframes.deleteRule(keyframe);
+      keyframes.keyframes!.deleteRule(keyframe);
       keyframesDispatch({
-        keyframes: keyframes,
+        keyframes: keyframes.clone(),
         save: true
       });
       selectedKeyframeDispatch({value: -1});
@@ -57,7 +63,7 @@ const KeyframeList: React.FC = () => {
 
   return (
     <List>
-      {getKeyframes().map(keyframe => (
+      {ruleList.map(keyframe => (
         <ListItem disablePadding 
                   key={keyframe}
                   className={selectedKeyframe + '%' === keyframe 

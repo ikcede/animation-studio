@@ -1,4 +1,5 @@
 import { CustomAnimation, AnimationDetails } from './CustomAnimation';
+import CustomKeyframes from './CustomKeyframes';
 import Styles from './Styles';
 
 export type {
@@ -7,5 +8,6 @@ export type {
 
 export {
   CustomAnimation,
+  CustomKeyframes,
   Styles
 };

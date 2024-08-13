@@ -1,16 +1,17 @@
 'use client'
 
 import React from 'react';
-import { createDefaultKeyframes, createKeyframeRule } from '@/util';
 import debounce from 'lodash.debounce';
+import { CustomKeyframes } from '@/model';
 
 export const KeyframesContext = 
-    React.createContext<CSSKeyframesRule>(createDefaultKeyframes());
+    React.createContext<CustomKeyframes>(
+        new CustomKeyframes(CustomKeyframes.getDefaultKeyframes()));
 export const KeyframesDispatchContext = 
     React.createContext<React.Dispatch<KeyframesAction>>(() => {});
 
 type KeyframesAction = {
-  keyframes: CSSKeyframesRule,
+  keyframes: CustomKeyframes,
   save?: boolean
 };
 
@@ -19,11 +20,14 @@ const save = debounce((keyframes: string) => {
 }, 2000);
 
 const keyframesReducer = (
-  state: CSSKeyframesRule,
+  state: CustomKeyframes,
   action: KeyframesAction
-): CSSKeyframesRule => {
+): CustomKeyframes => {
   if (action.save) {
-    save(action.keyframes.cssText);
+    let keyframes = action.keyframes;
+    if (keyframes.keyframes !== null) {
+      save(keyframes.keyframes.cssText);
+    }
   }
   return action.keyframes;
 };
@@ -31,13 +35,15 @@ const keyframesReducer = (
 const KeyframesProvider = (
   {children}: {children: React.ReactNode}
 ) => {
-  const [keyframes, dispatch] = 
-      React.useReducer(keyframesReducer, createDefaultKeyframes());
+  const [keyframes, dispatch] = React.useReducer(
+      keyframesReducer, 
+      new CustomKeyframes(CustomKeyframes.getDefaultKeyframes())
+  );
 
   React.useEffect(() => {
     let loadedKeyframes = localStorage.getItem('currentKeyframes') || '';
     if (loadedKeyframes.length > 0) {
-      let newKeyframes = createKeyframeRule(loadedKeyframes) || keyframes;
+      let newKeyframes = new CustomKeyframes(loadedKeyframes);
       dispatch({
         keyframes: newKeyframes,
         save: false,

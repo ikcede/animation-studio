@@ -9,7 +9,6 @@ import styling from './SidebarAnimation.module.css';
 
 import { AnimationContext, AnimationDispatchContext } from '@/providers/AnimationProvider';
 import { KeyframesContext, KeyframesDispatchContext } from '@/providers/KeyframesProvider';
-import { cloneKeyframes } from '@/util';
 
 const SidebarAnimation: React.FC = () => {
   const animation = React.useContext(AnimationContext);
@@ -35,8 +34,8 @@ const SidebarAnimation: React.FC = () => {
       });
 
       // Also update keyframes because these point to the animation name
-      let newKeyframes = cloneKeyframes(keyframes);
-      newKeyframes.name = newName;
+      let newKeyframes = keyframes.clone();
+      newKeyframes.keyframes!.name = newName;
       keyframesDispatch({
         keyframes: newKeyframes
       })

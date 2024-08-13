@@ -30,9 +30,7 @@ const AnimationPreview: React.FC = () => {
       <style>{styleText}</style>
       <style>{animationCss}</style>
       <div className={styling['target-wrapper']} ref={wrapper}>
-        <div className='target'>
-          Animation Text
-        </div>
+        <div className='target'></div>
       </div>
     </div>
   );

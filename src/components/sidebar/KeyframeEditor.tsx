@@ -11,7 +11,6 @@ import Button from '@mui/material/Button';
 import styling from './KeyframeEditor.module.css';
 import { KeyframeSelectionContext } from '../../providers/KeyframeSelectionProvider';
 import { KeyframesContext, KeyframesDispatchContext } from '../../providers/KeyframesProvider';
-import { cloneKeyframes } from '@/util';
 import Styles, {Style} from '@/model/Styles';
 
 const KeyframeEditor: React.FC = () => {
@@ -54,7 +53,10 @@ const KeyframeEditor: React.FC = () => {
    * Save current styles to keyframes
    */
   const saveStyles = (styleList?: Style[]) => {
-    const rule = keyframes.findRule(selectedKeyframe + '%');
+    if (keyframes.keyframes == null) {
+      return;
+    }
+    const rule = keyframes.keyframes.findRule(selectedKeyframe + '%');
     if (rule !== null) {
       // Reset rule
       let ruleStyle = rule.style;
@@ -69,7 +71,7 @@ const KeyframeEditor: React.FC = () => {
       }
     }
     keyframesDispatch({
-      keyframes: cloneKeyframes(keyframes),
+      keyframes: keyframes.clone(),
       save: true
     });
   }
@@ -91,14 +93,18 @@ const KeyframeEditor: React.FC = () => {
   }
 
   React.useEffect(() => {
-    const rule = keyframes.findRule(selectedKeyframe + '%');
+    if (keyframes.keyframes == null) {return;}
+
+    const rule = keyframes.keyframes.findRule(selectedKeyframe + '%');
     if (rule !== null) {
       setStyles(new Styles(rule.style));
     }
   }, [selectedKeyframe]);
 
   React.useEffect(() => {
-    const rule = keyframes.findRule(selectedKeyframe + '%');
+    if (keyframes.keyframes == null) {return;}
+
+    const rule = keyframes.keyframes.findRule(selectedKeyframe + '%');
     if (rule !== null) {
       styles.updateWithStyle(rule.style);
       updateStyles(styles.styles);

@@ -15,8 +15,6 @@ const SidebarTarget: React.FC = () => {
   const [css, setCss] = React.useState(targetElement.css);
   const [cssError, setCssError] = React.useState('');
 
-  const stylesheet = new CSSStyleSheet();
-
   /** Checks if the HTML string includes a proper target element */
   const validateHtml = (htmlString: string): boolean => {
     let el = document.createElement('div');
@@ -52,6 +50,7 @@ const SidebarTarget: React.FC = () => {
     setCss(testCss);
     
     try {
+      let stylesheet = new CSSStyleSheet();
       stylesheet.replaceSync(testCss);
       targetElementDispatch({
         el: {

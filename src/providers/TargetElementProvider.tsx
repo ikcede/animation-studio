@@ -60,7 +60,7 @@ const TargetElementProvider: React.FC<TargetElementProviderProps> =
         save: false,
       });
     }
-  }, []);
+  }, [props]);
 
   return (
     <TargetElementContext.Provider value={element}>

@@ -20,7 +20,7 @@ const SidebarExport: React.FC = () => {
             readOnly: true,
           }}
           fullWidth
-          defaultValue={keyframes.cssText}
+          defaultValue={keyframes.keyframes?.cssText ?? ''}
           sx={{paddingBottom: '24px'}}
         />
       <TextField
