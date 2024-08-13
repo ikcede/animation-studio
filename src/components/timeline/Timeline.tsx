@@ -117,7 +117,7 @@ const Timeline: React.FC = ({}) => {
         setKeyframeDown(-1);
       }
     }, [addMode, mainRef, playheadDown, keyframes]
-  ); 
+  );
 
   const onTimelineClick = (event: React.MouseEvent) => {
     let percent = getPercent(event);
@@ -243,7 +243,7 @@ const Timeline: React.FC = ({}) => {
              style={{
               ...animation.toReactProps(),
               animationName: animation.useClone ? 
-                animationClone : animationName
+                animationClone : animationName,
              }}>
           <div className={styling['playhead-head']}></div>
           <div className={styling['playhead-tail']}></div>

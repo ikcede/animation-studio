@@ -11,6 +11,7 @@ export const AnimationDispatchContext =
 type AnimationReducerAction = {
   type: string,
   value?: string,
+  newAnimation?: CustomAnimation,
 };
 
 const animationReducer = (
@@ -53,6 +54,9 @@ const animationReducer = (
       return animation.clone().apply({
         useClone: !animation.useClone,
       });
+    }
+    case 'update': {
+      return action.newAnimation || animation;
     }
     default: {
       return animation;
