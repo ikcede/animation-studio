@@ -1,5 +1,3 @@
-'use client'
-
 import EditorProvider from "@/providers/EditorProvider";
 
 export default function Layout({

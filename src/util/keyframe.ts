@@ -2,6 +2,10 @@
 
 export const createKeyframeRule = 
     (ruleString: string): CSSKeyframesRule | null => {
+  if (CSSStyleSheet === undefined) {
+    return null;
+  }
+  
   const styleSheet = new CSSStyleSheet();
   styleSheet.replaceSync(ruleString);
 
