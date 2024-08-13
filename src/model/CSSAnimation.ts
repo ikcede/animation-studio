@@ -117,4 +117,21 @@ export class CSSAnimation implements AnimationDetails {
     }
   }
 
+  toCSSString(includeDelay: boolean) {
+    let cssString = `.target {
+  animation: ${this.useClone ? this.name + '2' : this.name};
+  animation-duration: ${this.duration}s;
+  animation-play-state: ${this.playState};
+  animation-iteration-count: ${this.iterationCount};
+  animation-timing-function: ${this.timing};
+  animation-fill-mode: ${this.fillMode};
+  animation-direction: ${this.direction};`
+
+  if (includeDelay) {
+    cssString += `\n  animation-delay: ${-this.startTime}s;`;
+  }
+  cssString += `\n}`;
+  return cssString;
+}
+
 }

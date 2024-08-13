@@ -12,6 +12,7 @@ import CodeIcon from '@mui/icons-material/Code';
 import SidebarKeyframes from './SidebarKeyframes';
 import SidebarExport from './SidebarExport';
 import SidebarAnimation from './SidebarAnimation';
+import SidebarTarget from './SidebarTarget';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -70,7 +71,7 @@ const Sidebar: React.FC = ({ }) => {
           <SidebarAnimation></SidebarAnimation>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          Target
+          <SidebarTarget></SidebarTarget>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3}>
           <SidebarExport></SidebarExport>

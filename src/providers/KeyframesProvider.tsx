@@ -15,7 +15,6 @@ type KeyframesAction = {
 };
 
 const save = debounce((keyframes: string) => {
-  console.log(`Saving... ${keyframes}`);
   localStorage.setItem('currentKeyframes', keyframes);
 }, 2000);
 

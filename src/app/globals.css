@@ -43,6 +43,7 @@ body {
 p {
   padding-top: 8px;
   padding-bottom: 8px;
+  line-height: 1.5em;
 }
 
 /** Material styling */

@@ -9,16 +9,6 @@ const SidebarExport: React.FC = () => {
   const keyframes = React.useContext(KeyframesContext);
   const animation = React.useContext(AnimationContext);
 
-  const getAnimationExportString = React.useMemo(() => {
-    return `#target {
-  animation: ${animation.name};
-  animation-duration: ${animation.duration}s;
-  animation-iteration-count: ${animation.iterationCount};
-  animation-fill-mode: ${animation.fillMode};
-  animation-timing-function: ${animation.timing};
-}`;
-  }, []);
-
   return (
     <Box sx={{ padding: '24px 0 8px' }}>
       <TextField
@@ -40,7 +30,7 @@ const SidebarExport: React.FC = () => {
             readOnly: true,
           }}
           fullWidth
-          defaultValue={getAnimationExportString}
+          defaultValue={animation.toCSSString(false)}
         />
     </Box>
   );
