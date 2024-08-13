@@ -1,4 +1,4 @@
-import { CSSAnimation, AnimationDetails } from './CSSAnimation';
+import { CustomAnimation, AnimationDetails } from './CustomAnimation';
 import Styles from './Styles';
 
 export type {
@@ -6,6 +6,6 @@ export type {
 }
 
 export {
-  CSSAnimation,
+  CustomAnimation,
   Styles
 };

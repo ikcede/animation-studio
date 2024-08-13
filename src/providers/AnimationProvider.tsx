@@ -1,10 +1,10 @@
 'use client'
 
 import React from 'react';
-import { CSSAnimation } from '@/model';
+import { CustomAnimation } from '@/model';
 
 export const AnimationContext = 
-  React.createContext(new CSSAnimation());
+  React.createContext(new CustomAnimation());
 export const AnimationDispatchContext = 
   React.createContext<React.Dispatch<AnimationReducerAction>>(() => {});
 
@@ -14,9 +14,9 @@ type AnimationReducerAction = {
 };
 
 const animationReducer = (
-  animation: CSSAnimation,
+  animation: CustomAnimation,
   action: AnimationReducerAction
-): CSSAnimation => {
+): CustomAnimation => {
   switch (action.type) {
     case 'play': {
       return animation.clone().apply({
@@ -64,7 +64,7 @@ const AnimationProvider = (
   {children}: {children: React.ReactNode}
 ) => {
   const [animation, dispatch] = 
-      React.useReducer(animationReducer, new CSSAnimation());
+      React.useReducer(animationReducer, new CustomAnimation());
 
   return (
     <AnimationContext.Provider value={animation}>

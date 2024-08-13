@@ -75,6 +75,15 @@ button.MuiIconButton-root.Mui-disabled {
   }
 }
 
+.MuiInputBase-root.MuiOutlinedInput-root.monospace {
+  font-family: monospace;
+
+  textarea {
+    white-space: pre;
+    overflow: auto;
+  }
+}
+
 .MuiFormLabel-root.MuiInputLabel-root {
   color: var(--color-grey);
 }

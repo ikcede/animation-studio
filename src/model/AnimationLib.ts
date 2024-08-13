@@ -5,7 +5,8 @@ export default class AnimationLib {
   tags: string[] = [];
   animation: string = '';
   keyframes: string = '';
-  target: string = '';
+  targetHtml: string = '';
+  targetCss: string = '';
 
   constructor(name: string) {
     this.id = -1;

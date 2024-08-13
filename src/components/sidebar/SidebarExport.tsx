@@ -16,6 +16,7 @@ const SidebarExport: React.FC = () => {
           multiline
           maxRows={10}
           InputProps={{
+            className: 'monospace',
             readOnly: true,
           }}
           fullWidth
@@ -27,6 +28,7 @@ const SidebarExport: React.FC = () => {
           multiline
           maxRows={10}
           InputProps={{
+            className: 'monospace',
             readOnly: true,
           }}
           fullWidth

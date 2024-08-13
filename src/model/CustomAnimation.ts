@@ -12,7 +12,7 @@ export interface AnimationDetails {
   ended?: boolean,
 }
 
-export class CSSAnimation implements AnimationDetails {
+export class CustomAnimation implements AnimationDetails {
   name: string = 'default-animation';
   duration: number = 1;
   playState: string = 'paused';
@@ -28,13 +28,13 @@ export class CSSAnimation implements AnimationDetails {
     Object.assign(this, options ?? {});
   }
 
-  apply(options: AnimationDetails): CSSAnimation {
+  apply(options: AnimationDetails): CustomAnimation {
     Object.assign(this, options);
     return this;
   }
 
-  clone(): CSSAnimation {
-    return new CSSAnimation(this);
+  clone(): CustomAnimation {
+    return new CustomAnimation(this);
   }
 
   buildFromDeclaration(style: CSSStyleDeclaration) {
