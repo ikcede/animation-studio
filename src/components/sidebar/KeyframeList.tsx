@@ -10,6 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import styling from './KeyframeList.module.css';
 
+import AddKeyframe from './AddKeyframe';
 import { KeyframesContext, KeyframesDispatchContext } from '../../providers/KeyframesProvider';
 import { KeyframeSelectionContext, KeyframeSelectionDispatchContext } from '../../providers/KeyframeSelectionProvider';
 
@@ -22,6 +23,7 @@ const KeyframeList: React.FC = () => {
       React.useContext(KeyframeSelectionDispatchContext);
   
   const [ruleList, setRuleList] = React.useState<string[]>([]);
+  const [addError, setAddError] = React.useState<string>('');
 
   React.useEffect(() => {
     if (keyframes.keyframes == null) {
@@ -56,36 +58,55 @@ const KeyframeList: React.FC = () => {
     }
   }
 
+  const handleAdd = (value: number) => {
+    if (keyframes.keyframes!.findRule(value + '%') === null) {
+      keyframes.keyframes!.appendRule(`${value}% { }`);
+
+      keyframesDispatch({
+        keyframes: keyframes.clone(),
+        save: true,
+      });
+    } else {
+      setAddError(`Keyframe ${value} already exists`);
+    }
+  }
+
   const getItemColor = (keyframe: string): string => {
     return keyframe == '0%' || keyframe == '100%' ? 
       styling.green : styling.blue;
   }
 
   return (
-    <List>
-      {ruleList.map(keyframe => (
-        <ListItem disablePadding 
-                  key={keyframe}
-                  className={selectedKeyframe + '%' === keyframe 
-                      ? 'selected' : ''}>
-          <ListItemButton onClick={(e) => handleClick(e, keyframe)}
-                          className={getItemColor(keyframe)}>
-            <ListItemIcon>
-              <BookmarkIcon />
-            </ListItemIcon>
-            <ListItemText primary={keyframe} />
-            {keyframe !== '0%' && keyframe !== '100%' && (
-              <IconButton size='small'
-                    aria-label='Delete'
-                    className='delete-icon'
-                    onClick={(e) => handleDelete(e, keyframe)}>
-                <CloseIcon></CloseIcon>
-              </IconButton>
-            )}
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </List>
+    <>
+      <List>
+        {ruleList.map(keyframe => (
+          <ListItem disablePadding 
+                    key={keyframe}
+                    className={selectedKeyframe + '%' === keyframe 
+                        ? 'selected' : ''}>
+            <ListItemButton onClick={(e) => handleClick(e, keyframe)}
+                            className={getItemColor(keyframe)}>
+              <ListItemIcon>
+                <BookmarkIcon />
+              </ListItemIcon>
+              <ListItemText primary={keyframe} />
+              {keyframe !== '0%' && keyframe !== '100%' && (
+                <IconButton size='small'
+                      aria-label='Delete'
+                      className='delete-icon'
+                      onClick={(e) => handleDelete(e, keyframe)}>
+                  <CloseIcon></CloseIcon>
+                </IconButton>
+              )}
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <p>Create Keyframes</p>
+      <AddKeyframe onAddKeyframe={handleAdd} 
+                   error={addError}
+      ></AddKeyframe>
+    </>
   );
 };
 

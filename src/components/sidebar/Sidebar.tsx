@@ -63,7 +63,7 @@ const Sidebar: React.FC = ({ }) => {
           <Tab icon={<GetAppIcon />} label="Export" {...a11yProps(3)} />
         </Tabs>
       </Box>
-      <Box sx={{paddingLeft: '16px', paddingRight: '16px', overflowY: 'auto'}}>
+      <Box className={styling.panel}>
         <CustomTabPanel value={value} index={0}>
           <SidebarKeyframes />
         </CustomTabPanel>

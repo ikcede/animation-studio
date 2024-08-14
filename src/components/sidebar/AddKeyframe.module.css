@@ -1,0 +1,7 @@
+.widget {
+  align-items: flex-start;
+}
+
+.widget :global(p) {
+  margin: 0;
+}
