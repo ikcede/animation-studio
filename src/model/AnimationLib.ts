@@ -1,4 +1,15 @@
-export default class AnimationLib {
+export interface AnimationLibDetails {
+  id: number;
+  name: string;
+  description?: string;
+  tags?: string[];
+  animation?: string;
+  keyframes?: string;
+  targetHtml?: string;
+  targetCss?: string;
+}
+
+export default class AnimationLib implements AnimationLibDetails {
   id: number;
   name: string;
   description: string = '';
@@ -8,8 +19,10 @@ export default class AnimationLib {
   targetHtml: string = '';
   targetCss: string = '';
 
-  constructor(name: string) {
+  constructor(options: AnimationLibDetails) {
     this.id = -1;
-    this.name = name;
+    this.name = 'Animation';
+
+    Object.assign(this, options);
   }
 }

@@ -40,6 +40,10 @@ body {
   width: 100%;
 }
 
+a {
+  color: var(--color-white);
+}
+
 p {
   padding-top: 8px;
   padding-bottom: 8px;
@@ -169,6 +173,11 @@ span.MuiTabs-indicator {
     width: 0.8em;
     height: 0.8em;
   }
+}
+
+.MuiChip-root.MuiChip-colorDefault {
+  color: var(--color-grey);
+  background: var(--color-black);
 }
 
 /** Form styling **/

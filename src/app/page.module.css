@@ -51,6 +51,7 @@
 }
 
 .buttons :global(.button) {
+  margin-top: 16px;
   font-size: 18px;
   padding: 8px 12px;
 }

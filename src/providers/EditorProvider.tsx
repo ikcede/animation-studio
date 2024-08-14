@@ -7,9 +7,10 @@ import KeyframesProvider from "./KeyframesProvider";
 import TargetElementProvider from "./TargetElementProvider";
 import React from "react";
 import { CustomAnimation } from "@/model/CustomAnimation";
+import { data } from "@/data/animationData";
 
 export interface EditorProviderProps extends React.PropsWithChildren {
-  animationLib?: AnimationLib,
+  animationLib?: number,
   children: React.ReactNode
 }
 
@@ -19,10 +20,19 @@ const EditorProvider: React.FC<EditorProviderProps> = (props) => {
       '<div class="target">\n  Animation Text\n</div>');
   const [css, setCSS] = React.useState('.target {\n  \n}');
 
-  if (props.animationLib !== undefined) {
-    setHtml(props.animationLib.targetHtml);
-    setCSS(props.animationLib.targetCss);
-  }
+  React.useEffect(() => {
+    if (props.animationLib !== undefined) {
+      let lib = data[props.animationLib];
+  
+      if (lib.targetHtml !== '') {
+        setHtml(lib.targetHtml);
+      }
+  
+      if (lib.targetCss !== '') {
+        setCSS(lib.targetCss);
+      }
+    }
+  }, [props]);
 
   return (
     <AnimationProvider>
