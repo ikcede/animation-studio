@@ -1,8 +1,56 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   padding: 6rem;
   min-height: 100vh;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 64px;
+  margin-top: 64px;
+}
+
+.title {
+  font-size: 3rem;
+  line-height: 3rem;
+
+  color: transparent;
+  background: linear-gradient(
+    to right,
+    var(--color-red) 20%,
+    var(--color-blue) 50%,
+    var(--color-green) 80%
+  );
+  background-size: auto auto;
+  background-size: 200% auto;
+  background-clip: text;
+  animation: text-color-shift 2s linear alternate infinite;
+}
+
+@keyframes text-color-shift {
+  100% {
+    background-position: 100% center;
+  }
+}
+
+.description {
+  display: flex;
+  text-align: center;
+
+  padding: 32px;
+  max-width: 600px;
+
+  line-height: 1.5em;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-grey);
+}
+
+.buttons :global(.button) {
+  font-size: 18px;
+  padding: 8px 12px;
 }

@@ -5,7 +5,7 @@ const Gallery: React.FC = () => {
 
   return (
     <div className={styling.wrapper}>
-      Gallery
+      Gallery Placeholder
     </div>
   );
 };
