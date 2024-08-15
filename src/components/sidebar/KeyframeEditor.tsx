@@ -72,7 +72,6 @@ const KeyframeEditor: React.FC = () => {
     }
     keyframesDispatch({
       keyframes: keyframes.clone(),
-      save: true
     });
   }
 

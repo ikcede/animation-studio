@@ -112,7 +112,6 @@ const Timeline: React.FC = ({}) => {
           keyframes.keyframes![keyframeDown].keyText = percent + '%';
           keyframesDispatch({
             keyframes: keyframes.clone(),
-            save: true
           });
           keyframeSelectionDispatch({value: percent});
         }
@@ -133,7 +132,6 @@ const Timeline: React.FC = ({}) => {
       }
       keyframesDispatch({
         keyframes: keyframes.clone(),
-        save: true,
       });
       setAddMode(false);
     } else {
@@ -187,7 +185,6 @@ const Timeline: React.FC = ({}) => {
     keyframes.keyframes!.deleteRule(selectedKeyframe + '%');
     keyframesDispatch({
       keyframes: keyframes.clone(),
-      save: true,
     });
     keyframeSelectionDispatch({value: -1});
   }

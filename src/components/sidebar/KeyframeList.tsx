@@ -52,7 +52,6 @@ const KeyframeList: React.FC = () => {
       keyframes.keyframes!.deleteRule(keyframe);
       keyframesDispatch({
         keyframes: keyframes.clone(),
-        save: true
       });
       selectedKeyframeDispatch({value: -1});
     }
@@ -64,7 +63,6 @@ const KeyframeList: React.FC = () => {
 
       keyframesDispatch({
         keyframes: keyframes.clone(),
-        save: true,
       });
     } else {
       setAddError(`Keyframe ${value} already exists`);
