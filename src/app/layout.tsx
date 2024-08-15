@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import MuiThemeProvider from "@/providers/ThemeProvider";
 import { Roboto } from "next/font/google";
@@ -30,6 +31,8 @@ export default function RootLayout({
             {children}
           </MuiThemeProvider>
         </AppRouterCacheProvider>
+
+        <GoogleAnalytics gaId="G-2K0RN5BVR3" />
       </body>
     </html>
   );

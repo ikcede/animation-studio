@@ -5,15 +5,18 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 Next:
 
 * Gallery
+  * Set up items
+  * Previews
+  * Filters
+* Initialize with keyframes
 * Support animation changes
-* Settings
+* Settings + App bar
 
 Backlog:
 
 * Mobile touch support -.-
 * Timing function?!
 * SEO
-* Analytics
 * Timeline:
   * Time labels
   * Speed mods
