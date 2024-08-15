@@ -1,34 +1,26 @@
 'use client'
 
 import React from 'react';
-import debounce from 'lodash.debounce';
+import { targetHtml, targetCss } from '@/data/defaultTargets';
 
 export const TargetElementContext = 
     React.createContext<TargetElement>({html: '', css: ''});
 export const TargetElementDispatchContext = 
     React.createContext<React.Dispatch<TargetElementAction>>(() => {});
 
-type TargetElement = {
+export type TargetElement = {
   html: string,
   css: string,
 }
 
 type TargetElementAction = {
   el: TargetElement,
-  save?: boolean
 };
-
-const save = debounce((el: TargetElement) => {
-  localStorage.setItem('currentTargetElement', JSON.stringify(el));
-}, 2000);
 
 const TargetElementReducer = (
   state: TargetElement,
   action: TargetElementAction
 ): TargetElement => {
-  if (action.save) {
-    save(action.el);
-  }
   return action.el;
 };
 
@@ -46,19 +38,21 @@ const TargetElementProvider: React.FC<TargetElementProviderProps> =
     {html: props.html || '', css: props.css || ''});
 
   /**
-   * Pull initial target from localStorage if empty
+   * Set up starting target element
    */
   React.useEffect(() => {
-    if (props.html !== '' && props.css !== '') {return;}
+    if (props.html === undefined || props.css === undefined) {
+      return;
+    }
 
-    let loadedTargetElement = 
-        localStorage.getItem('currentTargetElement') || '';
-    if (loadedTargetElement.length > 0) {
-      let newTargetElement = JSON.parse(loadedTargetElement);
+    if (props.html !== '' && props.css !== '') {
       dispatch({
-        el: newTargetElement,
-        save: false,
+        el: {html: props.html, css: props.css},
       });
+    } else {
+      dispatch({
+        el: {html: targetHtml[1], css: targetCss[0]}
+      })
     }
   }, [props]);
 

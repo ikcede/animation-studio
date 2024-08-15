@@ -32,8 +32,7 @@ const SidebarTarget: React.FC = () => {
         el: {
           html: testHtml,
           css: css
-        },
-        save: true
+        }
       });
       if (htmlError !== '') {
         setHtmlError('');
@@ -56,8 +55,7 @@ const SidebarTarget: React.FC = () => {
         el: {
           html: html,
           css: testCss
-        },
-        save: true,
+        }
       });
       if (cssError !== '') {
         setCssError('');
@@ -99,7 +97,7 @@ const SidebarTarget: React.FC = () => {
           }}
           value={html}
           onChange={changeHtml}
-          placeholder={'<div class="target">Animation Text</div>'}
+          placeholder={'<div class="target">\n  Animation Text\n</div>'}
         />
     </>
   );

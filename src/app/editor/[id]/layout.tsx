@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import EditorProvider from "@/providers/EditorProvider";
-import AnimationLib from '@/model/AnimationLib';
-import { data } from '@/data/animationData';
+import AnimationLib, { buildFromDefaultLib } from '@/model/AnimationLib';
+import data from '@/data/animationData';
 import React from 'react';
 
 export default function Layout({
@@ -13,10 +13,10 @@ export default function Layout({
     id: string
   }
 }>) {
-  const lib = React.useMemo(() => {
+  const lib: AnimationLib = React.useMemo(() => {
     const id = params.id;
     if (id === 'custom') {
-      return 0;
+      return buildFromDefaultLib();
     } else {
       const idValue = parseInt(id);
   
@@ -24,7 +24,7 @@ export default function Layout({
         redirect('/editor/custom');
       }
   
-      return idValue - 1;
+      return buildFromDefaultLib(data[idValue - 1]);
     }
   }, [params]);
 

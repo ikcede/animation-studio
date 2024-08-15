@@ -2,8 +2,8 @@
 
 import AnimationLib from "@/model/AnimationLib";
 
-export const data = [
-  new AnimationLib({
+const animations = [
+  {
     id: 1,
     name: 'Slide in left',
     description: 'Slide in from the left',
@@ -15,8 +15,8 @@ export const data = [
     keyframes: '0% { transform: translateX(-1500px); } 100% { transform: translateX(0px); }',
     targetHtml: '<div class="target"></div>',
     targetCss: '.target {width: 100px; height: 100px; display: flex; background: red}',
-  }),
-  new AnimationLib({
+  },
+  {
     id: 2,
     name: 'Slide in right',
     description: 'Slide in from the right',
@@ -28,8 +28,8 @@ export const data = [
     keyframes: '0% { transform: translateX(1500px); } 100% { transform: translateX(0px); }',
     targetHtml: '<div class="target"></div>',
     targetCss: '.target {width: 100px; height: 100px; display: flex; background: red}',
-  }),
-  new AnimationLib({
+  },
+  {
     id: 3,
     name: 'Slide in top',
     description: 'Slide in from the top',
@@ -41,8 +41,8 @@ export const data = [
     keyframes: '0% { transform: translateY(-1500px); } 100% { transform: translateY(0px); }',
     targetHtml: '<div class="target"></div>',
     targetCss: '.target {width: 100px; height: 100px; display: flex; background: red}',
-  }),
-  new AnimationLib({
+  },
+  {
     id: 4,
     name: 'Slide in bottom',
     description: 'Slide in from the bottom',
@@ -54,6 +54,9 @@ export const data = [
     keyframes: '0% { transform: translateY(1500px); } 100% { transform: translateY(0px); }',
     targetHtml: '<div class="target"></div>',
     targetCss: '.target {width: 100px; height: 100px; display: flex; background: red}',
-  }),
-  
+  },
+
 ];
+
+const data = (new Array<AnimationLib>()).concat([...animations]);
+export default data;

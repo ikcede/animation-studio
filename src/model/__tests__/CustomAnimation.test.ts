@@ -1,4 +1,4 @@
-import { AnimationDetails, CSSAnimation } from '..';
+import { AnimationDetails, CustomAnimation } from '..';
 
 let data = <AnimationDetails>{
   name: 'test',
@@ -13,9 +13,9 @@ let data = <AnimationDetails>{
   ended: false,
 }
 
-describe(CSSAnimation, () => {
+describe(CustomAnimation, () => {
   it('constructs from AnimationDetails', () => {
-    let animation = new CSSAnimation(data);
+    let animation = new CustomAnimation(data);
 
     expect(animation.name).toBe(data.name);
     expect(animation.duration).toBe(data.duration);
@@ -30,7 +30,7 @@ describe(CSSAnimation, () => {
   });
 
   it('sets duration by string', () => {
-    let animation = new CSSAnimation(data);
+    let animation = new CustomAnimation(data);
     expect(animation.duration).toBe(data.duration);
 
     animation.setDuration('3s');

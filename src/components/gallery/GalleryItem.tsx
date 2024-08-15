@@ -1,6 +1,6 @@
 import React from 'react';
 import styling from './GalleryItem.module.css';
-import AnimationLib from '@/model/AnimationLib';
+import AnimationLib, { buildFromDefaultLib } from '@/model/AnimationLib';
 import Chip from '@mui/material/Chip';
 import Link from 'next/link';
 
@@ -10,10 +10,9 @@ export interface GalleryItemProps {
 }
 
 const GalleryItem: React.FC<GalleryItemProps> = ({
-  lib = new AnimationLib({id: -1, name: 'Animation'}),
+  lib,
   collapsed = false,
 }) => {
-
   const getCollapsedClass = () => {
     return collapsed ? styling.collapsed : styling.expanded;
   }
@@ -27,7 +26,7 @@ const GalleryItem: React.FC<GalleryItemProps> = ({
         <Link href={'/editor/' + lib.id}>{lib.name}</Link>
       </div>
       <div className={styling.tags}>
-        {lib.tags.map((tag, i) => (
+        {lib.tags!.map((tag, i) => (
           <Chip label={tag} size='small' key={i} />
         ))}
       </div>

@@ -1,16 +1,15 @@
 'use client'
 
-import AnimationLib from "@/model/AnimationLib";
+import AnimationLib, { buildFromDefaultLib } from "@/model/AnimationLib";
 import AnimationProvider from "./AnimationProvider";
 import KeyframeSelectionProvider from "./KeyframeSelectionProvider";
 import KeyframesProvider from "./KeyframesProvider";
 import TargetElementProvider from "./TargetElementProvider";
 import React from "react";
 import { CustomAnimation } from "@/model/CustomAnimation";
-import { data } from "@/data/animationData";
 
 export interface EditorProviderProps extends React.PropsWithChildren {
-  animationLib?: number,
+  animationLib?: AnimationLib,
   children: React.ReactNode
 }
 
@@ -22,14 +21,14 @@ const EditorProvider: React.FC<EditorProviderProps> = (props) => {
 
   React.useEffect(() => {
     if (props.animationLib !== undefined) {
-      let lib = data[props.animationLib];
+      let lib = buildFromDefaultLib(props.animationLib);
   
       if (lib.targetHtml !== '') {
-        setHtml(lib.targetHtml);
+        setHtml(lib.targetHtml!);
       }
   
       if (lib.targetCss !== '') {
-        setCSS(lib.targetCss);
+        setCSS(lib.targetCss!);
       }
     }
   }, [props]);
