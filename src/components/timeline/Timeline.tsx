@@ -84,7 +84,9 @@ const Timeline: React.FC = ({}) => {
     (index: number) => {
       if (keyframes.keyframes !== null) {
         let target = keyframes.keyframes[index];
-        if (target.keyText !== '0%' && target.keyText !== '100%') {
+        if (target !== undefined && 
+            target.keyText !== '0%' && 
+            target.keyText !== '100%') {
           setKeyframeDown(index);
         }
       }

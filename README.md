@@ -10,6 +10,7 @@ Next:
   * Filters
 * Settings + App bar
 * Saving + Projects
+* CodeMirror
 
 Backlog:
 

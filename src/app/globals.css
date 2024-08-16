@@ -197,6 +197,7 @@ span.MuiTabs-indicator {
   label {
     margin-right: 8px;
     padding-bottom: 1px;
+    color: var(--color-grey);
   }
 
   .MuiTextField-root {

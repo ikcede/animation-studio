@@ -14,15 +14,16 @@ const GalleryItem: React.FC<GalleryItemProps> = ({
   lib,
   collapsed = false,
 }) => {
+  const [animation, setAnimation] = React.useState(new CustomAnimation());
+
   const getCollapsedClass = () => {
     return collapsed ? styling.collapsed : styling.expanded;
   }
 
-  const getCustomAnimation = () => {
-    let animation = new CustomAnimation()
-      .buildFromString(lib.animation || '');
-    return animation;
-  }
+  React.useEffect(() => {
+    setAnimation(new CustomAnimation()
+        .buildFromString(lib.animation || ''));
+  }, [lib]);
 
   return (
     <div className={`${styling.wrapper} ` + getCollapsedClass()}>
@@ -32,7 +33,7 @@ const GalleryItem: React.FC<GalleryItemProps> = ({
         }
         
         .${styling.preview}:hover .target-${lib.id} {
-          animation: ${getCustomAnimation().name};
+          animation: ${animation.name};
           animation-iteration-count: 1;
           animation-play-state: running;
           animation-duration: 0.5s;

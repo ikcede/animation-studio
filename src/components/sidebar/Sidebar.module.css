@@ -14,3 +14,9 @@
   padding-right: 16px;
   overflow-y: auto;
 }
+
+@media (max-width: 850px) {
+  .panel {
+    overflow-y: initial;
+  }
+}

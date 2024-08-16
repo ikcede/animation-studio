@@ -27,6 +27,7 @@ export default function Page() {
     <div className={styling.App}>
       <style>{styleText}</style>
       <main className={styling.main}>
+        {/* <nav>Temp</nav> */}
         <div className={styling.preview}>
           <AnimationPreview></AnimationPreview>
         </div>
