@@ -77,7 +77,7 @@ const Timeline: React.FC = ({}) => {
       animationDispatch({
         type: 'pause'
       });
-    }, [animation]
+    }, [animationDispatch]
   );
 
   const handleKeyframeDown = React.useCallback(
@@ -90,7 +90,7 @@ const Timeline: React.FC = ({}) => {
           setKeyframeDown(index);
         }
       }
-    }, []
+    }, [keyframes]
   );
 
   const getDownStyle = React.useCallback(
@@ -126,7 +126,17 @@ const Timeline: React.FC = ({}) => {
         setPlayheadDown(false);
         setKeyframeDown(-1);
       }
-    }, [addMode, mainRef, playheadDown, keyframes]
+    }, [
+      addMode,
+      playheadDown,
+      keyframes, 
+      animation.duration,
+      keyframeDown,
+      getPercent,
+      animationDispatch,
+      keyframesDispatch,
+      keyframeSelectionDispatch,
+    ]
   );
 
   const onTimelineClick = (event: React.MouseEvent) => {
