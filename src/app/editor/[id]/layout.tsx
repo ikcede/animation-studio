@@ -3,6 +3,7 @@ import EditorProvider from "@/providers/EditorProvider";
 import AnimationLib, { buildFromDefaultLib } from '@/model/AnimationLib';
 import data from '@/data/animationData';
 import React from 'react';
+import { targetHtml } from '@/data/defaultTargets';
 
 export default function Layout({
   children,
@@ -16,7 +17,9 @@ export default function Layout({
   const lib: AnimationLib = React.useMemo(() => {
     const id = params.id;
     if (id === 'custom') {
-      return buildFromDefaultLib();
+      let lib = buildFromDefaultLib();
+      lib.targetHtml = targetHtml[1];
+      return lib;
     } else {
       const idValue = parseInt(id);
   

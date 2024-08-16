@@ -17,8 +17,7 @@ export interface EditorProviderProps extends React.PropsWithChildren {
 
 const EditorProvider: React.FC<EditorProviderProps> = (props) => {
 
-  const [html, setHtml] = React.useState(
-      '<div class="target">\n  Animation Text\n</div>');
+  const [html, setHtml] = React.useState('<div class="target"></div>');
   const [css, setCSS] = React.useState('.target {\n  \n}');
   const [keyframes, setKeyframes] = React.useState(
       new CustomKeyframes(CustomKeyframes.getDefaultKeyframes()));

@@ -42,7 +42,7 @@ export class CustomAnimation implements AnimationDetails {
     this.setDuration(style.getPropertyValue('animation-duration'));
     this.setStartTime(style.getPropertyValue('animation-delay'));
     this.setIterationCount(style.getPropertyValue('animation-iteration-count'));
-    this.playState = style.getPropertyValue('animation-play-state');
+    this.setPlayState(style.getPropertyValue('animation-play-state'));
     this.fillMode = style.getPropertyValue('animation-fill-mode');
     this.timing = style.getPropertyValue('animation-timing-function');
     this.direction = style.getPropertyValue('animation-direction');
@@ -103,6 +103,15 @@ export class CustomAnimation implements AnimationDetails {
       this.iterationCount = count;
       return true;
     }
+  }
+
+  setPlayState(playState: string): boolean {
+    if (playState !== 'paused') {
+      this.playState = 'running';
+    } else {
+      this.playState = playState;
+    }
+    return true;
   }
 
   toReactProps() : React.CSSProperties {
