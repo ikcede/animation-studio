@@ -43,9 +43,9 @@ export class CustomAnimation implements AnimationDetails {
     this.setStartTime(style.getPropertyValue('animation-delay'));
     this.setIterationCount(style.getPropertyValue('animation-iteration-count'));
     this.setPlayState(style.getPropertyValue('animation-play-state'));
-    this.fillMode = style.getPropertyValue('animation-fill-mode');
-    this.timing = style.getPropertyValue('animation-timing-function');
-    this.direction = style.getPropertyValue('animation-direction');
+    this.setFillMode(style.getPropertyValue('animation-fill-mode'));
+    this.setTiming(style.getPropertyValue('animation-timing-function'));
+    this.setDirection(style.getPropertyValue('animation-direction'));
 
     return this;
   }
@@ -114,6 +114,30 @@ export class CustomAnimation implements AnimationDetails {
     return true;
   }
 
+  setFillMode(fillMode: string): boolean {
+    if (fillMode === '') {
+      fillMode = 'forwards';
+    }
+    this.fillMode = fillMode;
+    return true;
+  }
+
+  setTiming(timing: string): boolean {
+    if (timing === '') {
+      timing = 'linear';
+    }
+    this.timing = timing;
+    return true;
+  }
+
+  setDirection(direction: string): boolean {
+    if (direction === '') {
+      direction = 'normal';
+    }
+    this.direction = direction;
+    return true;
+  }
+
   toReactProps() : React.CSSProperties {
     return {
       animationName: this.useClone ? 
@@ -139,11 +163,11 @@ export class CustomAnimation implements AnimationDetails {
   animation-fill-mode: ${this.fillMode};
   animation-direction: ${this.direction};`
 
-  if (includeDelay) {
-    cssString += `\n  animation-delay: ${-this.startTime}s;`;
+    if (includeDelay) {
+      cssString += `\n  animation-delay: ${-this.startTime}s;`;
+    }
+    cssString += `\n}`;
+    return cssString;
   }
-  cssString += `\n}`;
-  return cssString;
-}
 
 }

@@ -8,13 +8,12 @@ Next:
   * Set up items
   * Previews
   * Filters
-* Support animation changes
 * Settings + App bar
 
 Backlog:
 
 * Mobile touch support -.-
-* Timing function?!
+* Add support for timing function changes
 * SEO
 * Timeline:
   * Time labels
