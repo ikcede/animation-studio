@@ -28,7 +28,9 @@ const SidebarKeyframes: React.FC = () => {
     event: React.MouseEvent<HTMLElement>,
     newEditor: string,
   ) => {
-    setEditor(newEditor);
+    if (newEditor !== null) {
+      setEditor(newEditor);
+    }
   };
 
   return (

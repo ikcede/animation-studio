@@ -3,10 +3,12 @@
 import React from 'react';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import TextField from '@mui/material/TextField';
-import { InputAdornment } from '@mui/material';
+import { InputAdornment, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
 import { BezierEditor, CubicBezier } from 'ts-bezier-easing-editor';
-import styling from './SidebarAnimation.module.css';
 
+import styling from './SidebarAnimation.module.css';
 import { AnimationContext, AnimationDispatchContext } from '@/providers/AnimationProvider';
 import { KeyframesContext, KeyframesDispatchContext } from '@/providers/KeyframesProvider';
 
@@ -17,6 +19,8 @@ const SidebarAnimation: React.FC = () => {
   const keyframesDispatch = React.useContext(KeyframesDispatchContext);
 
   const [name, setName] = React.useState(animation.name);
+  const [duration, setDuration] = React.useState('1');
+  const [iteration, setIteration] = React.useState('1');
 
   /** This is complex enough to be it's own component */
   const [timing, setTiming] = React.useState(animation.timing);
@@ -41,6 +45,34 @@ const SidebarAnimation: React.FC = () => {
       })
     }
   }
+
+  const changeDuration = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    let newDuration = e.target.value;
+    setDuration(newDuration);
+
+    animation.setDuration(newDuration);
+    animationDispatch({
+      type: 'update',
+      newAnimation: animation.clone()
+    });
+  }
+
+  const changeIteration = (
+    event: React.MouseEvent<HTMLElement>,
+    newIteration: string,
+  ) => {
+    if (newIteration !== null) {
+      setIteration(newIteration);
+
+      animation.setIterationCount(newIteration);
+      animationDispatch({
+        type: 'update',
+        newAnimation: animation.clone()
+      });
+    }
+  };
 
   /*
   const changeTiming = (
@@ -88,7 +120,8 @@ const SidebarAnimation: React.FC = () => {
         <OutlinedInput
             className='small'
             size='small'
-            defaultValue={animation.duration}
+            value={duration}
+            onChange={changeDuration}
             endAdornment={
               <InputAdornment position="end">s</InputAdornment>}
         />
@@ -96,9 +129,25 @@ const SidebarAnimation: React.FC = () => {
 
       <div className='input-row'>
         <label>Iterations:</label>
-        <TextField size='small'
-                   defaultValue={animation.iterationCount}
-        />
+          <ToggleButtonGroup
+            value={iteration}
+            exclusive
+            onChange={changeIteration}
+            aria-label="Iteration types"
+          >
+            <ToggleButton 
+                value='1'
+                aria-label='1'
+                size='small'>
+              <SkipNextIcon />
+            </ToggleButton>
+            <ToggleButton 
+                value='infinite'
+                aria-label='infinite'
+                size='small'>
+              <AllInclusiveIcon />
+            </ToggleButton>
+          </ToggleButtonGroup>
       </div>
 
       {/* Don't add this until we figure out how to calc playhead

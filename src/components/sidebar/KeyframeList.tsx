@@ -10,7 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import styling from './KeyframeList.module.css';
 
-import AddKeyframe from './AddKeyframe';
+import AddKeyframe from './widgets/AddKeyframe';
 import { KeyframesContext, KeyframesDispatchContext } from '../../providers/KeyframesProvider';
 import { KeyframeSelectionContext, KeyframeSelectionDispatchContext } from '../../providers/KeyframeSelectionProvider';
 
