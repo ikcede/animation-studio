@@ -36,6 +36,7 @@ const GalleryItem: React.FC<GalleryItemProps> = ({
           animation-iteration-count: 1;
           animation-play-state: running;
           animation-duration: 0.5s;
+          animation-fill-mode: both;
         }
         
         ${lib.keyframes}`}

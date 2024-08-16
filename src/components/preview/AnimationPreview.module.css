@@ -6,7 +6,7 @@
   min-height: 300px;
   position: relative;
 
-  background: var(--color-background-lighter);
+  background: var(--color-background);
 }
 
 .target-wrapper {

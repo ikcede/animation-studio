@@ -10,6 +10,7 @@
 
   background: var(--color-widget);
   border: var(--border-default);
+  border-top: none;
   padding: 16px 24px;
   padding-bottom: 32px;
 }

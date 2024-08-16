@@ -17,12 +17,6 @@ export default function Home() {
           animations and customize them to fit your webpage!
         </div>
         <div className={styles.buttons}>
-          <Button className='button'
-                  startIcon={<SouthIcon />}
-                  variant='outlined'
-                  sx={{marginRight: '24px'}}>
-            Gallery
-          </Button>
           <Link href='/editor'>
             <Button className='button'
                     startIcon={<CreateIcon/>}
