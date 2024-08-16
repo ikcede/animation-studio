@@ -37,7 +37,8 @@ export class CustomAnimation implements AnimationDetails {
     return new CustomAnimation(this);
   }
 
-  buildFromDeclaration(style: CSSStyleDeclaration) {
+  buildFromDeclaration(style: CSSStyleDeclaration): CustomAnimation {
+    this.name = style.getPropertyValue('animation-name');
     this.setDuration(style.getPropertyValue('animation-duration'));
     this.setStartTime(style.getPropertyValue('animation-delay'));
     this.setIterationCount(style.getPropertyValue('animation-iteration-count'));
@@ -45,13 +46,15 @@ export class CustomAnimation implements AnimationDetails {
     this.fillMode = style.getPropertyValue('animation-fill-mode');
     this.timing = style.getPropertyValue('animation-timing-function');
     this.direction = style.getPropertyValue('animation-direction');
+
+    return this;
   }
 
-  buildFromString = (props: string) => {
+  buildFromString = (props: string): CustomAnimation => {
     const style = document.createElement('div').style;
     style.cssText = props;
   
-    this.buildFromDeclaration(style);
+    return this.buildFromDeclaration(style);
   }
 
   setDuration(stringValue: string): boolean {

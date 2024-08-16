@@ -64,16 +64,34 @@ const animationReducer = (
   }
 };
 
-const AnimationProvider = (
-  {children}: {children: React.ReactNode}
+export interface AnimationProviderProps 
+    extends React.PropsWithChildren {
+  animation?: CustomAnimation,
+  children: React.ReactNode
+}
+
+const AnimationProvider: React.FC<AnimationProviderProps> = (
+  props
 ) => {
   const [animation, dispatch] = 
       React.useReducer(animationReducer, new CustomAnimation());
 
+  /**
+   * Set up initial animation
+   */
+    React.useEffect(() => {
+      if (props.animation !== undefined) {
+        dispatch({
+          type: 'update',
+          newAnimation: props.animation,
+        });
+      }
+    }, [props]);
+
   return (
     <AnimationContext.Provider value={animation}>
       <AnimationDispatchContext.Provider value={dispatch}>
-        {children}
+        {props.children}
       </AnimationDispatchContext.Provider>
     </AnimationContext.Provider>
   );

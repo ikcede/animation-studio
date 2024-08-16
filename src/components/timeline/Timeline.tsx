@@ -82,7 +82,12 @@ const Timeline: React.FC = ({}) => {
 
   const handleKeyframeDown = React.useCallback(
     (index: number) => {
-      setKeyframeDown(index);
+      if (keyframes.keyframes !== null) {
+        let target = keyframes.keyframes[index];
+        if (target.keyText !== '0%' && target.keyText !== '100%') {
+          setKeyframeDown(index);
+        }
+      }
     }, []
   );
 

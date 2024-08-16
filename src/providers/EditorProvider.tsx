@@ -1,12 +1,14 @@
 'use client'
 
+import React from "react";
+
 import AnimationLib, { buildFromDefaultLib } from "@/model/AnimationLib";
 import AnimationProvider from "./AnimationProvider";
 import KeyframeSelectionProvider from "./KeyframeSelectionProvider";
 import KeyframesProvider from "./KeyframesProvider";
 import TargetElementProvider from "./TargetElementProvider";
-import React from "react";
 import { CustomAnimation } from "@/model/CustomAnimation";
+import { CustomKeyframes } from "@/model";
 
 export interface EditorProviderProps extends React.PropsWithChildren {
   animationLib?: AnimationLib,
@@ -18,6 +20,9 @@ const EditorProvider: React.FC<EditorProviderProps> = (props) => {
   const [html, setHtml] = React.useState(
       '<div class="target">\n  Animation Text\n</div>');
   const [css, setCSS] = React.useState('.target {\n  \n}');
+  const [keyframes, setKeyframes] = React.useState(
+      new CustomKeyframes(CustomKeyframes.getDefaultKeyframes()));
+  const [animation, setAnimation] = React.useState(new CustomAnimation());
 
   React.useEffect(() => {
     if (props.animationLib !== undefined) {
@@ -30,12 +35,21 @@ const EditorProvider: React.FC<EditorProviderProps> = (props) => {
       if (lib.targetCss !== '') {
         setCSS(lib.targetCss!);
       }
+
+      if (lib.keyframes !== '') {
+        setKeyframes(new CustomKeyframes(lib.keyframes!));
+      }
+
+      if (lib.animation !== '') {
+        setAnimation(
+            (new CustomAnimation()).buildFromString(lib.animation!));
+      }
     }
   }, [props]);
 
   return (
-    <AnimationProvider>
-      <KeyframesProvider>
+    <AnimationProvider animation={animation}>
+      <KeyframesProvider keyframes={keyframes}>
         <KeyframeSelectionProvider>
           <TargetElementProvider
               html={html}

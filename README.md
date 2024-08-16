@@ -8,7 +8,6 @@ Next:
   * Set up items
   * Previews
   * Filters
-* Initialize with keyframes
 * Support animation changes
 * Settings + App bar
 

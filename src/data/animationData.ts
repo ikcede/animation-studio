@@ -11,8 +11,8 @@ const animations = [
       'Slide',
       'Library'
     ],
-    animation: 'animation-name: slide-left;',
-    keyframes: '0% { transform: translateX(-1500px); } 100% { transform: translateX(0px); }',
+    animation: 'animation-name: slide-in-left;',
+    keyframes: '@keyframes slide-in-left {0% { transform: translateX(-1500px); } 100% { transform: translateX(0px); }}',
     targetHtml: '<div class="target"></div>',
     targetCss: '.target {width: 100px; height: 100px; display: flex; background: red}',
   },
@@ -24,8 +24,8 @@ const animations = [
       'Slide',
       'Library'
     ],
-    animation: 'animation-name: slide-right;',
-    keyframes: '0% { transform: translateX(1500px); } 100% { transform: translateX(0px); }',
+    animation: 'animation-name: slide-in-right;',
+    keyframes: '@keyframes slide-in-right {0% { transform: translateX(1500px); } 100% { transform: translateX(0px); }}',
     targetHtml: '<div class="target"></div>',
     targetCss: '.target {width: 100px; height: 100px; display: flex; background: red}',
   },
@@ -37,8 +37,8 @@ const animations = [
       'Slide',
       'Library'
     ],
-    animation: 'animation-name: slide-top;',
-    keyframes: '0% { transform: translateY(-1500px); } 100% { transform: translateY(0px); }',
+    animation: 'animation-name: slide-in-top;',
+    keyframes: '@keyframes slide-in-top {0% { transform: translateY(-1500px); } 100% { transform: translateY(0px); }}',
     targetHtml: '<div class="target"></div>',
     targetCss: '.target {width: 100px; height: 100px; display: flex; background: red}',
   },
@@ -50,8 +50,8 @@ const animations = [
       'Slide',
       'Library'
     ],
-    animation: 'animation-name: slide-bottom;',
-    keyframes: '0% { transform: translateY(1500px); } 100% { transform: translateY(0px); }',
+    animation: 'animation-name: slide-in-bottom;',
+    keyframes: '@keyframes slide-in-bottom {0% { transform: translateY(1500px); } 100% { transform: translateY(0px); }}',
     targetHtml: '<div class="target"></div>',
     targetCss: '.target {width: 100px; height: 100px; display: flex; background: red}',
   },

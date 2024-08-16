@@ -20,18 +20,35 @@ const keyframesReducer = (
   return action.keyframes;
 };
 
-const KeyframesProvider = (
-  {children}: {children: React.ReactNode}
+export interface KeyframesProviderProps 
+    extends React.PropsWithChildren {
+  keyframes?: CustomKeyframes,
+  children: React.ReactNode
+}
+
+const KeyframesProvider : React.FC<KeyframesProviderProps> = (
+  props
 ) => {
   const [keyframes, dispatch] = React.useReducer(
       keyframesReducer, 
       new CustomKeyframes(CustomKeyframes.getDefaultKeyframes())
   );
 
+  /**
+   * Set up initial keyframes
+   */
+  React.useEffect(() => {
+    if (props.keyframes !== undefined) {
+      dispatch({
+        keyframes: props.keyframes,
+      });
+    }
+  }, [props]);
+
   return (
     <KeyframesContext.Provider value={keyframes}>
       <KeyframesDispatchContext.Provider value={dispatch}>
-        {children}
+        {props.children}
       </KeyframesDispatchContext.Provider>
     </KeyframesContext.Provider>
   );
