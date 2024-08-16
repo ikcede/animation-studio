@@ -5,6 +5,7 @@ let data = <AnimationDetails>{
   duration: 2,
   playState: 'running',
   startTime: 1,
+  initialDelay: 0,
   iterationCount: 2,
   timing: 'ease-in',
   fillMode: 'forwards',
@@ -22,6 +23,7 @@ describe(CustomAnimation, () => {
     expect(animation.playState).toBe(data.playState);
     expect(animation.iterationCount).toBe(data.iterationCount);
     expect(animation.startTime).toBe(data.startTime);
+    expect(animation.initialDelay).toBe(data.initialDelay);
     expect(animation.timing).toBe(data.timing);
     expect(animation.fillMode).toBe(data.fillMode);
     expect(animation.direction).toBe(data.direction);

@@ -3,6 +3,7 @@ export interface AnimationDetails {
   name?: string,
   duration?: number,
   playState?: string,
+  initialDelay?: number,
   startTime?: number,
   iterationCount?: number | 'infinite',
   timing?: string,
@@ -17,6 +18,7 @@ export class CustomAnimation implements AnimationDetails {
   duration: number = 1;
   playState: string = 'paused';
   startTime: number = 0;
+  initialDelay: number = 0;
   iterationCount: number | 'infinite' = 1;
   timing: string = 'linear';
   fillMode: string = 'forwards';
@@ -41,6 +43,7 @@ export class CustomAnimation implements AnimationDetails {
     this.name = style.getPropertyValue('animation-name');
     this.setDuration(style.getPropertyValue('animation-duration'));
     this.setStartTime(style.getPropertyValue('animation-delay'));
+    this.setInitialDelay(style.getPropertyValue('animation-delay'));
     this.setIterationCount(style.getPropertyValue('animation-iteration-count'));
     this.setPlayState(style.getPropertyValue('animation-play-state'));
     this.setFillMode(style.getPropertyValue('animation-fill-mode'));
@@ -57,38 +60,47 @@ export class CustomAnimation implements AnimationDetails {
     return this.buildFromDeclaration(style);
   }
 
-  setDuration(stringValue: string): boolean {
+  _stringToSeconds(stringValue: string): number | null {
     let timeRegex = /(^[-+]?[0-9]*\.?[0-9]*)(s|ms)*$/g;
     let match = timeRegex.exec(stringValue);
     if (match) {
-      let duration = parseFloat(match[1]);
+      let num = parseFloat(match[1]);
       if (match[2] == 'ms') {
-        duration /= 1000;
+        num /= 1000;
       }
-      if (Number.isNaN(duration)) {
-        return false;
+      if (Number.isNaN(num)) {
+        return null;
       }
-      this.duration = duration;
-      return true;
+      return num;
     }
-    return false;
+    return null;
+  }
+
+  setDuration(stringValue: string): boolean {
+    let duration = this._stringToSeconds(stringValue);
+    if (duration === null) {
+      return false;
+    }
+    this.duration = duration;
+    return true;
   }
 
   setStartTime(delayString: string): boolean {
-    let timeRegex = /(^[-+]?[0-9]*\.?[0-9]*)(s|ms)*$/g;
-    let match = timeRegex.exec(delayString);
-    if (match) {
-      let delay = parseFloat(match[1]);
-      if (match[2] == 'ms') {
-        delay /= 1000;
-      }
-      if (Number.isNaN(delay)) {
-        return false;
-      }
-      this.startTime = -delay;
-      return true;
+    let delay = this._stringToSeconds(delayString);
+    if (delay === null) {
+      return false;
     }
-    return false;
+    this.startTime = - delay;
+    return true;
+  }
+
+  setInitialDelay(delayString: string): boolean {
+    let delay = this._stringToSeconds(delayString);
+    if (delay === null) {
+      return false;
+    }
+    this.initialDelay = delay;
+    return true;
   }
 
   setIterationCount(iterationString: string): boolean {
@@ -153,7 +165,7 @@ export class CustomAnimation implements AnimationDetails {
     }
   }
 
-  toCSSString(includeDelay: boolean) {
+  toCSSString(useStartTime: boolean) {
     let cssString = `.target {
   animation: ${this.useClone ? this.name + '2' : this.name};
   animation-duration: ${this.duration}s;
@@ -163,8 +175,10 @@ export class CustomAnimation implements AnimationDetails {
   animation-fill-mode: ${this.fillMode};
   animation-direction: ${this.direction};`
 
-    if (includeDelay) {
+    if (useStartTime) {
       cssString += `\n  animation-delay: ${-this.startTime}s;`;
+    } else {
+      cssString += `\n  animation-delay: ${this.initialDelay}s;`;
     }
     cssString += `\n}`;
     return cssString;

@@ -3,7 +3,6 @@ import styles from "./page.module.css";
 import Link from "next/link";
 import Button from "@mui/material/Button";
 import CreateIcon from '@mui/icons-material/Create';
-import SouthIcon from '@mui/icons-material/South';
 
 export default function Home() {
   return (
