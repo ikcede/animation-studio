@@ -26,6 +26,11 @@
   border: var(--border-default);
   background: var(--color-background-lighter);
   border-radius: 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .name {
