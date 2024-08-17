@@ -1,0 +1,21 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+}
+
+.wrapper :global(p) {
+  color: var(--color-grey);
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.error {
+  border: 2px solid var(--color-red);
+}
+
+.error-text {
+  color: var(--color-red);
+  font-size: 12px;
+  padding: 4px;
+}

@@ -1,8 +1,10 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import CodeMirror from "@uiw/react-codemirror";
+import { css } from "@codemirror/lang-css";
 import { AnimationContext } from '../../providers/AnimationProvider';
 import { KeyframesContext } from '../../providers/KeyframesProvider';
+
+import styling from './SidebarExport.module.css';
 
 const SidebarExport: React.FC = () => {
 
@@ -10,31 +12,36 @@ const SidebarExport: React.FC = () => {
   const animation = React.useContext(AnimationContext);
 
   return (
-    <Box sx={{ padding: '24px 0 8px' }}>
-      <TextField
-          label="Keyframes"
-          multiline
-          maxRows={10}
-          InputProps={{
-            className: 'monospace',
-            readOnly: true,
-          }}
-          fullWidth
-          defaultValue={keyframes.keyframes?.cssText ?? ''}
-          sx={{paddingBottom: '24px'}}
-        />
-      <TextField
-          label="Animation"
-          multiline
-          maxRows={10}
-          InputProps={{
-            className: 'monospace',
-            readOnly: true,
-          }}
-          fullWidth
-          defaultValue={animation.toCSSString(false)}
-        />
-    </Box>
+    <div className={styling.wrapper}>
+      <p>
+        Keyframes
+      </p>
+      <CodeMirror
+        value={keyframes.keyframes?.cssText ?? ''}
+        height='200px'
+        width='100%'
+        theme='dark'
+        extensions={[css()]}
+        editable={false}
+        basicSetup={{
+          lineNumbers: false,
+          foldGutter: false,
+        }}
+      />
+      <p>Animation</p>
+      <CodeMirror
+        value={animation.toCSSString(false)}
+        height='225px'
+        width='100%'
+        theme='dark'
+        extensions={[css()]}
+        editable={false}
+        basicSetup={{
+          lineNumbers: false,
+          foldGutter: false,
+        }}
+      />
+    </div>
   );
 };
 

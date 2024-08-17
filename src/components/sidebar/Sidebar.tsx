@@ -25,13 +25,14 @@ function CustomTabPanel(props: TabPanelProps) {
 
   return (
     <div
+      className={styling['custom-panel']}
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box>{children}</Box>}
+      {value === index && <>{children}</>}
     </div>
   );
 }
@@ -63,7 +64,7 @@ const Sidebar: React.FC = ({ }) => {
           <Tab icon={<GetAppIcon />} label="Export" {...a11yProps(3)} />
         </Tabs>
       </Box>
-      <Box className={styling.panel}>
+      <div className={styling.panel}>
         <CustomTabPanel value={value} index={0}>
           <SidebarKeyframes />
         </CustomTabPanel>
@@ -76,7 +77,7 @@ const Sidebar: React.FC = ({ }) => {
         <CustomTabPanel value={value} index={3}>
           <SidebarExport></SidebarExport>
         </CustomTabPanel>
-      </Box>
+      </div>
     </Box>
   );
 };

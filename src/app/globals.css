@@ -184,6 +184,19 @@ span.MuiTabs-indicator {
   background: var(--color-black);
 }
 
+/** CodeMirror **/
+.cm-editor {
+  background: var(--color-background);
+  border: var(--border-default);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.cm-theme-dark {
+  display: flex;
+  flex: 1;
+}
+
 /** Form styling **/
 
 /* TODO: Make this a mixin */

@@ -1,0 +1,19 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: flex-start;
+  justify-content: stretch;
+  width: 100%;
+
+  padding: 8px 0;
+}
+
+.wrapper :global(.cm-theme-dark) {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.wrapper :global(p) {
+  color: var(--color-grey);
+}

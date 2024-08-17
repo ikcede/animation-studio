@@ -1,7 +1,11 @@
 'use client'
 
 import React from 'react';
-import TextField from '@mui/material/TextField';
+import CodeMirror from "@uiw/react-codemirror";
+import { css as cssLang} from "@codemirror/lang-css";
+import { html as htmlLang } from "@codemirror/lang-html";
+
+import styling from './SidebarTarget.module.css';
 import { TargetElementContext, TargetElementDispatchContext } from '@/providers/TargetElementProvider';
 
 const SidebarTarget: React.FC = () => {
@@ -23,14 +27,13 @@ const SidebarTarget: React.FC = () => {
   };
 
   const changeHtml = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    val: string
   ) => {
-    let testHtml = e.target.value;
-    setHtml(testHtml);
-    if (validateHtml(testHtml)) {
+    setHtml(val);
+    if (validateHtml(val)) {
       targetElementDispatch({
         el: {
-          html: testHtml,
+          html: val,
           css: css
         }
       });
@@ -43,18 +46,17 @@ const SidebarTarget: React.FC = () => {
   }
 
   const changeCss = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    val: string
   ) => {
-    let testCss = e.target.value;
-    setCss(testCss);
+    setCss(val);
     
     try {
       let stylesheet = new CSSStyleSheet();
-      stylesheet.replaceSync(testCss);
+      stylesheet.replaceSync(val);
       targetElementDispatch({
         el: {
           html: html,
-          css: testCss
+          css: val
         }
       });
       if (cssError !== '') {
@@ -66,40 +68,49 @@ const SidebarTarget: React.FC = () => {
   }
 
   return (
-    <>
+    <div className={styling.wrapper}>
+      Customize the target element
       <p>
-        Customize the target element with CSS and HTML
+        CSS
       </p>
-      <TextField
-          label="CSS"
-          multiline
-          rows={10}
-          fullWidth
-          error = {cssError !== ''}
-          helperText = {cssError !== '' ? cssError : undefined}
-          InputProps={{
-            className: 'monospace',
-          }}
-          value={css}
-          onChange={changeCss}
-          placeholder={'.target {\n  color: green;\n  font-family: monospace; \n}'}
-          sx={{paddingBottom: '24px', marginTop: '16px'}}
-        />
-      <TextField
-          label="HTML"
-          multiline
-          rows={10}
-          fullWidth
-          error = {htmlError !== ''}
-          helperText = {htmlError !== '' ? htmlError : undefined}
-          InputProps={{
-            className: 'monospace',
-          }}
-          value={html}
-          onChange={changeHtml}
-          placeholder={'<div class="target">\n  Animation Text\n</div>'}
-        />
-    </>
+      <CodeMirror
+        className={cssError !== '' ? styling.error : ''}
+        value={css}
+        height='250px'
+        width='100%'
+        theme='dark'
+        extensions={[cssLang()]}
+        placeholder={'.target {\n  color: green;\n  font-family: monospace; \n}'}
+        basicSetup={{
+          lineNumbers: false,
+          foldGutter: false,
+        }}
+        onChange={changeCss}
+      />
+      <span className={styling['error-text']}>
+        {cssError !== '' ? cssError : ''}
+      </span>
+      <p>
+        HTML
+      </p>
+      <CodeMirror
+        className={htmlError !== '' ? styling.error : ''}
+        value={html}
+        height='250px'
+        width='100%'
+        theme='dark'
+        extensions={[htmlLang()]}
+        placeholder={'<div class="target">\n  Animation Text\n</div>'}
+        basicSetup={{
+          lineNumbers: false,
+          foldGutter: false,
+        }}
+        onChange={changeHtml}
+      />
+      <span className={styling['error-text']}>
+        {htmlError !== '' ? htmlError : ''}
+      </span>
+    </div>
   );
 };
 
