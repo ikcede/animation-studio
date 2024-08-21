@@ -29,7 +29,7 @@ const Preview: React.FC<PreviewProps> = ({
 
   const getKeyframes = React.useCallback(() => {
     return getLibKeyframes(lib, selectedVariant);
-  }, [selectedVariant, lib.keyframes, lib.variants]);
+  }, [selectedVariant, lib]);
 
   return (
     <div className={`${styling.wrapper}`}>
