@@ -10,10 +10,10 @@ Next:
   * Filters
 * Settings + App bar
 * Saving + Projects
-* CodeMirror
 
 Backlog:
 
+* Modularize previews
 * Mobile touch support -.-
 * Add support for timing function changes
 * SEO

@@ -150,11 +150,16 @@ export class CustomAnimation implements AnimationDetails {
     return true;
   }
 
+  _getName(forceName?: string) {
+    if (forceName !== undefined) {
+      return forceName;
+    }
+    return this.useClone ? this.name + '2' : this.name;
+  }
+
   toReactProps() : React.CSSProperties {
     return {
-      animationName: this.useClone ? 
-          this.name + '2' : 
-          this.name,
+      animationName: this._getName(),
       animationDuration: this.duration + 's',
       animationPlayState: this.playState,
       animationDelay: (- this.startTime) + 's',
@@ -165,22 +170,20 @@ export class CustomAnimation implements AnimationDetails {
     }
   }
 
-  toCSSString(useStartTime: boolean) {
-    let cssString = `.target {
-  animation: ${this.useClone ? this.name + '2' : this.name};
+  toCSSString(options: {name?: string, useStartTime?: boolean}) {
+    let cssString = `animation-name: ${this._getName(options.name)};
   animation-duration: ${this.duration}s;
   animation-play-state: ${this.playState};
   animation-iteration-count: ${this.iterationCount};
   animation-timing-function: ${this.timing};
   animation-fill-mode: ${this.fillMode};
-  animation-direction: ${this.direction};`
+  animation-direction: ${this.direction};`;
 
-    if (useStartTime) {
+    if (options.useStartTime) {
       cssString += `\n  animation-delay: ${-this.startTime}s;`;
     } else {
       cssString += `\n  animation-delay: ${this.initialDelay}s;`;
     }
-    cssString += `\n}`;
     return cssString;
   }
 

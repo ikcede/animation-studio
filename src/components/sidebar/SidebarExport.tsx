@@ -11,6 +11,12 @@ const SidebarExport: React.FC = () => {
   const keyframes = React.useContext(KeyframesContext);
   const animation = React.useContext(AnimationContext);
 
+  const getAnimationCss = (): string => {
+    return `.target {
+  ${animation.toCSSString({name: animation.name, useStartTime: false})}
+}`;
+  }
+
   return (
     <div className={styling.wrapper}>
       <p>
@@ -30,7 +36,7 @@ const SidebarExport: React.FC = () => {
       />
       <p>Animation</p>
       <CodeMirror
-        value={animation.toCSSString(false)}
+        value={getAnimationCss()}
         height='225px'
         width='100%'
         theme='dark'

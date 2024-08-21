@@ -27,7 +27,8 @@ const Gallery: React.FC = () => {
       </div>
       <div className={styling.view}>
         {data.map((lib) => (
-          <GalleryItem lib={lib} key={lib.id}></GalleryItem>
+          <GalleryItem lib={lib} key={lib.id}
+                       collapsed={lib.id == 1 ? collapsed : undefined}></GalleryItem>
         ))}
       </div>
     </div>

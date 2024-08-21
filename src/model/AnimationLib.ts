@@ -12,6 +12,10 @@ export default interface AnimationLib {
   keyframes?: string;
   targetHtml?: string;
   targetCss?: string;
+  variants?: {
+    name: string,
+    keyframes: string,
+  }[]
 }
 
 export const buildFromDefaultLib = 
@@ -27,3 +31,14 @@ export const buildFromDefaultLib =
     targetCss: ''
   }, lib ?? {});
 }
+
+export const getLibKeyframes = 
+    (lib: AnimationLib, variant?: number) => {
+  if (variant === undefined || 
+      lib.variants === undefined || 
+      lib.variants[variant] === undefined) {
+    return lib.keyframes;
+  } else {
+    return lib.variants[variant].keyframes;
+  }
+};

@@ -130,6 +130,7 @@ const KeyframeEditor: React.FC = () => {
                 <TextField {...params} 
                           placeholder='Property'
                           aria-label='Property'
+                          autoComplete='off'
                           onBlur={(e) => saveStyles()}
                           onChange={(e) => setStyleProperty(e, index)} />}
             />
@@ -137,6 +138,7 @@ const KeyframeEditor: React.FC = () => {
                        className={styling.value}
                        placeholder='Value'
                        aria-label='Value'
+                       autoComplete='off'
                        value={style.val}
                        onBlur={(e) => saveStyles()}
                        onChange={(e) => setStyleValue(e, index)} />

@@ -10,7 +10,7 @@ const AnimationPreview: React.FC = () => {
   const wrapper = React.useRef<HTMLDivElement>(null);
   const [styleText, setStyleText] = React.useState(targetElement.css);
   const [animationCss, setAnimationCss] = 
-      React.useState(animation.toCSSString(true));
+      React.useState(animation.toCSSString({useStartTime: true}));
 
   React.useEffect(() => {
     let node = wrapper.current;
@@ -19,16 +19,16 @@ const AnimationPreview: React.FC = () => {
     }
 
     setStyleText(targetElement.css);
-  }, [targetElement]);
+  }, [targetElement.html, targetElement.css]);
 
   React.useEffect(() => {
-    setAnimationCss(animation.toCSSString(true));
+    setAnimationCss(animation.toCSSString({useStartTime: true}));
   }, [animation]);
 
   return (
     <div className={styling.wrapper}>
       <style>{styleText}</style>
-      <style>{animationCss}</style>
+      <style>{`.target {${animationCss}\n}`}</style>
       <div className={styling['target-wrapper']} ref={wrapper}>
         <div className='target'></div>
       </div>

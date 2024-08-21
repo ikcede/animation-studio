@@ -56,6 +56,7 @@ const AddKeyframe: React.FC<AddKeyframeProps> = ({
     <div className={`${styling.widget} input-row`}>
       <TextField 
           variant='outlined'
+          autoComplete='off'
           value={value}
           onChange={changeValue}
           onKeyUp={onKeyUp}

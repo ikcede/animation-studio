@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import AnimationLib, { buildFromDefaultLib } from "@/model/AnimationLib";
+import AnimationLib, { buildFromDefaultLib, getLibKeyframes } from "@/model/AnimationLib";
 import AnimationProvider from "./AnimationProvider";
 import KeyframeSelectionProvider from "./KeyframeSelectionProvider";
 import KeyframesProvider from "./KeyframesProvider";
@@ -12,6 +12,7 @@ import { CustomKeyframes } from "@/model";
 
 export interface EditorProviderProps extends React.PropsWithChildren {
   animationLib?: AnimationLib,
+  variant?: number,
   children: React.ReactNode
 }
 
@@ -35,16 +36,21 @@ const EditorProvider: React.FC<EditorProviderProps> = (props) => {
         setCSS(lib.targetCss!);
       }
 
-      if (lib.keyframes !== '') {
-        setKeyframes(new CustomKeyframes(lib.keyframes!));
+      let keyframesString = getLibKeyframes(lib, props.variant);
+      if (keyframesString !== undefined && keyframesString !== '') {
+        setKeyframes(new CustomKeyframes(keyframesString));
       }
 
       if (lib.animation !== '') {
-        setAnimation(
-            (new CustomAnimation()).buildFromString(lib.animation!));
+        let newAnimation = new CustomAnimation();
+        newAnimation.buildFromString(lib.animation!);
+        if (props.variant !== undefined && lib.variants && lib.variants[props.variant]) {
+          newAnimation.name += '-' + lib.variants[props.variant].name;
+        }
+        setAnimation(newAnimation);
       }
     }
-  }, [props]);
+  }, [props.animationLib, props.variant]);
 
   return (
     <AnimationProvider animation={animation}>
