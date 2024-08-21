@@ -32,6 +32,9 @@ const Gallery: React.FC = () => {
 
   return (
     <div className={styling.wrapper}>
+      <div className={styling.header}>
+        <h1>Library</h1>
+      </div>
       <div className='controls'>
         <FilterBar filters={filters}
                    onFilterSelect={changeFilter}></FilterBar>

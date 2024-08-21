@@ -1,3 +1,4 @@
 .wrapper :global(.button) {
   margin: 8px;
+  background: var(--color-background);
 }

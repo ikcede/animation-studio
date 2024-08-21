@@ -60,6 +60,42 @@ button.MuiIconButton-root.Mui-disabled {
   cursor: not-allowed;
 }
 
+.MuiButton-root.button {
+  line-height: 1em;
+  padding: 6px 8px;
+  color: var(--color-grey);
+  border: var(--border-default);
+  text-transform: none;
+}
+
+.MuiButton-root.button-cta {
+  line-height: 1em;
+  padding: 16px;
+  background: var(--color-red);
+  background: linear-gradient(
+    180deg,
+    var(--color-red) 0%,
+    rgb(230, 86, 61) 78%,
+    rgb(230, 90, 50) 100%);
+  color: var(--color-black);
+  border: var(--border-default);
+  text-transform: none;
+  font-size: 20px;
+  font-weight: 100;
+  transition: 0.5s;
+  border-radius: 24px;
+}
+
+.MuiButton-root.button-cta:hover {
+  background: var(--color-red);
+  background: linear-gradient(
+    180deg,
+    var(--color-red) 0%,
+    rgb(230, 86, 61) 78%,
+    rgb(230, 90, 50) 100%);
+  filter: brightness(80%);
+}
+
 .MuiInputBase-root.MuiOutlinedInput-root {
   color: var(--color-white);
   background: var(--color-background);
@@ -99,14 +135,6 @@ button.MuiIconButton-root.Mui-disabled {
 .MuiTabs-root {
   background: var(--color-background);
   border-bottom: var(--border-default);
-}
-
-.MuiButton-root.button {
-  line-height: 1em;
-  padding: 6px 8px;
-  color: var(--color-grey);
-  border: var(--border-default);
-  text-transform: none;
 }
 
 .MuiToggleButtonGroup-root {

@@ -26,6 +26,19 @@
   opacity: 0;
 }
 
+.name {
+  padding: 8px;
+  background: var(--color-background);
+  border-bottom: var(--border-default);
+}
+
+.name a {
+  color: var(--color-grey);
+  text-decoration: none;
+  font-weight: bold;
+  letter-spacing: 0.2px;
+}
+
 .preview {
   width: 250px;
   height: 200px;
@@ -42,27 +55,20 @@
   flex: 1;
   flex-direction: row;
   justify-content: space-between;
-  margin: 4px 4px 8px;
+  padding: 8px 4px 8px;
+  background: var(--color-background);
 }
 
 .options > div {
   margin: 0 4px;
 }
 
-.select {
+.select:global(.MuiInputBase-root) {
   display: flex;
   flex: 1;
-}
-
-.name {
-  padding: 8px;
-}
-
-.name a {
+  background: var(--color-background-lighter);
   color: var(--color-grey);
-  text-decoration: none;
-  font-weight: bold;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.5px;
 }
 
 .tags {
