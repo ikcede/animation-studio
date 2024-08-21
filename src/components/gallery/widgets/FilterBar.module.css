@@ -1,0 +1,3 @@
+.wrapper :global(.button) {
+  margin: 8px;
+}

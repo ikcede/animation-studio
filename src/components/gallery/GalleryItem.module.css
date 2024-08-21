@@ -59,6 +59,7 @@
 }
 
 .name a {
+  color: var(--color-grey);
   text-decoration: none;
   font-weight: bold;
   letter-spacing: 0.2px;
