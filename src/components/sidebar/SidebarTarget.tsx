@@ -4,19 +4,25 @@ import React from 'react';
 import CodeMirror from "@uiw/react-codemirror";
 import { css as cssLang} from "@codemirror/lang-css";
 import { html as htmlLang } from "@codemirror/lang-html";
+import beautify from 'js-beautify';
 
 import styling from './SidebarTarget.module.css';
 import { TargetElementContext, TargetElementDispatchContext } from '@/providers/TargetElementProvider';
 
 const SidebarTarget: React.FC = () => {
+  const formatOptions = {
+    indent_size: 2
+  };
 
   const targetElement = React.useContext(TargetElementContext);
   const targetElementDispatch = 
       React.useContext(TargetElementDispatchContext);
 
-  const [html, setHtml] = React.useState(targetElement.html);
+  const [html, setHtml] = React.useState(
+      beautify.html(targetElement.html, formatOptions));
   const [htmlError, setHtmlError] = React.useState('');
-  const [css, setCss] = React.useState(targetElement.css);
+  const [css, setCss] = React.useState(
+      beautify.css(targetElement.css, formatOptions));
   const [cssError, setCssError] = React.useState('');
 
   /** Checks if the HTML string includes a proper target element */
