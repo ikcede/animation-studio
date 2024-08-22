@@ -5,9 +5,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 Next:
 
 * Gallery
-  * Set up items
-  * Previews
-  * Filters
+  * Code snippets modal
 * Settings + App bar
 * Saving + Projects
 

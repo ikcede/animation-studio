@@ -32,18 +32,20 @@ const Gallery: React.FC = () => {
 
   return (
     <div className={styling.wrapper}>
-      <div className={styling.header}>
-        <h1>Library</h1>
-      </div>
-      <div className='controls'>
-        <FilterBar filters={filters}
-                   onFilterSelect={changeFilter}></FilterBar>
-      </div>
-      <div className={styling.view}>
-        {data.map((lib) => (
-          <GalleryItem lib={lib} key={lib.id}
-                       collapsed={isCollapsed(lib)}></GalleryItem>
-        ))}
+      <div className={styling.inner}>
+        <div className={styling.header}>
+          <h1>Animation Library</h1>
+        </div>
+        <div className={styling.controls}>
+          <FilterBar filters={filters}
+                     onFilterSelect={changeFilter}></FilterBar>
+        </div>
+        <div className={styling.view}>
+          {data.map((lib) => (
+            <GalleryItem lib={lib} key={lib.id}
+                        collapsed={isCollapsed(lib)}></GalleryItem>
+          ))}
+        </div>
       </div>
     </div>
   );

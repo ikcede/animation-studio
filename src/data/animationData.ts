@@ -63,7 +63,30 @@ const animations = [
       },
     ]
   },
-  
+  {
+    id: 3,
+    name: 'Fade in',
+    description: 'Fade in entrance animation',
+    tags: [
+      'Enter'
+    ],
+    animation: 'animation-name: fade-in;',
+    keyframes: '@keyframes fade-in {0% { opacity: 0; } 100% { opacity: 1; }}',
+    targetHtml: '<div class="target"></div>',
+    targetCss: '.target {width: 100px; height: 100px; display: flex; background: red}',
+  },
+  {
+    id: 4,
+    name: 'Fade out',
+    description: 'Fade out entrance animation',
+    tags: [
+      'Exit'
+    ],
+    animation: 'animation-name: fade-out;',
+    keyframes: '@keyframes fade-out {0% { opacity: 1; } 100% { opacity: 0; }}',
+    targetHtml: '<div class="target"></div>',
+    targetCss: '.target {width: 100px; height: 100px; display: flex; background: red}',
+  },
 ];
 
 const data = (new Array<AnimationLib>()).concat([...animations]);

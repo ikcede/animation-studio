@@ -1,0 +1,18 @@
+.wrapper {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  max-width: 800px;
+  padding: 16px 0;
+
+  font-size: 14px;
+  color: var(--color-grey);
+}
+
+.item {
+  display: flex;
+}
+
+.item a {
+  margin: 0 4px;
+}

@@ -1,21 +1,42 @@
 .wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   width: 100%;
   padding: 16px;
   background: var(--color-background-lighter);
+  transition: 0.5s;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  flex: 1;
+  max-width: 782px;
+  padding: 16px 0;
 }
 
 .view {
-  max-width: 1200px;
+  max-width: 782px;
   position: relative;
-  margin: 0 auto;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
 
   gap: 16px;
+}
+
+.header h1 {
+  font-size: 36px;
+  font-weight: 100;
+  letter-spacing: 0.3px;
+  margin: 0px 0 16px;
+}
+
+.controls {
+  margin: 16px 0;
 }
