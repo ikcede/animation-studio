@@ -150,6 +150,11 @@ export class CustomAnimation implements AnimationDetails {
     return true;
   }
 
+  setVariant(variantName: string): boolean {
+    this.name += '-' + variantName;
+    return true;
+  }
+
   _getName(forceName?: string) {
     if (forceName !== undefined) {
       return forceName;
@@ -170,8 +175,8 @@ export class CustomAnimation implements AnimationDetails {
     }
   }
 
-  toCSSString(options: {name?: string, useStartTime?: boolean}) {
-    let cssString = `animation-name: ${this._getName(options.name)};
+  toCSSString(options?: {name?: string, useStartTime?: boolean}) {
+    let cssString = `animation-name: ${this._getName(options?.name)};
   animation-duration: ${this.duration}s;
   animation-play-state: ${this.playState};
   animation-iteration-count: ${this.iterationCount};
@@ -179,7 +184,7 @@ export class CustomAnimation implements AnimationDetails {
   animation-fill-mode: ${this.fillMode};
   animation-direction: ${this.direction};`;
 
-    if (options.useStartTime) {
+    if (options?.useStartTime) {
       cssString += `\n  animation-delay: ${-this.startTime}s;`;
     } else {
       cssString += `\n  animation-delay: ${this.initialDelay}s;`;

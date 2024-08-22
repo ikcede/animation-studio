@@ -1,12 +1,13 @@
 import React from 'react';
 import styling from './GalleryItem.module.css';
-import AnimationLib from '@/model/AnimationLib';
-import Chip from '@mui/material/Chip';
+import AnimationLib, { getLibKeyframes } from '@/model/AnimationLib';
 import Link from 'next/link';
 import Preview from './widgets/Preview';
 import { IconButton, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CodeIcon from '@mui/icons-material/Code';
+import ExportCodeDialog from '@/components/dialog/ExportCodeDialog';
+import { CustomAnimation, CustomKeyframes } from '@/model';
 
 export interface GalleryItemProps {
   lib: AnimationLib,
@@ -17,6 +18,7 @@ const GalleryItem: React.FC<GalleryItemProps> = ({
   lib,
   collapsed = false,
 }) => {
+  const [codeOpen, setCodeOpen] = React.useState(false);
   const [variant, setVariant] = React.useState<string>('0');
 
   const getCollapsedClass = () => {
@@ -35,6 +37,22 @@ const GalleryItem: React.FC<GalleryItemProps> = ({
     }
     return num;
   }, [variant]);
+
+  const animationCss = React.useMemo(() => {
+    let animation = new CustomAnimation()
+        .buildFromString(lib.animation || '');
+    
+    if (lib.variants && lib.variants[selectedVariant]) {
+      animation.setVariant(lib.variants[selectedVariant].name);
+    }
+    return `.target {
+  ${animation.toCSSString()}
+}`;
+  }, [lib, selectedVariant]);
+
+  const keyframesCss = React.useMemo(() => {
+    return getLibKeyframes(lib, selectedVariant);
+  }, [lib, selectedVariant]);
 
   return (
     <div className={`${styling.wrapper} ` + getCollapsedClass()}>
@@ -76,18 +94,18 @@ const GalleryItem: React.FC<GalleryItemProps> = ({
           ))}
         </Select>
         <div>
-          <IconButton aria-label='code' size='small'>
+          <IconButton aria-label='code' 
+                      size='small'
+                      onClick={() => setCodeOpen(true)}>
             <CodeIcon></CodeIcon>
           </IconButton>
         </div>
       </div>
 
-      {/*       
-      <div className={styling.tags}>
-        {lib.tags!.map((tag, i) => (
-          <Chip label={tag} size='small' key={i} />
-        ))}
-      </div> */}
+      <ExportCodeDialog open={codeOpen} 
+                        onClose={() => setCodeOpen(false)}
+                        keyframesCss={keyframesCss}
+                        animationCss={animationCss}/>
     </div>
   );
 };

@@ -4,8 +4,6 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Next:
 
-* Gallery
-  * Code snippets modal
 * Settings + App bar
 * Saving + Projects
 

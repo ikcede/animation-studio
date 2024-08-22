@@ -270,3 +270,25 @@ span.MuiTabs-indicator {
 .input-row:last-of-type {
   margin-bottom: 0;
 }
+
+/** Popups */
+.MuiPaper-root.MuiPaper-elevation {
+  background: var(--color-background);
+  color: var(--color-white);
+
+  .MuiAutocomplete-option, .MuiMenuItem-root {
+    font-size: 14px;
+  }
+
+  .MuiMenuItem-root:hover, 
+  .MuiMenuItem-root.Mui-focusVisible,
+  .MuiAutocomplete-option:hover,
+  .MuiAutocomplete-option.Mui-focusVisible {
+    background: var(--color-background-lighter);
+  }
+}
+
+.MuiDialogTitle-root {
+  background: var(--color-background);
+  color: var(--color-white);
+}
