@@ -20,6 +20,8 @@ const GalleryItem: React.FC<GalleryItemProps> = ({
 }) => {
   const [codeOpen, setCodeOpen] = React.useState(false);
   const [variant, setVariant] = React.useState<string>('0');
+  const [animationCss, setAnimationCss] = React.useState('');
+  const [keyframesCss, setKeyframesCss] = React.useState('');
 
   const getCollapsedClass = () => {
     return collapsed ? styling.collapsed : styling.expanded;
@@ -38,20 +40,19 @@ const GalleryItem: React.FC<GalleryItemProps> = ({
     return num;
   }, [variant]);
 
-  const animationCss = React.useMemo(() => {
+  // Must be useEffect to use document
+  React.useEffect(() => {
     let animation = new CustomAnimation()
         .buildFromString(lib.animation || '');
     
     if (lib.variants && lib.variants[selectedVariant]) {
       animation.setVariant(lib.variants[selectedVariant].name);
     }
-    return `.target {
-  ${animation.toCSSString()}
-}`;
+    setAnimationCss(`.target {\n  ${animation.toCSSString()}\n}`);
   }, [lib, selectedVariant]);
 
-  const keyframesCss = React.useMemo(() => {
-    return getLibKeyframes(lib, selectedVariant);
+  React.useEffect(() => {
+    setKeyframesCss(getLibKeyframes(lib, selectedVariant) || '');
   }, [lib, selectedVariant]);
 
   return (
