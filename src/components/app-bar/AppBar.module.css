@@ -1,0 +1,33 @@
+.wrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 8px;
+  justify-content: space-between;
+  position: relative;
+}
+
+.logo a {
+  text-decoration: none;
+  transition: 0.5s;
+}
+
+.logo a:hover {
+  text-decoration: none;
+  text-shadow: 
+      0 0 5px var(--color-red),
+      0 0 15px var(--color-red),
+      0 0 20px var(--color-grey);
+}
+
+.editing {
+  display: flex;
+  flex: 1;
+  margin-right: 16px;
+  justify-content: flex-end;
+  align-items: center;
+
+  color: var(--color-grey);
+  gap: 8px;
+}

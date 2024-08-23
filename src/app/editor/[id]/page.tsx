@@ -2,13 +2,16 @@
 
 import React from 'react';
 import styling from './page.module.css';
+import AppBar from '@/components/app-bar/AppBar';
 import AnimationPreview from "@/components/preview/AnimationPreview";
 import Timeline from "@/components/timeline/Timeline";
 import Sidebar from '@/components/sidebar/Sidebar';
 
 import { KeyframesContext } from '@/providers/KeyframesProvider';
+import { AnimationContext } from '@/providers/AnimationProvider';
 
 export default function Page() {
+  const animation = React.useContext(AnimationContext);
   const keyframes = React.useContext(KeyframesContext);
   const [styleText, setStyleText] = React.useState('');
 
@@ -26,8 +29,10 @@ export default function Page() {
   return (
     <div className={styling.App}>
       <style>{styleText}</style>
+      <div className={styling.header}>
+        <AppBar animationName={animation.name}></AppBar>
+      </div>
       <main className={styling.main}>
-        {/* <nav>Temp</nav> */}
         <div className={styling.preview}>
           <AnimationPreview></AnimationPreview>
         </div>

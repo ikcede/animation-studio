@@ -1,19 +1,28 @@
 .App {
   display: flex;
   flex: 1;
-  padding: 16px;
   height: 100%;
 
-  flex-flow: wrap;
+  flex-direction: column;
   align-items: stretch;
   overflow: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 8px;
+  border-bottom: var(--border-default);
+  width: calc(100vw - 350px);
 }
 
 .main {
   display: flex;
   flex: 1;
   flex-direction: column;
-  max-width: calc(100vw - 382px);
+  padding: 16px;
+  max-width: calc(100vw - 350px);
 }
 
 .preview {

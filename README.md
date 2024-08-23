@@ -4,18 +4,20 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Next:
 
-* Settings + App bar
-* Saving + Projects
+* Timeline:
+  * Redesign
+  * Time labels
+  * Speed mods
+  * Add support for timing function changes
+* Add new animations to lib
+* Settings
 
 Backlog:
 
 * Modularize previews
 * Mobile touch support -.-
-* Add support for timing function changes
 * SEO
-* Timeline:
-  * Time labels
-  * Speed mods
+* Saving + Projects
 
 ## Getting Started
 

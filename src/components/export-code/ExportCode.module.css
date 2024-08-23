@@ -17,3 +17,18 @@
 .wrapper :global(p) {
   color: var(--color-grey);
 }
+
+.controls {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.copy {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: flex-end;
+}
