@@ -3,23 +3,25 @@
 import React from 'react';
 
 import styling from './Timeline.module.css';
+import playKeyframes from '@/util/styles/play.module.css';
 import Ticks from './Ticks';
 import KeyframeMark from './KeyframeMark';
-import TimelineControls from './TimelineControls';
-import KeyframeControls from './KeyframeControls';
+import TimelineControls from './controls/TimelineControls';
+import KeyframeControls from './controls/KeyframeControls';
 
-import { round } from '@/util';
+import round from '@/util/round';
 
 import { KeyframesContext, KeyframesDispatchContext } from '@/providers/KeyframesProvider';
 import { AnimationContext, AnimationDispatchContext } from '@/providers/AnimationProvider';
 import { KeyframeSelectionContext, KeyframeSelectionDispatchContext } from '@/providers/KeyframeSelectionProvider';
+import AnimationFrame from './animation-frame/AnimationFrame';
 
 export type KeyframeChangeFunction = 
     (newKeyframes: CSSKeyframesRule) => void;
 
 const Timeline: React.FC = ({}) => {
-  const animationName = styling.play;
-  const animationClone = styling.play2;
+  const animationName = playKeyframes.play;
+  const animationClone = playKeyframes.play2;
 
   const animation = React.useContext(AnimationContext);
   const animationDispatch = React.useContext(AnimationDispatchContext);
@@ -233,6 +235,12 @@ const Timeline: React.FC = ({}) => {
            onClick={onTimelineClick}>
         <div className={styling.spacer}></div>
         <div className={styling.zone}>
+          <AnimationFrame animation={animation}
+                          keyframes={keyframes}
+                          timelineSettings={{
+                            totalTime: animation.duration,
+                            playbackRate: 1
+                          }}></AnimationFrame>
           <div className={styling.keyframes}>
             {ruleList.map((percent, index) => (
               <KeyframeMark key={percent}
@@ -249,8 +257,10 @@ const Timeline: React.FC = ({}) => {
             )}
           </div>
           <Ticks startValue={0}
-              endValue={100}
-              unit='%'></Ticks>
+                 endValue={animation.duration}
+                 majorTicks={5}
+                 minorTicks={7}
+                 unit='s'></Ticks>
         </div>
 
         <div className={styling.playhead}

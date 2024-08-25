@@ -1,0 +1,41 @@
+.playhead {
+  position: absolute;
+  height: 100%;
+
+  left: 0%;
+}
+
+.playhead-head {
+  width: 21px;
+  height: 12px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  
+  border-bottom: 12px solid var(--color-orange);
+
+  position: absolute;
+  bottom: 0;
+  left: -10px;
+}
+
+.playhead-head2 {
+  width: 21px;
+  height: 12px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  
+  border-top: 12px solid var(--color-red);
+
+  position: absolute;
+  bottom: top;
+  left: -10px;
+}
+
+.playhead-tail {
+  width: 1px;
+  height: 100%;
+  background: var(--color-orange);
+
+  position: absolute;
+  left: 0;
+}

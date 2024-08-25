@@ -1,6 +1,7 @@
 
 .wrapper {
   --playhead-size: 14px;
+  --timeline-height: 110px;
 
   display: flex;
   flex: 1;
@@ -25,7 +26,7 @@
   flex-direction: column;
   box-sizing: border-box;
   border-top: none;
-  height: 60px;
+  height: var(--timeline-height);
   position: relative;
   margin-top: 8px;
 }
@@ -39,6 +40,8 @@
   display: flex;
   flex: 1;
   border: 1px solid var(--color-grey);
+  background: var(--color-background);
+  position: relative;
 }
 
 .keyframes {
@@ -70,10 +73,10 @@
 .playhead-head {
   background: var(--color-red);
   position: absolute;
-  left: calc(var(--playhead-size) / -2);
+  left: calc((var(--playhead-size) / -2) - 1px);
   top: calc(var(--playhead-size) * -1.5);
 
-  width: calc(var(--playhead-size) + 1px);
+  width: calc(var(--playhead-size) + 2px);
   height: var(--playhead-size);
   border-top-left-radius: calc(var(--playhead-size) / 5);
   border-top-right-radius: calc(var(--playhead-size) / 5);
@@ -88,7 +91,7 @@
   position: absolute;
   bottom: calc(var(--playhead-size) / -2);
   left: 0;
-  width: 1px;
+  width: 2px;
   height: 0;
   border-left: calc(var(--playhead-size) / 2) solid transparent;
   border-right: calc(var(--playhead-size) / 2) solid transparent;
@@ -100,28 +103,10 @@
 }
 
 .playhead-tail {
-  height: 40px;
-  width: 1px;
+  height: calc(var(--timeline-height) - 20px);
+  width: 2px;
   background: var(--color-red);
   position: absolute;
-  left: 0;
+  left: -1px;
   top: 0;
-}
-
-@keyframes play {
-  from {
-    left: 0%;
-  }
-  to {
-    left: 100%;
-  }
-}
-
-@keyframes play2 {
-  from {
-    left: 0%;
-  }
-  to {
-    left: 100%;
-  }
 }

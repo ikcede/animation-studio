@@ -33,13 +33,15 @@ const ExportCode: React.FC<ExportCodeProps> = ({
   const copyKeyframes = React.useCallback((e: React.MouseEvent) => {
     navigator.clipboard.writeText(formattedKeyframes);
     setKeyframesCopied(true);
-    setTimeout(() => setKeyframesCopied(false), 5000);
+    setAnimationCopied(false);
+    setTimeout(() => setKeyframesCopied(false), 4000);
   }, [formattedKeyframes, setKeyframesCopied]);
 
   const copyAnimation = React.useCallback((e: React.MouseEvent) => {
     navigator.clipboard.writeText(formattedAnimation);
     setAnimationCopied(true);
-    setTimeout(() => setAnimationCopied(false), 5000);
+    setKeyframesCopied(false);
+    setTimeout(() => setAnimationCopied(false), 4000);
   }, [formattedAnimation, setAnimationCopied]);
 
   return (

@@ -8,9 +8,12 @@ Next:
   * Redesign
   * Time labels
   * Speed mods
+* Animations:
   * Add support for timing function changes
+  * Add missing props
 * Add new animations to lib
 * Settings
+* Keyframe export code cleanup
 
 Backlog:
 
@@ -18,6 +21,7 @@ Backlog:
 * Mobile touch support -.-
 * SEO
 * Saving + Projects
+* Keyboard shortcuts
 
 ## Getting Started
 

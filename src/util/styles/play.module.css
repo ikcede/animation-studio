@@ -1,0 +1,17 @@
+@keyframes play {
+  from {
+    left: 0%;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes play2 {
+  from {
+    left: 0%;
+  }
+  to {
+    left: 100%;
+  }
+}

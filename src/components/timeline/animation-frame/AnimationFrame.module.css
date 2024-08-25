@@ -1,0 +1,20 @@
+.frame {
+  background: rgb(33 55 78);
+  border-radius: 4px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  left: 0;
+  top: 20px;
+}
+
+.name {
+  font-size: 14px;
+  color: var(--color-white);
+}
+

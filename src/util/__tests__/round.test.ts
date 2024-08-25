@@ -1,4 +1,4 @@
-import { round } from '..';
+import round from '../round';
 
 describe("round", () => {
   it('rounds with decimal 0 by default', () => {
