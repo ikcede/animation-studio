@@ -150,6 +150,7 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
     return 'steps(' + parseInt(stepValue) + ', ' + stepType + ')';
   }, [stepValue, stepType]);
 
+  /// Load the correct animation timing type value
   React.useEffect(() => {
     if (animation !== undefined) {
       let bezierRegex = /^cubic-bezier\((.*)\)/g;

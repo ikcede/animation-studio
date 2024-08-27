@@ -6,11 +6,11 @@ Next:
 
 * Timeline:
   * Speed mods
-* Animations:
-  * Add missing props
 * Add new animations to lib
 * Settings
 * Keyframe export code cleanup
+* Fix bezier easing reload glitch
+* Ticks changing glitch
 
 Backlog:
 
