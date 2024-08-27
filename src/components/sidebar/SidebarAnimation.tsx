@@ -6,11 +6,12 @@ import TextField from '@mui/material/TextField';
 import { InputAdornment, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
-import { BezierEditor, CubicBezier } from 'ts-bezier-easing-editor';
 
 import styling from './SidebarAnimation.module.css';
 import { AnimationContext, AnimationDispatchContext } from '@/providers/AnimationProvider';
 import { KeyframesContext, KeyframesDispatchContext } from '@/providers/KeyframesProvider';
+import AnimationTiming from './widgets/AnimationTiming';
+import AnimationDirection from './widgets/AnimationDirection';
 
 const SidebarAnimation: React.FC = () => {
   const animation = React.useContext(AnimationContext);
@@ -21,9 +22,6 @@ const SidebarAnimation: React.FC = () => {
   const [name, setName] = React.useState(animation.name);
   const [duration, setDuration] = React.useState('1');
   const [iteration, setIteration] = React.useState('1');
-
-  /** This is complex enough to be it's own component */
-  const [timing, setTiming] = React.useState(animation.timing);
 
   const changeName = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -74,35 +72,21 @@ const SidebarAnimation: React.FC = () => {
     }
   };
 
-  /*
   const changeTiming = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    newTiming: string
   ) => {
-    let newTiming = e.target.value;
-    setTiming(newTiming);
-
-    if (newTiming === 'linear') {
-      animationDispatch({
-        type: 'update',
-        newAnimation: animation.clone().apply({timing: newTiming})
-      });
-    }
-  }
-
-  const bezierEdit = (bezier?: CubicBezier) => {
-    if (bezier === undefined) {
-      return;
-    }
-    if (bezier.isLinear()) {
-      setTiming('linear');
-    } else {
-      setTiming(`cubic-bezier(${bezier.x1}, ${bezier.y1}, ${bezier.x2}, ${bezier.y2})`);
-    }
     animationDispatch({
       type: 'update',
-      newAnimation: animation.clone().apply({timing: timing})
+      newAnimation: animation.clone().apply({timing: newTiming})
     });
-  }*/
+  }
+
+  const changeDirection = (newDirection: string) => {
+    animationDispatch({
+      type: 'update',
+      newAnimation: animation.clone().apply({direction: newDirection})
+    });
+  }
 
   return (
     <div className={styling.wrapper}>
@@ -129,42 +113,32 @@ const SidebarAnimation: React.FC = () => {
 
       <div className='input-row'>
         <label>Iterations:</label>
-          <ToggleButtonGroup
-            value={iteration}
-            exclusive
-            onChange={changeIteration}
-            aria-label="Iteration types"
-          >
-            <ToggleButton 
-                value='1'
-                aria-label='1'
-                size='small'>
-              <SkipNextIcon />
-            </ToggleButton>
-            <ToggleButton 
-                value='infinite'
-                aria-label='infinite'
-                size='small'>
-              <AllInclusiveIcon />
-            </ToggleButton>
-          </ToggleButtonGroup>
+        <ToggleButtonGroup
+          value={iteration}
+          exclusive
+          onChange={changeIteration}
+          aria-label="Iteration types"
+        >
+          <ToggleButton 
+              value='1'
+              aria-label='1'
+              size='small'>
+            <SkipNextIcon />
+          </ToggleButton>
+          <ToggleButton 
+              value='infinite'
+              aria-label='infinite'
+              size='small'>
+            <AllInclusiveIcon />
+          </ToggleButton>
+        </ToggleButtonGroup>
       </div>
 
-      {/* Don't add this until we figure out how to calc playhead
-      <div className='input-row'>
-        <label>Timing:</label>
-        <TextField size='small'
-                   value={timing}
-                   onChange={changeTiming}
-        />
-      </div>
+      <AnimationDirection animation={animation}
+                          onDirectionChange={changeDirection}/> 
 
-      <BezierEditor width={250} 
-                    height={250}
-                    onChange={bezierEdit}
-                    readOnly={true}
-      ></BezierEditor>*/}
-
+      <AnimationTiming animation={animation}
+                       onTimingChange={changeTiming} />
     </div>
   );
 };

@@ -5,11 +5,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 Next:
 
 * Timeline:
-  * Redesign
-  * Time labels
   * Speed mods
 * Animations:
-  * Add support for timing function changes
   * Add missing props
 * Add new animations to lib
 * Settings
@@ -22,6 +19,7 @@ Backlog:
 * SEO
 * Saving + Projects
 * Keyboard shortcuts
+* Support linear() timing functions
 
 ## Getting Started
 

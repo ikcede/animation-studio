@@ -129,6 +129,10 @@ button.MuiIconButton-root.Mui-disabled {
   }
 }
 
+.MuiInputBase-root .MuiSvgIcon-root {
+  color: var(--color-white);
+}
+
 .MuiFormLabel-root.MuiInputLabel-root {
   color: var(--color-grey);
 }

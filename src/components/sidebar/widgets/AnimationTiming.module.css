@@ -1,0 +1,9 @@
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+.number-input:global(.MuiTextField-root) {
+  max-width: 70px;
+  margin-right: 8px;
+}
