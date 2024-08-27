@@ -34,15 +34,16 @@ const Ticks: React.FC<TicksProps> = ({
   showLabels = true,
   decimalPrecision = 2,
 }) => {
+  const [ticks, setTicks] = React.useState(new Array<React.ReactElement>());
 
-  const ticks = new Array<React.ReactElement>();
   const addMajorTick = (
       ticks: React.ReactElement[],
+      keyValue: number,
       value: number,
       isStartOrEnd: boolean = false,
   ) => {
     ticks.push(
-      <div key={value}
+      <div key={keyValue}
            className={`${styling.tick} ${styling.major} `
           + (isStartOrEnd ? styling.end : '')}>
         {showLabels && (
@@ -54,28 +55,35 @@ const Ticks: React.FC<TicksProps> = ({
     )
   };
 
-  let majorCount = 0;
-  let minorCount = 0;
+  React.useEffect(() => {
+    let newTicks = new Array<React.ReactElement>();
 
-  addMajorTick(ticks, startValue, true);
-  while(majorCount < majorTicks || minorCount < minorTicks) {
-    if (minorCount >= minorTicks) {
-      addMajorTick(
-          ticks,
-          (majorCount + 1) / (majorTicks + 1)
-              * (endValue - startValue) + startValue
-      );
-      minorCount = 0;
-      majorCount++;
-    } else {
-      ticks.push(
-        <div className={`${styling.tick} ${styling.minor}`}
-             key={majorCount + ' ' + minorCount}></div>
-      );
-      minorCount++;
+    let majorCount = 0;
+    let minorCount = 0;
+
+    addMajorTick(newTicks, majorCount, startValue, true);
+    while(majorCount < majorTicks || minorCount < minorTicks) {
+      if (minorCount >= minorTicks) {
+        addMajorTick(
+            newTicks,
+            majorCount + 1,
+            (majorCount + 1) / (majorTicks + 1)
+                * (endValue - startValue) + startValue
+        );
+        minorCount = 0;
+        majorCount++;
+      } else {
+        newTicks.push(
+          <div className={`${styling.tick} ${styling.minor}`}
+              key={majorCount + ' ' + minorCount}></div>
+        );
+        minorCount++;
+      }
     }
-  }
-  addMajorTick(ticks, endValue, true);
+    addMajorTick(newTicks, majorCount + 1, endValue, true);
+
+    setTicks(newTicks);
+  }, [majorTicks, minorTicks, startValue, endValue, unit, showLabels, decimalPrecision]);
 
   return (
     <div className={styling.ticks}>
