@@ -4,7 +4,7 @@ import React from 'react';
 
 import styling from './Timeline.module.css';
 import playKeyframes from '@/util/styles/play.module.css';
-import Ticks from './Ticks';
+import Ticks from './ticks/Ticks';
 import KeyframeMark from './KeyframeMark';
 import TimelineControls from './controls/TimelineControls';
 import KeyframeControls from './controls/KeyframeControls';
