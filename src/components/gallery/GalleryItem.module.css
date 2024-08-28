@@ -75,3 +75,13 @@
   display: flex;
   gap: 8px;
 }
+
+@media (max-width: 850px) {
+  .expanded {
+    width: calc(50% - 8px);
+  }
+
+  .preview {
+    width: 100%;
+  }
+}

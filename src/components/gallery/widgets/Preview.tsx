@@ -35,7 +35,8 @@ const Preview: React.FC<PreviewProps> = ({
     <div className={`${styling.wrapper}`}>
       <style>
         {`.target-${lib.id} {
-          width: 50px; height: 50px; display: flex; background: red;
+          width: 100px; height: 100px; display: flex; background: red;
+          zoom: 50%;
         }
         
         .${styling.preview}:hover .target-${lib.id} {

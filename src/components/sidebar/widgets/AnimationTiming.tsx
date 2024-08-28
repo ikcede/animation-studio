@@ -208,7 +208,7 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
   }, []);
 
   return (
-    <div className='wrapper'>
+    <>
       <div className='input-row'>
         <label>Timing:</label>
         <ToggleButtonGroup
@@ -298,7 +298,7 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
           </Select>
         </div>
       }
-    </div>
+    </>
   )
 }
 
