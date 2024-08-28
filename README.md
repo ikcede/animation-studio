@@ -8,13 +8,14 @@ Next:
 * Add new animations to lib
 * Settings
 * Keyframe export code cleanup
+* Fix logo
+* Launch beta
 
 Backlog:
 
 * Timeline:
   * Speed mods
 * Mobile touch support -.-
-* SEO
 * Saving + Projects
 * Keyboard shortcuts
 * Support linear() timing functions

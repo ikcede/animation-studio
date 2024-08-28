@@ -12,10 +12,17 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: "Animation Studio",
-  description: "Generate and customize CSS animations",
+  description: "CSS Animation Studio to generate and customize CSS animations",
   icons: {
     icon: '/favicon.svg',
   },
+  creator: 'ikcede',
+  applicationName: 'CSS Animation Studio',
+  keywords: ['CSS', 'animation', 'Next.js', 'React'],
+  category: 'technology',
+  verification: {
+    google: 'OuhtGpBdn01qnrg4IMaMaMmKmbwrjlPlWL57xhfWa0o'
+  }
 };
 
 export default function RootLayout({
