@@ -4,17 +4,15 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Next:
 
-* Timeline:
-  * Speed mods
+* Modularize previews
 * Add new animations to lib
 * Settings
 * Keyframe export code cleanup
-* Fix bezier easing reload glitch
-* Ticks changing glitch
 
 Backlog:
 
-* Modularize previews
+* Timeline:
+  * Speed mods
 * Mobile touch support -.-
 * SEO
 * Saving + Projects

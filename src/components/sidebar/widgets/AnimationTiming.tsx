@@ -69,6 +69,8 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
   const [textSelection, setTextSelection] = React.useState('linear');
 
   const [bezier, setBezier] = React.useState(initialBezier);
+  const [readOnlyBezier, setReadOnlyBezier] = 
+      React.useState(initialBezier);
   
   const [stepValue, setStepValue] = React.useState('1');
   const [stepType, setStepType] = React.useState(stepTypes[0]);
@@ -90,6 +92,9 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
 
       if (newType === 'text') {
         onTimingChange(textSelection);
+        if (textTimingMap[textSelection] !== undefined) {
+          setReadOnlyBezier(textTimingMap[textSelection]);
+        }
       } else if (newType === 'bezier' && isBezierValid()) {
         onTimingChange(buildBezierValue());
       } else if (newType === 'step') {
@@ -105,6 +110,7 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
 
     if (textTimingMap[newSelection] !== undefined) {
       setBezier(textTimingMap[newSelection]);
+      setReadOnlyBezier(textTimingMap[newSelection]);
     }
   };
 
@@ -150,6 +156,13 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
     return 'steps(' + parseInt(stepValue) + ', ' + stepType + ')';
   }, [stepValue, stepType]);
 
+  const getBezier = React.useCallback(() => {
+    if (type !== 'bezier') {
+      return CubicBezier.fromStringArray(readOnlyBezier) || undefined;
+    }
+    return CubicBezier.fromStringArray(bezier) || undefined;
+  }, [bezier, readOnlyBezier, type]);
+
   /// Load the correct animation timing type value
   React.useEffect(() => {
     if (animation !== undefined) {
@@ -159,18 +172,20 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
       let bezierMatch = bezierRegex.exec(animation.timing);
       let stepMatch = stepRegex.exec(animation.timing);
 
+      // Check for cubic-bezier(...)
       if (bezierMatch && bezierMatch[1] !== undefined) {
         let values = bezierMatch[1].split(',');
 
         if (values.length == 4) {
           for (let i = 0; i < 4; i++) {
             bezier[i] = values[i].trim();
-            setBezier([...bezier]);
-            setType(animationTypes[1].type);
           }
+          setBezier([...bezier]);
+          setType(animationTypes[1].type);
         }
       }
 
+      // Check for steps(...)
       else if (stepMatch && stepMatch[1] !== undefined) {
         let values = stepMatch[1].split(',');
 
@@ -186,6 +201,7 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
         setTextSelection(animation.timing);
         if (textTimingMap[animation.timing] !== undefined) {
           setBezier(textTimingMap[animation.timing]);
+          setReadOnlyBezier(textTimingMap[animation.timing]);
         }
       }
     }
@@ -250,8 +266,8 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
       }
 
       {(type === 'text' || type === 'bezier') &&
-        <BezierEditor 
-            bezier={CubicBezier.fromStringArray(bezier) || undefined}
+        <BezierEditor
+            bezier={getBezier()}
             width={250}
             height={250}
             onChange={bezierEdit}
