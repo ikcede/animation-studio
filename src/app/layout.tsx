@@ -12,7 +12,7 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: "Animation Studio",
-  description: "CSS Animation Studio to generate and customize CSS animations",
+  description: "Generate CSS animations! Browse through a library of awesome CSS animations and customize them to fit your webpage!",
   icons: {
     icon: '/favicon.svg',
   },
