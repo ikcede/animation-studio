@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react';
-import { targetHtml, targetCss } from '@/data/defaultTargets';
 
 export const TargetElementContext = 
     React.createContext<TargetElement>({html: '', css: ''});
@@ -49,10 +48,6 @@ const TargetElementProvider: React.FC<TargetElementProviderProps> =
       dispatch({
         el: {html: props.html, css: props.css},
       });
-    } else {
-      dispatch({
-        el: {html: targetHtml[1], css: targetCss[0]}
-      })
     }
   }, [props]);
 

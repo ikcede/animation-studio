@@ -3,7 +3,6 @@ import EditorProvider from "@/providers/EditorProvider";
 import AnimationLib, { buildFromDefaultLib } from '@/model/AnimationLib';
 import data from '@/data/animationData';
 import React from 'react';
-import { targetHtml } from '@/data/defaultTargets';
 
 export default function Layout({
   children,
@@ -19,7 +18,6 @@ export default function Layout({
 
     if (id === 'custom') {
       let lib = buildFromDefaultLib();
-      lib.targetHtml = targetHtml[1];
       return lib;
     } 
     

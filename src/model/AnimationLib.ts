@@ -27,8 +27,8 @@ export const buildFromDefaultLib =
     tags: [],
     animation: '',
     keyframes: '',
-    targetHtml: '',
-    targetCss: ''
+    targetHtml: '<div class="target">Animation Text</div>',
+    targetCss: '.target {}'
   }, lib ?? {});
 }
 
