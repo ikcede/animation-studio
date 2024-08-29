@@ -64,7 +64,7 @@ const GalleryItem: React.FC<GalleryItemProps> = ({
       </div>
       <div className={styling.preview}>
         <AnimationPreview animation={animation} 
-                          keyframesCss={keyframesCss}
+                          allKeyframes={[keyframesCss]}
                           isItemPreview
                           itemPreviewId={lib.id}
                           targetHtml={lib.targetHtml}

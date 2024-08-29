@@ -13,7 +13,6 @@ Next:
 Backlog:
 
 * Clean up preview logic
-  * Move gen keyframes all into preview
 * Timeline:
   * Speed mods
 * Mobile touch support -.-

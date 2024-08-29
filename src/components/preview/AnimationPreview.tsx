@@ -5,6 +5,7 @@ import { CustomAnimation } from '@/model';
 export interface AnimationPreviewProps {
   animation: CustomAnimation,
   keyframesCss?: string,
+  allKeyframes?: string[],
   isItemPreview?: boolean,
   itemPreviewId?: number,
   targetHtml?: string,
@@ -14,7 +15,7 @@ export interface AnimationPreviewProps {
 
 const AnimationPreview: React.FC<AnimationPreviewProps> = ({
   animation,
-  keyframesCss,
+  allKeyframes = [],
   isItemPreview = false,
   itemPreviewId = 0,
   targetHtml,
@@ -47,12 +48,15 @@ const AnimationPreview: React.FC<AnimationPreviewProps> = ({
          }
          style={{backgroundColor: backgroundColor || undefined}}>
       
+      {allKeyframes.map((keyframesCssText, index) => (
+        <style key={index}>{keyframesCssText}</style>
+      ))}
+
       {isItemPreview && (
         <>
           <style>
             {`.preview-${itemPreviewId} {\n${targetCss}\n}`}
           </style>
-          <style>{keyframesCss || ''}</style>
           <style>
             {`.preview-${itemPreviewId}:hover .target {
               ${animation.toCSSString()}

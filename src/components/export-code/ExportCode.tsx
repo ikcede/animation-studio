@@ -11,16 +11,16 @@ export interface ExportCodeProps {
   animationCss?: string,
 }
 
+const formatOptions = {
+  indent_size: 2
+};
+
 const ExportCode: React.FC<ExportCodeProps> = ({
   keyframesCss = '',
   animationCss = '',
 }) => {
   const [keyframesCopied, setKeyframesCopied] = React.useState(false);
   const [animationCopied, setAnimationCopied] = React.useState(false);
-
-  const formatOptions = {
-    indent_size: 2
-  };
 
   const formattedKeyframes = React.useMemo(() => {
     return beautify.css(keyframesCss, formatOptions);

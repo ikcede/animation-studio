@@ -1,6 +1,7 @@
 import React from 'react';
 import round from '@/util/round';
 import styling from './Ticks.module.css';
+import { start } from 'repl';
 
 export interface TicksProps {
   /** Number of major ticks between the two endpoints */
@@ -62,7 +63,20 @@ const Ticks: React.FC<TicksProps> = ({
 }) => {
   const [ticks, setTicks] = React.useState(new Array<React.ReactElement>());
 
-  const buildTicks = (): React.ReactElement[] => {
+  /** Helper to check if a tick is a major or minor tick */
+  const _isMajor = React.useCallback((tickNum: number) => {
+    return tickNum % (minorTicks + 1) == 0;
+  }, [minorTicks]);
+
+  /** Helper to check if the tick is the first or last */
+  const _isEndpoint = React.useCallback((
+    tickNum: number, totalTicks: number
+  ) => {
+    return tickNum == 0 || tickNum == totalTicks - 1;
+  }, []);
+
+  /** Builds an array of <Ticks> */
+  const buildTicks = React.useCallback((): React.ReactElement[] => {
     let newTicks = new Array<React.ReactElement>();
     let totalTicks = (majorTicks + 1) * minorTicks + majorTicks + 2;
 
@@ -87,21 +101,6 @@ const Ticks: React.FC<TicksProps> = ({
       tickNum++;
     }
     return newTicks;
-  };
-
-  /** Helper to check if a tick is a major or minor tick */
-  const _isMajor = (tickNum: number) => {
-    return tickNum % (minorTicks + 1) == 0;
-  }
-
-  /** Helper to check if the tick is the first or last */
-  const _isEndpoint = (tickNum: number, totalTicks: number) => {
-    return tickNum == 0 || tickNum == totalTicks - 1;
-  }
-
-  /** Rebuild ticks any time one of the props changes */
-  React.useEffect(() => {
-    setTicks(buildTicks());
   }, [
     majorTicks,
     minorTicks,
@@ -109,8 +108,15 @@ const Ticks: React.FC<TicksProps> = ({
     endValue,
     unit,
     showLabels,
-    decimalPrecision
+    decimalPrecision,
+    _isMajor,
+    _isEndpoint,
   ]);
+
+  /** Rebuild ticks any time one of the props changes */
+  React.useEffect(() => {
+    setTicks(buildTicks());
+  }, [buildTicks]);
 
   return (
     <div className={styling.ticks}>

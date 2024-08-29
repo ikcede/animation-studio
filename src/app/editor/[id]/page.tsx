@@ -15,22 +15,14 @@ export default function Page() {
   const animation = React.useContext(AnimationContext);
   const keyframes = React.useContext(KeyframesContext);
   const targetElement = React.useContext(TargetElementContext);
-  const [styleText, setStyleText] = React.useState('');
+  const [allKeyframes, setAllKeyframes] = React.useState('');
 
   React.useEffect(() => {
-    if (keyframes.keyframes == null) {
-      setStyleText('');
-      return;
-    }
-    let clone = keyframes.clone();
-    clone.keyframes!.name = clone.keyframes!.name + '2';
-    setStyleText(
-      keyframes.keyframes.cssText + '\n' + clone.keyframes!.cssText);
+    setAllKeyframes(keyframes.toStringWithClone());
   }, [keyframes]);
 
   return (
     <div className={styling.App}>
-      <style>{styleText}</style>
       <div className={styling.header}>
         <AppBar animationName={animation.name}></AppBar>
       </div>
@@ -38,6 +30,7 @@ export default function Page() {
         <div className={styling.preview}>
           <AnimationPreview isItemPreview={false}
                             animation={animation}
+                            allKeyframes={[allKeyframes]}
                             targetHtml={targetElement.html} 
                             targetCss={targetElement.css} />
         </div>

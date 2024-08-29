@@ -15,11 +15,24 @@ export default class CustomKeyframes {
     }
   }
 
-  clone() {
+  clone(): CustomKeyframes {
+    return new CustomKeyframes(this.toString());
+  }
+
+  toString(): string {
     if (this.keyframes == null) {
-      return new CustomKeyframes(this.keyframeString);
+      return this.keyframeString;
     }
-    return new CustomKeyframes(this.keyframes.cssText);
+    return this.keyframes.cssText;
+  }
+
+  toStringWithClone(): string {
+    let clone = this.clone();
+    if (clone.keyframes !== null) {
+      clone.keyframes.name += '2';
+      return this.toString() + '\n' + clone.toString();
+    }
+    return this.toString() + '\n/* Clone failed */';
   }
 
   static getDefaultKeyframes = (): string => {
