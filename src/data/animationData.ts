@@ -87,6 +87,74 @@ const animations = [
     targetHtml: '<div class="target"></div>',
     targetCss: '.target {width: 100px; height: 100px; display: flex; background: red}',
   },
+  {
+    id: 5,
+    name: 'Scale in',
+    description: 'Scale in entrance animation',
+    tags: [
+      'Enter'
+    ],
+    animation: 'animation-name: scale-in; animation-duration: 0.5s;',
+    keyframes: '@keyframes scale-in {0% { transform: scale(0); } 100% { transform: scale(1); }}',
+    targetHtml: '<div class="target"></div>',
+    targetCss: '.target {width: 100px; height: 100px; display: flex; background: rgb(0, 127, 227)}',
+    variants: [
+      {
+        name: 'center',
+        keyframes: '@keyframes scale-in-center {0% { transform: scale(0); } 100% { transform: scale(1); }}',
+      },
+      {
+        name: 'left',
+        keyframes: '@keyframes scale-in-left {0% { transform: scale(0); transform-origin: 0% 50%; } 100% { transform: scale(1); transform-origin: 0% 50%; }}',
+      },
+      {
+        name: 'right',
+        keyframes: '@keyframes scale-in-right {0% { transform: scale(0); transform-origin: 100% 50%; } 100% { transform: scale(1); transform-origin: 100% 50%; }}',
+      },
+      {
+        name: 'top',
+        keyframes: '@keyframes scale-in-top {0% { transform: scale(0); transform-origin: 50% 0%; } 100% { transform: scale(1); transform-origin: 50% 0%; }}',
+      },
+      {
+        name: 'bottom',
+        keyframes: '@keyframes scale-in-bottom {0% { transform: scale(0); transform-origin: 50% 100%; } 100% { transform: scale(1); transform-origin: 50% 100%; }}',
+      },
+    ]
+  },
+  {
+    id: 6,
+    name: 'Scale out',
+    description: 'Scale out exit animation',
+    tags: [
+      'Enter'
+    ],
+    animation: 'animation-name: scale-out; animation-duration: 0.5s;',
+    keyframes: '@keyframes scale-out {0% { transform: scale(1); } 100% { transform: scale(0); }}',
+    targetHtml: '<div class="target"></div>',
+    targetCss: '.target {width: 100px; height: 100px; display: flex; background: rgb(0, 127, 227)}',
+    variants: [
+      {
+        name: 'center',
+        keyframes: '@keyframes scale-out-center {0% { transform: scale(1); } 100% { transform: scale(0); }}',
+      },
+      {
+        name: 'left',
+        keyframes: '@keyframes scale-out-left {0% { transform: scale(1); transform-origin: 0% 50%; } 100% { transform: scale(0); transform-origin: 0% 50%; }}',
+      },
+      {
+        name: 'right',
+        keyframes: '@keyframes scale-out-right {0% { transform: scale(1); transform-origin: 100% 50%; } 100% { transform: scale(0); transform-origin: 100% 50%; }}',
+      },
+      {
+        name: 'top',
+        keyframes: '@keyframes scale-out-top {0% { transform: scale(1); transform-origin: 50% 0%; } 100% { transform: scale(0); transform-origin: 50% 0%; }}',
+      },
+      {
+        name: 'bottom',
+        keyframes: '@keyframes scale-out-bottom {0% { transform: scale(1); transform-origin: 50% 100%; } 100% { transform: scale(0); transform-origin: 50% 100%; }}',
+      },
+    ]
+  },
 ];
 
 const data = (new Array<AnimationLib>()).concat([...animations]);

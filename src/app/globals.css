@@ -293,7 +293,6 @@ span.MuiTabs-indicator {
   }
 }
 
-.MuiDialogTitle-root {
-  background: var(--color-background);
-  color: var(--color-white);
+.MuiPaper-root.MuiDialog-paper {
+  animation: slit-in-horizontal 0.5s ease-out both;
 }

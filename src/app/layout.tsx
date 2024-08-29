@@ -3,7 +3,8 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import MuiThemeProvider from "@/providers/ThemeProvider";
 import { Roboto } from "next/font/google";
-import "./globals.css";
+import './globals.css';
+import './global-keyframes.css';
 
 const roboto = Roboto({ 
   subsets: ['latin'], 
