@@ -10,11 +10,13 @@ import Sidebar from '@/components/sidebar/Sidebar';
 import { KeyframesContext } from '@/providers/KeyframesProvider';
 import { AnimationContext } from '@/providers/AnimationProvider';
 import { TargetElementContext } from '@/providers/TargetElementProvider';
+import { EditorSettingsContext } from '@/providers/EditorSettingsProvider';
 
 export default function Page() {
   const animation = React.useContext(AnimationContext);
   const keyframes = React.useContext(KeyframesContext);
   const targetElement = React.useContext(TargetElementContext);
+  const settings = React.useContext(EditorSettingsContext);
   const [allKeyframes, setAllKeyframes] = React.useState('');
 
   React.useEffect(() => {
@@ -32,7 +34,8 @@ export default function Page() {
                             animation={animation}
                             allKeyframes={[allKeyframes]}
                             targetHtml={targetElement.html} 
-                            targetCss={targetElement.css} />
+                            targetCss={targetElement.css}
+                            backgroundColor={settings.backgroundColor} />
         </div>
         <div>
           <Timeline></Timeline>

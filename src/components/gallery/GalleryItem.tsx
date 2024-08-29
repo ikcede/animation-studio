@@ -69,8 +69,6 @@ const GalleryItem: React.FC<GalleryItemProps> = ({
                           itemPreviewId={lib.id}
                           targetHtml={lib.targetHtml}
                           targetCss={lib.targetCss} />
-        {/*<Preview lib={lib}
-                 selectedVariant={selectedVariant}></Preview>*/}
       </div>
       <div className={styling.options}>
         <div>

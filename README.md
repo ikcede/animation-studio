@@ -5,7 +5,6 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 Next:
 
 * Add new animations to lib
-* Settings
 * Keyframe export code cleanup
 * Fix logo
 * Launch beta

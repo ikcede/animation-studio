@@ -1,7 +1,9 @@
 import React from 'react'
 import ExportCode from '@/components/export-code/ExportCode';
 import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
+import styling from './Dialog.module.css'
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 export interface ExportCodeDialogProps {
   open: boolean,
@@ -21,13 +23,21 @@ const ExportCodeDialog: React.FC<ExportCodeDialogProps> = ({
   };
 
   return (
-    <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Animation Code</DialogTitle>
-      <div style={{
-        margin: '0 16px'
-      }}>
-        <ExportCode animationCss={animationCss}
-                    keyframesCss={keyframesCss} />
+    <Dialog onClose={handleClose}
+            open={open}
+            fullWidth
+            maxWidth={'sm'}>
+      <div className={styling.wrapper}>
+        <div className={styling.header}>
+          <h2>Animation Code</h2>
+          <IconButton onClick={() => handleClose()}>
+            <CloseIcon />
+          </IconButton>
+        </div>
+        <div className={styling.row}>
+          <ExportCode animationCss={animationCss}
+                      keyframesCss={keyframesCss} />
+        </div>
       </div>
     </Dialog>
   );
