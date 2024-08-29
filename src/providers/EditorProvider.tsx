@@ -7,6 +7,7 @@ import AnimationProvider from "./AnimationProvider";
 import KeyframeSelectionProvider from "./KeyframeSelectionProvider";
 import KeyframesProvider from "./KeyframesProvider";
 import TargetElementProvider from "./TargetElementProvider";
+import EditorSettingsProvider from "./EditorSettingsProvider";
 import { CustomAnimation } from "@/model/CustomAnimation";
 import { CustomKeyframes } from "@/model";
 
@@ -17,7 +18,6 @@ export interface EditorProviderProps extends React.PropsWithChildren {
 }
 
 const EditorProvider: React.FC<EditorProviderProps> = (props) => {
-
   const [html, setHtml] = React.useState('<div class="target"></div>');
   const [css, setCSS] = React.useState('.target {\n  \n}');
   const [keyframes, setKeyframes] = React.useState(
@@ -53,17 +53,19 @@ const EditorProvider: React.FC<EditorProviderProps> = (props) => {
   }, [props.animationLib, props.variant]);
 
   return (
-    <AnimationProvider animation={animation}>
-      <KeyframesProvider keyframes={keyframes}>
-        <KeyframeSelectionProvider>
-          <TargetElementProvider
-              html={html}
-              css={css}>
-            {props.children}
-          </TargetElementProvider>
-        </KeyframeSelectionProvider>
-      </KeyframesProvider>
-    </AnimationProvider>
+    <EditorSettingsProvider>
+      <AnimationProvider animation={animation}>
+        <KeyframesProvider keyframes={keyframes}>
+          <KeyframeSelectionProvider>
+            <TargetElementProvider
+                html={html}
+                css={css}>
+              {props.children}
+            </TargetElementProvider>
+          </KeyframeSelectionProvider>
+        </KeyframesProvider>
+      </AnimationProvider>
+    </EditorSettingsProvider>
   );
 };
 
