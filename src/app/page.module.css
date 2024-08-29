@@ -26,13 +26,13 @@
     var(--color-blue) 50%,
     var(--color-green) 80%
   );
-  background-size: auto auto;
   background-size: 200% auto;
   background-clip: text;
   animation: text-color-shift 2s linear alternate infinite;
 }
 
 @keyframes text-color-shift {
+  0% { }
   100% {
     background-position: 100% center;
   }

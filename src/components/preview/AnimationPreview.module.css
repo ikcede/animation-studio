@@ -27,4 +27,5 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  perspective: 1000px;
 }

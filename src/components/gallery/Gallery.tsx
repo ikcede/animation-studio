@@ -7,6 +7,13 @@ import data from '@/data/animationData';
 import FilterBar from './widgets/FilterBar';
 import AnimationLib from '@/model/AnimationLib';
 
+const allFilters = [
+  'All',
+  'Enter',
+  'Exit',
+  'Text',
+];
+
 const Gallery: React.FC = () => {
   const [activeFilter, setActiveFilter] = React.useState('All');
 
@@ -24,12 +31,6 @@ const Gallery: React.FC = () => {
     return false;
   }, [activeFilter]);
 
-  const filters = [
-    'All',
-    'Enter',
-    'Exit',
-  ];
-
   return (
     <div className={styling.wrapper}>
       <div className={styling.inner}>
@@ -37,7 +38,7 @@ const Gallery: React.FC = () => {
           <h1>Animation Library</h1>
         </div>
         <div className={styling.controls}>
-          <FilterBar filters={filters}
+          <FilterBar filters={allFilters}
                      onFilterSelect={changeFilter}></FilterBar>
         </div>
         <div className={styling.view}>

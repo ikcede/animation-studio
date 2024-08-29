@@ -4,13 +4,14 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Next:
 
-* Add new animations to lib
 * Keyframe export code cleanup
+* Output to animation shorthand
 * Fix logo
 * Launch beta
 
 Backlog:
 
+* Add new animations to lib
 * Clean up preview logic
 * Timeline:
   * Speed mods

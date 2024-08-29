@@ -35,7 +35,8 @@ export default function Layout({
       redirect('/editor/custom');
     }
 
-    return buildFromDefaultLib(data[idValue - 1]);
+    let libById = data.find((e) => e.id === idValue);
+    return buildFromDefaultLib(libById);
   }, [params]);
 
   const variant: number = React.useMemo(() => {
