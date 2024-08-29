@@ -10,7 +10,7 @@ const animations = [
     tags: [
       'Enter'
     ],
-    animation: 'animation-name: slide-in;',
+    animation: 'animation-name: slide-in; animation-duration: 0.5s;',
     keyframes: '@keyframes slide-in {0% { transform: translateX(-1500px); } 100% { transform: translateX(0px); }}',
     targetHtml: '<div class="target"></div>',
     targetCss: '.target {width: 100px; height: 100px; display: flex; background: red}',
@@ -40,7 +40,7 @@ const animations = [
     tags: [
       'Exit'
     ],
-    animation: 'animation-name: slide-out;',
+    animation: 'animation-name: slide-out; animation-duration: 0.5s;',
     keyframes: '@keyframes slide-out {100% { transform: translateX(-1500px); } 0% { transform: translateX(0px); }}',
     targetHtml: '<div class="target"></div>',
     targetCss: '.target {width: 100px; height: 100px; display: flex; background: red}',
