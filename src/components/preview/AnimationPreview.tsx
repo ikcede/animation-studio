@@ -1,35 +1,80 @@
 import React from 'react';
 import styling from './AnimationPreview.module.css';
-import { AnimationContext } from '@/providers/AnimationProvider';
-import { TargetElementContext } from '@/providers/TargetElementProvider';
+import { CustomAnimation } from '@/model';
 
-const AnimationPreview: React.FC = () => {
-  const animation = React.useContext(AnimationContext);
-  const targetElement = React.useContext(TargetElementContext);
+export interface AnimationPreviewProps {
+  animation: CustomAnimation,
+  keyframesCss?: string,
+  isItemPreview?: boolean,
+  itemPreviewId?: number,
+  targetHtml?: string,
+  targetCss?: string,
+  backgroundColor?: string,
+}
 
+const AnimationPreview: React.FC<AnimationPreviewProps> = ({
+  animation,
+  keyframesCss,
+  isItemPreview = false,
+  itemPreviewId = 0,
+  targetHtml,
+  targetCss,
+  backgroundColor,
+}) => {
   const wrapper = React.useRef<HTMLDivElement>(null);
-  const [styleText, setStyleText] = React.useState(targetElement.css);
   const [animationCss, setAnimationCss] = 
       React.useState(animation.toCSSString({useStartTime: true}));
 
   React.useEffect(() => {
     let node = wrapper.current;
-    if (node !== null && targetElement.html.length > 0) {
-      node.innerHTML = targetElement.html;
+    if (
+      node !== null && 
+      targetHtml !== undefined && 
+      targetHtml.length > 0
+    ) {
+      node.innerHTML = targetHtml;
     }
-
-    setStyleText(targetElement.css);
-  }, [targetElement.html, targetElement.css]);
+  }, [targetHtml]);
 
   React.useEffect(() => {
     setAnimationCss(animation.toCSSString({useStartTime: true}));
   }, [animation]);
 
   return (
-    <div className={styling.wrapper}>
-      <style>{styleText}</style>
-      <style>{`.target {${animationCss}\n}`}</style>
-      <div className={styling['target-wrapper']} ref={wrapper}>
+    <div className={
+           (isItemPreview ? styling['wrapper-item'] : styling.wrapper) + 
+           ' preview-' + itemPreviewId
+         }
+         style={{backgroundColor: backgroundColor || undefined}}>
+      
+      {isItemPreview && (
+        <>
+          <style>
+            {`.preview-${itemPreviewId} {\n${targetCss}\n}`}
+          </style>
+          <style>{keyframesCss || ''}</style>
+          <style>
+            {`.preview-${itemPreviewId}:hover .target {
+              ${animation.toCSSString()}
+              animation-iteration-count: 1;
+              animation-play-state: running;
+              animation-fill-mode: both;
+              animation-delay: 0.2s;
+            }`}
+          </style>
+        </>
+      )}
+      
+      {!isItemPreview && (
+        <>
+          <style>{targetCss}</style>
+          <style>{`.target {\n${animationCss}\n}`}</style>
+        </>
+      )}
+
+      <div className={styling['target-wrapper']}
+           ref={wrapper}
+           style={{zoom: isItemPreview ? '50%' : undefined}}>
         <div className='target'></div>
       </div>
     </div>

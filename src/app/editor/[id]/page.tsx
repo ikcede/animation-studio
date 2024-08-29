@@ -9,10 +9,12 @@ import Sidebar from '@/components/sidebar/Sidebar';
 
 import { KeyframesContext } from '@/providers/KeyframesProvider';
 import { AnimationContext } from '@/providers/AnimationProvider';
+import { TargetElementContext } from '@/providers/TargetElementProvider';
 
 export default function Page() {
   const animation = React.useContext(AnimationContext);
   const keyframes = React.useContext(KeyframesContext);
+  const targetElement = React.useContext(TargetElementContext);
   const [styleText, setStyleText] = React.useState('');
 
   React.useEffect(() => {
@@ -34,7 +36,10 @@ export default function Page() {
       </div>
       <main className={styling.main}>
         <div className={styling.preview}>
-          <AnimationPreview></AnimationPreview>
+          <AnimationPreview isItemPreview={false}
+                            animation={animation}
+                            targetHtml={targetElement.html} 
+                            targetCss={targetElement.css} />
         </div>
         <div>
           <Timeline></Timeline>

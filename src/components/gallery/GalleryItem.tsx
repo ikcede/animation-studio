@@ -2,12 +2,12 @@ import React from 'react';
 import styling from './GalleryItem.module.css';
 import AnimationLib, { getLibKeyframes } from '@/model/AnimationLib';
 import Link from 'next/link';
-import Preview from './widgets/Preview';
 import { IconButton, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CodeIcon from '@mui/icons-material/Code';
 import ExportCodeDialog from '@/components/dialog/ExportCodeDialog';
-import { CustomAnimation, CustomKeyframes } from '@/model';
+import { CustomAnimation } from '@/model/CustomAnimation';
+import AnimationPreview from '@/components/preview/AnimationPreview';
 
 export interface GalleryItemProps {
   lib: AnimationLib,
@@ -20,6 +20,7 @@ const GalleryItem: React.FC<GalleryItemProps> = ({
 }) => {
   const [codeOpen, setCodeOpen] = React.useState(false);
   const [variant, setVariant] = React.useState<string>('0');
+  const [animation, setAnimation] = React.useState(new CustomAnimation());
   const [animationCss, setAnimationCss] = React.useState('');
   const [keyframesCss, setKeyframesCss] = React.useState('');
 
@@ -48,6 +49,7 @@ const GalleryItem: React.FC<GalleryItemProps> = ({
     if (lib.variants && lib.variants[selectedVariant]) {
       animation.setVariant(lib.variants[selectedVariant].name);
     }
+    setAnimation(animation);
     setAnimationCss(`.target {\n  ${animation.toCSSString()}\n}`);
   }, [lib, selectedVariant]);
 
@@ -61,8 +63,14 @@ const GalleryItem: React.FC<GalleryItemProps> = ({
         <Link href={'/editor/' + lib.id}>{lib.name}</Link>
       </div>
       <div className={styling.preview}>
-        <Preview lib={lib}
-                 selectedVariant={selectedVariant}></Preview>
+        <AnimationPreview animation={animation} 
+                          keyframesCss={keyframesCss}
+                          isItemPreview
+                          itemPreviewId={lib.id}
+                          targetHtml={lib.targetHtml}
+                          targetCss={lib.targetCss} />
+        {/*<Preview lib={lib}
+                 selectedVariant={selectedVariant}></Preview>*/}
       </div>
       <div className={styling.options}>
         <div>

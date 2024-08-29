@@ -4,7 +4,6 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Next:
 
-* Modularize previews
 * Add new animations to lib
 * Settings
 * Keyframe export code cleanup
@@ -13,6 +12,8 @@ Next:
 
 Backlog:
 
+* Clean up preview logic
+  * Move gen keyframes all into preview
 * Timeline:
   * Speed mods
 * Mobile touch support -.-
