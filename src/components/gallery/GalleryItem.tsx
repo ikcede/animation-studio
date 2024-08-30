@@ -50,7 +50,7 @@ const GalleryItem: React.FC<GalleryItemProps> = ({
       animation.setVariant(lib.variants[selectedVariant].name);
     }
     setAnimation(animation);
-    setAnimationCss(`.target {\n  ${animation.toCSSString()}\n}`);
+    setAnimationCss(`.target {\n  ${animation.toCSSShorthand()}\n}`);
   }, [lib, selectedVariant]);
 
   React.useEffect(() => {

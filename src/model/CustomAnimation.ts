@@ -13,16 +13,31 @@ export interface AnimationDetails {
   ended?: boolean,
 }
 
+/** 
+ * Default values for the CSS animation property
+ * 
+ * Exported animation code is compared against these values to
+ * shorten output.
+ */
+const defaultValues = {
+  duration: 0,
+  timing: 'ease',
+  delay: 0,
+  iterationCount: 1,
+  direction: 'normal',
+  fillMode: 'none',
+};
+
 export class CustomAnimation implements AnimationDetails {
   name: string = 'default-animation';
   duration: number = 1;
   playState: string = 'paused';
-  startTime: number = 0;
-  initialDelay: number = 0;
-  iterationCount: number | 'infinite' = 1;
+  startTime: number = defaultValues.delay;
+  initialDelay: number = defaultValues.delay;
+  iterationCount: number | 'infinite' = defaultValues.iterationCount;
   timing: string = 'linear';
-  fillMode: string = 'forwards';
-  direction: string = 'forwards';
+  fillMode: string = defaultValues.fillMode;
+  direction: string = defaultValues.direction;
   useClone: boolean = false;
   ended: boolean = false;
 
@@ -175,7 +190,10 @@ export class CustomAnimation implements AnimationDetails {
     }
   }
 
-  toCSSString(options?: {name?: string, useStartTime?: boolean}) {
+  toCSSString(options?: {
+      name?: string, 
+      useStartTime?: boolean
+  }): string {
     let cssString = `animation-name: ${this._getName(options?.name)};
   animation-duration: ${this.duration}s;
   animation-play-state: ${this.playState};
@@ -190,6 +208,40 @@ export class CustomAnimation implements AnimationDetails {
       cssString += `\n  animation-delay: ${this.initialDelay}s;`;
     }
     return cssString;
+  }
+
+  toCSSShorthand(options?: {
+      name?: string,
+      useStartTime?: boolean
+  }): string {
+    let delay = options?.useStartTime ? -this.startTime : this.initialDelay;
+    let cssString = `animation: ${this._getName(options?.name)}`;
+    
+    if (this.duration !== defaultValues.duration) {
+      cssString += ' ' + this.duration + 's';
+    }
+
+    if (this.timing !== defaultValues.timing) {
+      cssString += ' ' + this.timing;
+    }
+
+    if (delay !== defaultValues.delay) {
+      cssString += ' ' + delay + 's';
+    }
+
+    if (this.iterationCount !== defaultValues.iterationCount) {
+      cssString += ' ' + this.iterationCount;
+    }
+
+    if (this.direction !== defaultValues.direction) {
+      cssString += ' ' + this.direction;
+    }
+
+    if (this.fillMode !== defaultValues.fillMode) {
+      cssString += ' ' + this.fillMode;
+    }
+
+    return cssString + ';';
   }
 
 }

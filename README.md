@@ -15,12 +15,13 @@ Since this is a project I built for fun in about a month, I don't intend to full
 Next:
 
 * Keyframe export code cleanup
-* Output to animation shorthand
+* Get rid of keyframe blur editing
 * Launch beta
 
 Backlog:
 
 * Add new animations to lib
+* Clean up longform CSS string outputs
 * Clean up preview logic
 * Timeline:
   * Speed mods

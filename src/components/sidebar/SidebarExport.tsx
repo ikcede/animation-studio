@@ -9,7 +9,7 @@ const SidebarExport: React.FC = () => {
 
   const animationCss = React.useMemo(() => {
     return `.target {
-  ${animation.toCSSString({name: animation.name, useStartTime: false})}
+  ${animation.toCSSShorthand({name: animation.name, useStartTime: false})}
 }`;
   }, [animation]);
 
