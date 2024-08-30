@@ -14,7 +14,8 @@ const SidebarExport: React.FC = () => {
   }, [animation]);
 
   const keyframeCss = React.useMemo(() => {
-    return keyframes.keyframes?.cssText ?? '';
+    let sortedKeyframes = keyframes.toSorted();
+    return sortedKeyframes.toString();
   }, [keyframes]);
 
   return (

@@ -14,7 +14,6 @@ Since this is a project I built for fun in about a month, I don't intend to full
 
 Next:
 
-* Keyframe export code cleanup
 * Get rid of keyframe blur editing
 * Launch beta
 
@@ -29,6 +28,7 @@ Backlog:
 * Saving + Projects
 * Keyboard shortcuts
 * Support linear() timing functions
+* Support composite keyframes and animations
 
 ## Getting Started
 

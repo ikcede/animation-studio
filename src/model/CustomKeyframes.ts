@@ -35,6 +35,32 @@ export default class CustomKeyframes {
     return this.toString() + '\n/* Clone failed */';
   }
 
+  toSorted(): CustomKeyframes {
+    let newKeyframes = this.clone();
+    if (newKeyframes.keyframes == null) {
+      return newKeyframes;
+    }
+
+    let rules = new Array<[number, CSSRule]>();
+    for (let i = 0; i < newKeyframes.keyframes.cssRules.length; i++) {
+      let rule = newKeyframes.keyframes.cssRules[i];
+      rules.push([
+          parseFloat(rule.cssText.substring(0, rule.cssText.indexOf('%'))),
+          rule
+      ]);
+    }
+    rules.sort((a, b) => a[0] - b[0]);
+
+    for(let i = 0; i < rules.length; i++) {
+      newKeyframes.keyframes.deleteRule(rules[i][0] + '%');
+      if (!rules[i][1].cssText.match(/\% \{ \}/)) {
+        newKeyframes.keyframes.appendRule(rules[i][1].cssText);
+      }
+    }
+    newKeyframes.keyframeString = newKeyframes.keyframes.cssText;
+    return newKeyframes;
+  }
+
   static getDefaultKeyframes = (): string => {
     return `
       @keyframes default-animation {
