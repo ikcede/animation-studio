@@ -1,6 +1,6 @@
 import React from 'react';
 import styling from './AnimationPreview.module.css';
-import { CustomAnimation } from '@/model';
+import { CustomAnimation } from '@/model/CustomAnimation';
 
 export interface AnimationPreviewProps {
   animation: CustomAnimation;

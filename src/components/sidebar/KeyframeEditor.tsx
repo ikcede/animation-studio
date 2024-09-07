@@ -84,6 +84,7 @@ const KeyframeEditor: React.FC = () => {
   ) => {
     styles.styles[index].val = e.target.value;
     updateStyles(styles.styles);
+    saveStyles();
   };
 
   const setStyleProperty = (
@@ -92,6 +93,7 @@ const KeyframeEditor: React.FC = () => {
   ) => {
     styles.styles[index].prop = e.target.value;
     updateStyles(styles.styles);
+    saveStyles();
   };
 
   React.useEffect(() => {
@@ -115,7 +117,7 @@ const KeyframeEditor: React.FC = () => {
       styles.updateWithStyle(rule.style);
       updateStyles(styles.styles);
     }
-  }, [keyframes]);
+  }, []);
 
   return (
     <div className={styling.editor}>
@@ -135,7 +137,6 @@ const KeyframeEditor: React.FC = () => {
                   placeholder="Property"
                   aria-label="Property"
                   autoComplete="off"
-                  onBlur={(e) => saveStyles()}
                   onChange={(e) => setStyleProperty(e, index)}
                 />
               )}
@@ -147,7 +148,6 @@ const KeyframeEditor: React.FC = () => {
               aria-label="Value"
               autoComplete="off"
               value={style.val}
-              onBlur={(e) => saveStyles()}
               onChange={(e) => setStyleValue(e, index)}
             />
             <IconButton

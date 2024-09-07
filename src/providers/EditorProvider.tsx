@@ -12,7 +12,7 @@ import KeyframesProvider from './KeyframesProvider';
 import TargetElementProvider from './TargetElementProvider';
 import EditorSettingsProvider from './EditorSettingsProvider';
 import { CustomAnimation } from '@/model/CustomAnimation';
-import { CustomKeyframes } from '@/model';
+import CustomKeyframes from '@/model/CustomKeyframes';
 
 export interface EditorProviderProps extends React.PropsWithChildren {
   animationLib?: AnimationLib;

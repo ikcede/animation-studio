@@ -1,7 +1,8 @@
 import React from 'react';
 import styling from './AnimationFrame.module.css';
-import { CustomAnimation, CustomKeyframes } from '@/model';
+import { CustomAnimation } from '@/model/CustomAnimation';
 import AnimationPlayhead from './AnimationPlayhead';
+import CustomKeyframes from '@/model/CustomKeyframes';
 
 export interface AnimationFrameProps {
   timelineSettings: {

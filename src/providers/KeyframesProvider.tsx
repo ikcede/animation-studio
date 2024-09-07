@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { CustomKeyframes } from '@/model';
+import CustomKeyframes from '@/model/CustomKeyframes';
 
 export const KeyframesContext = React.createContext<CustomKeyframes>(
   new CustomKeyframes(CustomKeyframes.getDefaultKeyframes())

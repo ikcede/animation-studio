@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { CustomAnimation } from '@/model';
+import { CustomAnimation } from '@/model/CustomAnimation';
 
 export const AnimationContext = React.createContext(new CustomAnimation());
 export const AnimationDispatchContext = React.createContext<
