@@ -296,6 +296,7 @@ const Timeline: React.FC = ({}) => {
               ? animationClone
               : animationName,
             animationTimingFunction: 'linear',
+            animationFillMode: 'both',
           }}
         >
           <div className={styling['playhead-head']}></div>
