@@ -3,7 +3,7 @@
 import React from 'react';
 import styling from './SidebarKeyframes.module.css';
 import KeyframeList from './KeyframeList';
-import KeyframeEditor from './KeyframeEditor';
+import KeyframeEditor from './keyframe-editor/KeyframeEditor';
 
 import Button from '@mui/material/Button';
 import ToggleButton from '@mui/material/ToggleButton';
@@ -14,7 +14,7 @@ import ListIcon from '@mui/icons-material/List';
 import {
   KeyframeSelectionContext,
   KeyframeSelectionDispatchContext,
-} from '../../providers/KeyframeSelectionProvider';
+} from '@/providers/KeyframeSelectionProvider';
 
 const SidebarKeyframes: React.FC = () => {
   const [editor, setEditor] = React.useState<string>('default');

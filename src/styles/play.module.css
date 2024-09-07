@@ -1,3 +1,7 @@
+/**
+ * Module for hashing the play keyframe for the timeline
+ */
+
 @keyframes play {
   from {
     left: 0%;

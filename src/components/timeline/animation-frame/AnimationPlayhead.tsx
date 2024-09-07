@@ -1,7 +1,7 @@
 import { CustomAnimation } from '@/model/CustomAnimation';
 import React from 'react';
 import styling from './AnimationPlayhead.module.css';
-import playKeyframes from '@/util/styles/play.module.css';
+import playKeyframes from '@/styles/play.module.css';
 
 export interface AnimationPlayheadProps {
   animation: CustomAnimation;

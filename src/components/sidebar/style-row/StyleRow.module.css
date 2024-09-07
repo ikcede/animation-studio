@@ -1,0 +1,32 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+.row {
+  display: flex;
+}
+
+.row :global(.MuiButtonBase-root .MuiSvgIcon-root) {
+  width: 0.8em;
+  height: 0.8em;
+}
+
+.property,
+.property-error {
+  min-width: 150px;
+  margin-right: 8px;
+}
+
+.value {
+  display: flex;
+  flex: 1;
+}
+
+.error {
+  display: flex;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--color-red);
+}

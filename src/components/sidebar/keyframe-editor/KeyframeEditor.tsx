@@ -1,20 +1,17 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
-import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
-import CloseIcon from '@mui/icons-material/Close';
 import { all as properties } from 'known-css-properties';
 import Button from '@mui/material/Button';
 
 import styling from './KeyframeEditor.module.css';
-import { KeyframeSelectionContext } from '../../providers/KeyframeSelectionProvider';
+import { KeyframeSelectionContext } from '@/providers/KeyframeSelectionProvider';
 import {
   KeyframesContext,
   KeyframesDispatchContext,
-} from '../../providers/KeyframesProvider';
+} from '@/providers/KeyframesProvider';
 import Styles, { Style } from '@/model/Styles';
+import StyleRow from '../style-row/StyleRow';
 
 const KeyframeEditor: React.FC = () => {
   const keyframes = React.useContext(KeyframesContext);
@@ -41,16 +38,23 @@ const KeyframeEditor: React.FC = () => {
     setStyles(newStyles);
   };
 
-  const addStyle = () => {
-    styles.styles.push({ prop: '', val: '' });
+  const addStyle = (autoFocus?: boolean) => {
+    styles.styles.push({
+      prop: '',
+      val: '',
+      autoFocus: autoFocus || false,
+    });
     updateStyles();
   };
 
-  const deleteStyle = (e: React.MouseEvent, index: number) => {
-    e.preventDefault();
+  const deleteStyle = (index: number) => {
     styles.styles.splice(index, 1);
     saveStyles();
   };
+
+  const handleAddClick = React.useCallback(() => {
+    addStyle(true);
+  }, [addStyle]);
 
   /**
    * Save current styles to keyframes
@@ -78,23 +82,32 @@ const KeyframeEditor: React.FC = () => {
     });
   };
 
-  const setStyleValue = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number
-  ) => {
-    styles.styles[index].val = e.target.value;
+  const setStyleValue = (newValue: string, index: number) => {
+    styles.styles[index].val = newValue;
     updateStyles(styles.styles);
     saveStyles();
   };
 
-  const setStyleProperty = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number
-  ) => {
-    styles.styles[index].prop = e.target.value;
+  const setStyleProperty = (newProperty: string, index: number) => {
+    styles.styles[index].prop = newProperty;
     updateStyles(styles.styles);
     saveStyles();
   };
+
+  const onKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' && e.target instanceof HTMLInputElement) {
+        let index = e.target.getAttribute('data-value-index');
+        if (index !== null) {
+          let indexValue = Number.parseInt(index);
+          if (indexValue === styles.styles.length - 1) {
+            addStyle(true);
+          }
+        }
+      }
+    },
+    [styles, addStyle]
+  );
 
   React.useEffect(() => {
     if (keyframes.keyframes == null) {
@@ -121,44 +134,23 @@ const KeyframeEditor: React.FC = () => {
 
   return (
     <div className={styling.editor}>
-      <Box component="form" noValidate autoComplete="off">
+      <Box
+        component="form"
+        noValidate
+        autoComplete="off"
+        onKeyDown={onKeyDown}
+      >
         {styles.styles.map((style, index) => (
-          <div className={styling.row} key={index}>
-            <Autocomplete
-              className={styling.property}
-              disablePortal
-              disableClearable
-              freeSolo
-              value={style.prop}
-              options={knownProperties}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  placeholder="Property"
-                  aria-label="Property"
-                  autoComplete="off"
-                  onChange={(e) => setStyleProperty(e, index)}
-                />
-              )}
-            />
-            <TextField
-              variant="outlined"
-              className={styling.value}
-              placeholder="Value"
-              aria-label="Value"
-              autoComplete="off"
-              value={style.val}
-              onChange={(e) => setStyleValue(e, index)}
-            />
-            <IconButton
-              size="small"
-              aria-label="Delete"
-              className="delete-icon"
-              onClick={(e) => deleteStyle(e, index)}
-            >
-              <CloseIcon></CloseIcon>
-            </IconButton>
-          </div>
+          <StyleRow
+            key={index}
+            index={index}
+            initialProperty={style.prop}
+            initialValue={style.val}
+            autoFocus={style.autoFocus !== undefined}
+            onPropertyChange={setStyleProperty}
+            onValueChange={setStyleValue}
+            onDelete={deleteStyle}
+          />
         ))}
         <div className="property-row">
           <Button
@@ -166,7 +158,7 @@ const KeyframeEditor: React.FC = () => {
             size="small"
             variant="outlined"
             startIcon={<AddIcon aria-label="Add" />}
-            onClick={addStyle}
+            onClick={handleAddClick}
           >
             Style
           </Button>

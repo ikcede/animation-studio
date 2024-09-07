@@ -2,6 +2,7 @@ export type Style = {
   prop: string;
   val: string;
   error?: string;
+  autoFocus?: boolean;
 };
 
 export type Properties = {

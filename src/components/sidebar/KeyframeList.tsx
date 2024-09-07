@@ -14,11 +14,11 @@ import AddKeyframe from './widgets/AddKeyframe';
 import {
   KeyframesContext,
   KeyframesDispatchContext,
-} from '../../providers/KeyframesProvider';
+} from '@/providers/KeyframesProvider';
 import {
   KeyframeSelectionContext,
   KeyframeSelectionDispatchContext,
-} from '../../providers/KeyframeSelectionProvider';
+} from '@/providers/KeyframeSelectionProvider';
 
 const KeyframeList: React.FC = () => {
   const keyframes = React.useContext(KeyframesContext);

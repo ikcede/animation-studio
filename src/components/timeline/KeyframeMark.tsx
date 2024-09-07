@@ -42,6 +42,16 @@ const KeyframeMark: React.FC<KeyframeMarkProps> = ({
   const color =
     percent === 0 || percent === 100 ? styling.green : styling.blue;
 
+  const value = React.useMemo(() => {
+    if (Number.isInteger(percent)) {
+      return percent;
+    }
+    if (precision > 0) {
+      return round(percent, precision);
+    }
+    return Math.floor(percent) + '.*';
+  }, [percent, round]);
+
   return (
     <div
       style={{ left: percent + '%' }}
@@ -52,9 +62,7 @@ const KeyframeMark: React.FC<KeyframeMarkProps> = ({
       onClick={handleClick}
       onMouseDown={handleDown}
     >
-      <div className={styling['mark-head'] + ' ' + color}>
-        {round(percent, precision)}
-      </div>
+      <div className={styling['mark-head'] + ' ' + color}>{value}</div>
     </div>
   );
 };
