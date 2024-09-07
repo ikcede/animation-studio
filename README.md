@@ -14,24 +14,35 @@ Since this is a project I built for fun in about a month, I don't intend to full
 
 Next:
 
-- Optimize editor component by moving context out of editor into a wrapper
 - Launch beta
 
 Backlog:
 
-- Edit keyframe from keyframe view
-- Add new animations to lib
-- Clean up longform CSS string outputs
-- Clean up preview logic
-- Allow for higher precision keyframe values
-- Support keyframe codemirror editor
+- Keyframes:
+
+  - Edit keyframe from keyframe view
+  - Support keyframe codemirror editor
+  - Allow for higher precision keyframe values
+
+- Library:
+
+  - Add new animations to lib
+  - Search to filter animations
+
+- Animations:
+
+  - Clean up longform CSS string outputs
+  - Support linear() timing functions
+  - Support composite keyframes and animations
+
 - Timeline:
+
   - Speed mods
-- Mobile touch support -.-
-- Saving + Projects
-- Keyboard shortcuts
-- Support linear() timing functions
-- Support composite keyframes and animations
+  - Mobile drag keyframes support
+
+- General:
+  - Saving + Projects
+  - Keyboard shortcuts
 
 ## Getting Started
 
