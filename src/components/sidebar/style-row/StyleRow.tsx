@@ -42,7 +42,17 @@ const StyleRow: React.FC<StyleRowProps> = ({
     [onDelete]
   );
 
-  /** Process changes to the style property */
+  /** Process changes to the property autocomplete */
+  const handlePropertySelect = React.useCallback(
+    (e: React.SyntheticEvent<Element, Event>, value: string) => {
+      setProperty(value);
+      setPropertyError('');
+      onPropertyChange(value, index);
+    },
+    [onPropertyChange]
+  );
+
+  /** Process changes to the property input */
   const handlePropertyChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setProperty(e.target.value);
@@ -55,10 +65,12 @@ const StyleRow: React.FC<StyleRowProps> = ({
   /** Checks for an error with the property */
   const checkPropertyError = React.useCallback(
     (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      let testProperty = property.trim();
+      setPropertyError('');
+      let testProperty = e.target.value.trim();
       if (testProperty.length > 0 && !AllCSSProperties.has(testProperty)) {
         setPropertyError('Invalid property. ');
       }
+      checkValueError(e);
     },
     [property]
   );
@@ -76,6 +88,11 @@ const StyleRow: React.FC<StyleRowProps> = ({
   /** Checks for an error with the property's value */
   const checkValueError = React.useCallback(
     (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setValueError('');
+      if (propertyError !== '') {
+        return;
+      }
+
       let testValue = value.trim();
       let testProperty = property.trim();
 
@@ -87,7 +104,7 @@ const StyleRow: React.FC<StyleRowProps> = ({
         }
       }
     },
-    [property, value]
+    [property, value, propertyError]
   );
 
   return (
@@ -101,6 +118,7 @@ const StyleRow: React.FC<StyleRowProps> = ({
           value={property}
           options={PureCSSProperties}
           data-autocomplete-index={index}
+          onChange={handlePropertySelect}
           renderInput={(params) => (
             <TextField
               {...params}

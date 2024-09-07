@@ -1,9 +1,49 @@
 export type Style = {
-  prop: string;
-  val: string;
-  error?: string;
+  property: string;
+  value: string;
   autoFocus?: boolean;
 };
+
+export default class Styles {
+  static emptyStyle(): Style {
+    return {
+      property: '',
+      value: '',
+      autoFocus: false,
+    };
+  }
+
+  static toCSSString(styles: Style[]): string {
+    let out = '';
+    for (let i = 0; i < styles.length; i++) {
+      // Only write non-empty styles
+      if (
+        styles[i].property.trim().length > 0 &&
+        styles[i].value.trim().length > 0
+      ) {
+        out += `${styles[i].property}: ${styles[i].value}; `;
+      }
+    }
+    return out;
+  }
+
+  static buildFromDeclaration(declaration: CSSStyleDeclaration): Style[] {
+    let regex = /([\w-]*)\s*:\s*([^;]*)/g;
+    let match;
+    let styles = new Array<Style>();
+
+    while ((match = regex.exec(declaration.cssText)) !== null) {
+      styles.push({
+        property: match[1].trim(),
+        value: match[2].trim(),
+      });
+    }
+
+    return styles;
+  }
+}
+
+/* Old styles class, deprecated
 
 export type Properties = {
   [prop: string]: string;
@@ -40,11 +80,8 @@ export default class Styles {
     return properties;
   }
 
-  /**
-   * Converts a CSSStyleDeclaration to Properties
-   *
-   * Works more accurately because it pulls the parsed value
-   */
+  // Converts a CSSStyleDeclaration to Properties
+  // Works more accurately because it pulls the parsed value
   updateWithStyle(style: CSSStyleDeclaration) {
     return this.syncToProperties(
       Styles.getPropertiesFromDeclaration(style)
@@ -61,7 +98,7 @@ export default class Styles {
         delete clone[style.prop];
       } else {
         if (properties[style.prop] !== undefined) {
-          style.error = 'Duplicate property';
+          // style.error = 'Duplicate property';
         }
       }
     }
@@ -76,3 +113,4 @@ export default class Styles {
     return this.styles.length;
   }
 }
+*/

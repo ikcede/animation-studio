@@ -18,95 +18,93 @@ const KeyframeEditor: React.FC = () => {
   const keyframesDispatch = React.useContext(KeyframesDispatchContext);
   const selectedKeyframe = React.useContext(KeyframeSelectionContext);
 
-  const [styles, setStyles] = React.useState(new Styles());
-
-  /**
-   * Gets all known properties minus browser specific ones
-   */
-  const knownProperties = React.useMemo(() => {
-    let filtered = properties.filter((e) => e[0] !== '-');
-    filtered.sort();
-    return filtered;
-  }, []);
-
-  /**
-   * Update styles in state with a new reference
-   */
-  const updateStyles = (styleList?: Style[]) => {
-    let newStyles = new Styles();
-    newStyles.styles = styleList ?? styles.styles;
-    setStyles(newStyles);
-  };
-
-  const addStyle = (autoFocus?: boolean) => {
-    styles.styles.push({
-      prop: '',
-      val: '',
-      autoFocus: autoFocus || false,
-    });
-    updateStyles();
-  };
-
-  const deleteStyle = (index: number) => {
-    styles.styles.splice(index, 1);
-    saveStyles();
-  };
-
-  const handleAddClick = React.useCallback(() => {
-    addStyle(true);
-  }, [addStyle]);
+  const [styles, setStyles] = React.useState(new Array<Style>());
 
   /**
    * Save current styles to keyframes
    */
-  const saveStyles = (styleList?: Style[]) => {
+  const saveStyles = React.useCallback(() => {
     if (keyframes.keyframes == null) {
       return;
     }
     const rule = keyframes.keyframes.findRule(selectedKeyframe + '%');
     if (rule !== null) {
-      // Reset rule
-      let ruleStyle = rule.style;
-      ruleStyle.cssText = '';
-
-      for (let style of styleList ?? styles.styles) {
-        if (style.prop == '' || style.val == '') {
-          continue;
-        }
-
-        ruleStyle.setProperty(style.prop, style.val);
-      }
+      rule.style.cssText = Styles.toCSSString(styles);
     }
     keyframesDispatch({
       keyframes: keyframes.clone(),
     });
-  };
+  }, [keyframes, selectedKeyframe, styles, keyframesDispatch]);
+
+  /** Adds an empty [Style] to the end of the style list */
+  const addStyle = React.useCallback(
+    (autoFocus?: boolean) => {
+      setStyles((oldStyles) => {
+        return [
+          ...oldStyles,
+          Object.assign(Styles.emptyStyle(), { autoFocus: autoFocus }),
+        ];
+      });
+    },
+    [setStyles]
+  );
+
+  /** Delete a style and write the change to context */
+  const deleteStyle = React.useCallback(
+    (index: number) => {
+      setStyles((oldStyles) => {
+        oldStyles.splice(index, 1);
+        return [...oldStyles];
+      });
+      saveStyles();
+    },
+    [setStyles, saveStyles]
+  );
 
   const setStyleValue = (newValue: string, index: number) => {
-    styles.styles[index].val = newValue;
-    updateStyles(styles.styles);
+    setStyles((styles) => {
+      styles[index].value = newValue;
+      return [...styles];
+    });
     saveStyles();
   };
 
   const setStyleProperty = (newProperty: string, index: number) => {
-    styles.styles[index].prop = newProperty;
-    updateStyles(styles.styles);
+    setStyles((styles) => {
+      styles[index].property = newProperty;
+      return [...styles];
+    });
     saveStyles();
   };
 
+  /** Memo'd click handler for the add button */
+  const handleAddClick = React.useCallback(() => {
+    addStyle(false);
+  }, [addStyle]);
+
+  /** Handler for using Enter key to go to the next line */
   const onKeyDown = React.useCallback(
     (e: React.KeyboardEvent) => {
       if (e.key === 'Enter' && e.target instanceof HTMLInputElement) {
         let index = e.target.getAttribute('data-value-index');
         if (index !== null) {
           let indexValue = Number.parseInt(index);
-          if (indexValue === styles.styles.length - 1) {
+
+          // Find the next element to visit
+          let el = document.querySelector(
+            '[data-autocomplete-index="' + (indexValue + 1) + '"] input'
+          );
+
+          if (el instanceof HTMLInputElement) {
+            el.focus();
+          } else {
+            // Creates a new row and focuses on the property
             addStyle(true);
           }
         }
       }
     },
-    [styles, addStyle]
+    [addStyle]
   );
 
   React.useEffect(() => {
@@ -116,21 +114,9 @@ const KeyframeEditor: React.FC = () => {
 
     const rule = keyframes.keyframes.findRule(selectedKeyframe + '%');
     if (rule !== null) {
-      setStyles(new Styles(rule.style));
+      setStyles(Styles.buildFromDeclaration(rule.style));
     }
   }, [selectedKeyframe]);
-
-  React.useEffect(() => {
-    if (keyframes.keyframes == null) {
-      return;
-    }
-
-    const rule = keyframes.keyframes.findRule(selectedKeyframe + '%');
-    if (rule !== null) {
-      styles.updateWithStyle(rule.style);
-      updateStyles(styles.styles);
-    }
-  }, []);
 
   return (
     <div className={styling.editor}>
@@ -140,12 +126,12 @@ const KeyframeEditor: React.FC = () => {
         autoComplete="off"
         onKeyDown={onKeyDown}
       >
-        {styles.styles.map((style, index) => (
+        {styles.map((style, index) => (
           <StyleRow
             key={index}
             index={index}
-            initialProperty={style.prop}
-            initialValue={style.val}
+            initialProperty={style.property}
+            initialValue={style.value}
             autoFocus={style.autoFocus !== undefined}
             onPropertyChange={setStyleProperty}
             onValueChange={setStyleValue}
