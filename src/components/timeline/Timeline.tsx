@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React from 'react';
 
@@ -11,13 +11,23 @@ import KeyframeControls from './controls/KeyframeControls';
 
 import round from '@/util/round';
 
-import { KeyframesContext, KeyframesDispatchContext } from '@/providers/KeyframesProvider';
-import { AnimationContext, AnimationDispatchContext } from '@/providers/AnimationProvider';
-import { KeyframeSelectionContext, KeyframeSelectionDispatchContext } from '@/providers/KeyframeSelectionProvider';
+import {
+  KeyframesContext,
+  KeyframesDispatchContext,
+} from '@/providers/KeyframesProvider';
+import {
+  AnimationContext,
+  AnimationDispatchContext,
+} from '@/providers/AnimationProvider';
+import {
+  KeyframeSelectionContext,
+  KeyframeSelectionDispatchContext,
+} from '@/providers/KeyframeSelectionProvider';
 import AnimationFrame from './animation-frame/AnimationFrame';
 
-export type KeyframeChangeFunction = 
-    (newKeyframes: CSSKeyframesRule) => void;
+export type KeyframeChangeFunction = (
+  newKeyframes: CSSKeyframesRule
+) => void;
 
 const Timeline: React.FC = ({}) => {
   const animationName = playKeyframes.play;
@@ -27,8 +37,9 @@ const Timeline: React.FC = ({}) => {
   const animationDispatch = React.useContext(AnimationDispatchContext);
 
   const selectedKeyframe = React.useContext(KeyframeSelectionContext);
-  const keyframeSelectionDispatch = 
-      React.useContext(KeyframeSelectionDispatchContext);
+  const keyframeSelectionDispatch = React.useContext(
+    KeyframeSelectionDispatchContext
+  );
 
   const keyframes = React.useContext(KeyframesContext);
   const keyframesDispatch = React.useContext(KeyframesDispatchContext);
@@ -69,7 +80,8 @@ const Timeline: React.FC = ({}) => {
       }
 
       return percent;
-    }, [mainRef]
+    },
+    [mainRef]
   );
 
   const handlePlayheadDown = React.useCallback(
@@ -77,30 +89,31 @@ const Timeline: React.FC = ({}) => {
       e.preventDefault();
       setPlayheadDown(true);
       animationDispatch({
-        type: 'pause'
+        type: 'pause',
       });
-    }, [animationDispatch]
+    },
+    [animationDispatch]
   );
 
   const handleKeyframeDown = React.useCallback(
     (index: number) => {
       if (keyframes.keyframes !== null) {
         let target = keyframes.keyframes[index];
-        if (target !== undefined && 
-            target.keyText !== '0%' && 
-            target.keyText !== '100%') {
+        if (
+          target !== undefined &&
+          target.keyText !== '0%' &&
+          target.keyText !== '100%'
+        ) {
           setKeyframeDown(index);
         }
       }
-    }, [keyframes]
+    },
+    [keyframes]
   );
 
-  const getDownStyle = React.useCallback(
-    (): string => {
-      return playheadDown || keyframeDown > -1 ?
-        styling.down : '';
-    }, [playheadDown, keyframeDown]
-  );
+  const getDownStyle = React.useCallback((): string => {
+    return playheadDown || keyframeDown > -1 ? styling.down : '';
+  }, [playheadDown, keyframeDown]);
 
   const handleMouseMove = React.useCallback(
     (e: React.MouseEvent) => {
@@ -113,7 +126,7 @@ const Timeline: React.FC = ({}) => {
         let percent = getPercent(e);
         animationDispatch({
           type: 'setTime',
-          value: (percent * animation.duration).toString()
+          value: (percent * animation.duration).toString(),
         });
       } else if (e.buttons === 1 && keyframeDown > -1) {
         let percent = round(getPercent(e) * 100);
@@ -122,16 +135,17 @@ const Timeline: React.FC = ({}) => {
           keyframesDispatch({
             keyframes: keyframes.clone(),
           });
-          keyframeSelectionDispatch({value: percent});
+          keyframeSelectionDispatch({ value: percent });
         }
       } else if (playheadDown || keyframeDown > -1) {
         setPlayheadDown(false);
         setKeyframeDown(-1);
       }
-    }, [
+    },
+    [
       addMode,
       playheadDown,
-      keyframes, 
+      keyframes,
       animation.duration,
       keyframeDown,
       getPercent,
@@ -156,48 +170,48 @@ const Timeline: React.FC = ({}) => {
     } else {
       animationDispatch({
         type: 'setTime',
-        value: (percent * animation.duration).toString()
+        value: (percent * animation.duration).toString(),
       });
     }
-  }
+  };
 
   const onPlayClick = () => {
     animationDispatch({
-      type: 'play'
+      type: 'play',
     });
-  }
+  };
 
   const handlePlayEnd = () => {
     animationDispatch({
-      type: 'end'
+      type: 'end',
     });
-  }
+  };
 
   const onSkipStart = () => {
     animationDispatch({
       type: 'setTime',
-      value: '0'
+      value: '0',
     });
-  }
+  };
 
   const onSkipEnd = () => {
     animationDispatch({
       type: 'setTime',
-      value: animation.duration.toString()
+      value: animation.duration.toString(),
     });
-  }
+  };
 
   const onPause = () => {
     animationDispatch({
-      type: 'pause'
+      type: 'pause',
     });
-  }
+  };
 
   const selectKeyframe = (percent: number) => {
-    keyframeSelectionDispatch({value: percent});
-  }
+    keyframeSelectionDispatch({ value: percent });
+  };
 
-  const showDeleteKeyframe = () => 
+  const showDeleteKeyframe = () =>
     selectedKeyframe > 0 && selectedKeyframe !== 100;
 
   const deleteSelectedKeyframe = () => {
@@ -205,73 +219,85 @@ const Timeline: React.FC = ({}) => {
     keyframesDispatch({
       keyframes: keyframes.clone(),
     });
-    keyframeSelectionDispatch({value: -1});
-  }
+    keyframeSelectionDispatch({ value: -1 });
+  };
 
   const addKeyframeMode = () => {
     setAddMode(!addMode);
-  }
+  };
 
   return (
-    <div className={styling.wrapper}
-         onMouseMove={handleMouseMove}>
+    <div className={styling.wrapper} onMouseMove={handleMouseMove}>
       <div className={styling.controls}>
-        <TimelineControls 
-            playing={animation.playState === 'running'}
-            onPlay={onPlayClick}
-            onPause={onPause}
-            onSkipStart={onSkipStart}
-            onSkipEnd={onSkipEnd}
+        <TimelineControls
+          playing={animation.playState === 'running'}
+          onPlay={onPlayClick}
+          onPause={onPause}
+          onSkipStart={onSkipStart}
+          onSkipEnd={onSkipEnd}
         ></TimelineControls>
         <KeyframeControls
-            keyframeSelected={showDeleteKeyframe()}
-            addMode={addMode}
-            onAddKeyframe={addKeyframeMode}
-            onDeleteKeyframe={deleteSelectedKeyframe}
+          keyframeSelected={showDeleteKeyframe()}
+          addMode={addMode}
+          onAddKeyframe={addKeyframeMode}
+          onDeleteKeyframe={deleteSelectedKeyframe}
         ></KeyframeControls>
       </div>
-      <div className={styling.main + ' ' + getDownStyle()}
-           ref={mainRef}
-           onClick={onTimelineClick}>
+      <div
+        className={styling.main + ' ' + getDownStyle()}
+        ref={mainRef}
+        onClick={onTimelineClick}
+      >
         <div className={styling.spacer}></div>
         <div className={styling.zone}>
-          <AnimationFrame animation={animation}
-                          keyframes={keyframes}
-                          timelineSettings={{
-                            totalTime: animation.duration,
-                            playbackRate: 1
-                          }}></AnimationFrame>
+          <AnimationFrame
+            animation={animation}
+            keyframes={keyframes}
+            timelineSettings={{
+              totalTime: animation.duration,
+              playbackRate: 1,
+            }}
+          ></AnimationFrame>
           <div className={styling.keyframes}>
             {ruleList.map((percent, index) => (
-              <KeyframeMark key={percent}
-                            percent={percent}
-                            selected={selectedKeyframe == percent}
-                            onKeyframeClick={selectKeyframe}
-                            onKeyframeDown={() => handleKeyframeDown(index)}
+              <KeyframeMark
+                key={percent}
+                percent={percent}
+                selected={selectedKeyframe == percent}
+                onKeyframeClick={selectKeyframe}
+                onKeyframeDown={() => handleKeyframeDown(index)}
               ></KeyframeMark>
             ))}
             {addMode && (
-              <KeyframeMark percent={tempKeyframe}
-                            temporary
+              <KeyframeMark
+                percent={tempKeyframe}
+                temporary
               ></KeyframeMark>
             )}
           </div>
-          <Ticks startValue={0}
-                 endValue={animation.duration}
-                 majorTicks={5}
-                 minorTicks={7}
-                 unit='s'></Ticks>
+          <Ticks
+            startValue={0}
+            endValue={animation.duration}
+            majorTicks={5}
+            minorTicks={7}
+            unit="s"
+          ></Ticks>
         </div>
 
-        <div className={styling.playhead}
-             onMouseDown={handlePlayheadDown}
-             onAnimationEnd={() => {handlePlayEnd()}}
-             style={{
-              ...animation.toReactProps(),
-              animationName: animation.useClone ? 
-                animationClone : animationName,
-              animationTimingFunction: 'linear',
-             }}>
+        <div
+          className={styling.playhead}
+          onMouseDown={handlePlayheadDown}
+          onAnimationEnd={() => {
+            handlePlayEnd();
+          }}
+          style={{
+            ...animation.toReactProps(),
+            animationName: animation.useClone
+              ? animationClone
+              : animationName,
+            animationTimingFunction: 'linear',
+          }}
+        >
           <div className={styling['playhead-head']}></div>
           <div className={styling['playhead-tail']}></div>
         </div>

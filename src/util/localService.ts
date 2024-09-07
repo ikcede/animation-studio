@@ -3,13 +3,13 @@ import { TargetElement } from '@/providers/TargetElementProvider';
 import CustomKeyframes from '@/model/CustomKeyframes';
 
 export const loadTargetElement = () => {
-  let loadedTargetElement = 
-      localStorage.getItem('currentTargetElement') || '';
+  let loadedTargetElement =
+    localStorage.getItem('currentTargetElement') || '';
   if (loadedTargetElement.length > 0) {
     return JSON.parse(loadedTargetElement);
   }
-  return {html: '', css: ''}
-}
+  return { html: '', css: '' };
+};
 
 export const loadCustomKeyframes = () => {
   let loadedKeyframes = localStorage.getItem('currentKeyframes') || '';
@@ -17,8 +17,7 @@ export const loadCustomKeyframes = () => {
     return new CustomKeyframes(loadedKeyframes);
   }
   return null;
-}
-
+};
 
 export const saveTargetElement = debounce((el: TargetElement) => {
   localStorage.setItem('currentTargetElement', JSON.stringify(el));

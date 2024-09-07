@@ -1,19 +1,22 @@
-'use client'
+'use client';
 
 import React from 'react';
 
-export const TargetElementContext = 
-    React.createContext<TargetElement>({html: '', css: ''});
-export const TargetElementDispatchContext = 
-    React.createContext<React.Dispatch<TargetElementAction>>(() => {});
+export const TargetElementContext = React.createContext<TargetElement>({
+  html: '',
+  css: '',
+});
+export const TargetElementDispatchContext = React.createContext<
+  React.Dispatch<TargetElementAction>
+>(() => {});
 
 export type TargetElement = {
-  html: string,
-  css: string,
-}
+  html: string;
+  css: string;
+};
 
 type TargetElementAction = {
-  el: TargetElement,
+  el: TargetElement;
 };
 
 const TargetElementReducer = (
@@ -23,18 +26,20 @@ const TargetElementReducer = (
   return action.el;
 };
 
-export interface TargetElementProviderProps 
-    extends React.PropsWithChildren {
-  html?: string,
-  css?: string,
-  children: React.ReactNode
+export interface TargetElementProviderProps
+  extends React.PropsWithChildren {
+  html?: string;
+  css?: string;
+  children: React.ReactNode;
 }
 
-const TargetElementProvider: React.FC<TargetElementProviderProps> = 
-    (props) => {
-  const [element, dispatch] = React.useReducer(
-    TargetElementReducer,
-    {html: props.html || '', css: props.css || ''});
+const TargetElementProvider: React.FC<TargetElementProviderProps> = (
+  props
+) => {
+  const [element, dispatch] = React.useReducer(TargetElementReducer, {
+    html: props.html || '',
+    css: props.css || '',
+  });
 
   /**
    * Set up starting target element
@@ -46,7 +51,7 @@ const TargetElementProvider: React.FC<TargetElementProviderProps> =
 
     if (props.html !== '' && props.css !== '') {
       dispatch({
-        el: {html: props.html, css: props.css},
+        el: { html: props.html, css: props.css },
       });
     }
   }, [props]);

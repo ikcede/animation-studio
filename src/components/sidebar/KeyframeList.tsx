@@ -11,17 +11,24 @@ import CloseIcon from '@mui/icons-material/Close';
 import styling from './KeyframeList.module.css';
 
 import AddKeyframe from './widgets/AddKeyframe';
-import { KeyframesContext, KeyframesDispatchContext } from '../../providers/KeyframesProvider';
-import { KeyframeSelectionContext, KeyframeSelectionDispatchContext } from '../../providers/KeyframeSelectionProvider';
+import {
+  KeyframesContext,
+  KeyframesDispatchContext,
+} from '../../providers/KeyframesProvider';
+import {
+  KeyframeSelectionContext,
+  KeyframeSelectionDispatchContext,
+} from '../../providers/KeyframeSelectionProvider';
 
 const KeyframeList: React.FC = () => {
   const keyframes = React.useContext(KeyframesContext);
   const keyframesDispatch = React.useContext(KeyframesDispatchContext);
 
   const selectedKeyframe = React.useContext(KeyframeSelectionContext);
-  const selectedKeyframeDispatch = 
-      React.useContext(KeyframeSelectionDispatchContext);
-  
+  const selectedKeyframeDispatch = React.useContext(
+    KeyframeSelectionDispatchContext
+  );
+
   const [ruleList, setRuleList] = React.useState<string[]>([]);
   const [addError, setAddError] = React.useState<string>('');
 
@@ -41,9 +48,9 @@ const KeyframeList: React.FC = () => {
   const handleClick = (e: React.MouseEvent, keyframe: string) => {
     e.preventDefault();
     selectedKeyframeDispatch({
-      value: parseFloat(keyframe)
+      value: parseFloat(keyframe),
     });
-  }
+  };
 
   const handleDelete = (e: React.MouseEvent, keyframe: string) => {
     e.preventDefault();
@@ -53,9 +60,9 @@ const KeyframeList: React.FC = () => {
       keyframesDispatch({
         keyframes: keyframes.clone(),
       });
-      selectedKeyframeDispatch({value: -1});
+      selectedKeyframeDispatch({ value: -1 });
     }
-  }
+  };
 
   const handleAdd = (value: number) => {
     if (keyframes.keyframes!.findRule(value + '%') === null) {
@@ -67,32 +74,40 @@ const KeyframeList: React.FC = () => {
     } else {
       setAddError(`Keyframe ${value} already exists`);
     }
-  }
+  };
 
   const getItemColor = (keyframe: string): string => {
-    return keyframe == '0%' || keyframe == '100%' ? 
-      styling.green : styling.blue;
-  }
+    return keyframe == '0%' || keyframe == '100%'
+      ? styling.green
+      : styling.blue;
+  };
 
   return (
     <>
       <List>
-        {ruleList.map(keyframe => (
-          <ListItem disablePadding 
-                    key={keyframe}
-                    className={selectedKeyframe + '%' === keyframe 
-                        ? 'selected' : ''}>
-            <ListItemButton onClick={(e) => handleClick(e, keyframe)}
-                            className={getItemColor(keyframe)}>
+        {ruleList.map((keyframe) => (
+          <ListItem
+            disablePadding
+            key={keyframe}
+            className={
+              selectedKeyframe + '%' === keyframe ? 'selected' : ''
+            }
+          >
+            <ListItemButton
+              onClick={(e) => handleClick(e, keyframe)}
+              className={getItemColor(keyframe)}
+            >
               <ListItemIcon>
                 <BookmarkIcon />
               </ListItemIcon>
               <ListItemText primary={keyframe} />
               {keyframe !== '0%' && keyframe !== '100%' && (
-                <IconButton size='small'
-                      aria-label='Delete'
-                      className='delete-icon'
-                      onClick={(e) => handleDelete(e, keyframe)}>
+                <IconButton
+                  size="small"
+                  aria-label="Delete"
+                  className="delete-icon"
+                  onClick={(e) => handleDelete(e, keyframe)}
+                >
                   <CloseIcon></CloseIcon>
                 </IconButton>
               )}
@@ -101,8 +116,9 @@ const KeyframeList: React.FC = () => {
         ))}
       </List>
       <p>Create Keyframes</p>
-      <AddKeyframe onAddKeyframe={handleAdd} 
-                   error={addError}
+      <AddKeyframe
+        onAddKeyframe={handleAdd}
+        error={addError}
       ></AddKeyframe>
     </>
   );

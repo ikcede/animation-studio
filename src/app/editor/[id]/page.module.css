@@ -65,7 +65,8 @@
     padding: 0;
   }
 
-  .sidebar, .header {
+  .sidebar,
+  .header {
     width: 100%;
   }
 

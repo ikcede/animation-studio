@@ -5,10 +5,7 @@ import AddKeyframe from '../AddKeyframe';
 describe(AddKeyframe, () => {
   test('renders', () => {
     let onKeyframeAdd = jest.fn();
-    render(
-      <AddKeyframe onAddKeyframe={onKeyframeAdd}
-      ></AddKeyframe>
-    );
+    render(<AddKeyframe onAddKeyframe={onKeyframeAdd}></AddKeyframe>);
 
     const btn = screen.getByRole('button');
     const input = screen.getByRole('textbox');
@@ -18,10 +15,7 @@ describe(AddKeyframe, () => {
 
   test('ignores add if no input', async () => {
     let onKeyframeAdd = jest.fn();
-    render(
-      <AddKeyframe onAddKeyframe={onKeyframeAdd}
-      ></AddKeyframe>
-    );
+    render(<AddKeyframe onAddKeyframe={onKeyframeAdd}></AddKeyframe>);
 
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('');
@@ -34,10 +28,7 @@ describe(AddKeyframe, () => {
 
   test('adds keyframe on enter', async () => {
     let onKeyframeAdd = jest.fn();
-    render(
-      <AddKeyframe onAddKeyframe={onKeyframeAdd}
-      ></AddKeyframe>
-    );
+    render(<AddKeyframe onAddKeyframe={onKeyframeAdd}></AddKeyframe>);
 
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('');
@@ -51,10 +42,7 @@ describe(AddKeyframe, () => {
 
   test('adds keyframe on click', async () => {
     let onKeyframeAdd = jest.fn();
-    render(
-      <AddKeyframe onAddKeyframe={onKeyframeAdd}
-      ></AddKeyframe>
-    );
+    render(<AddKeyframe onAddKeyframe={onKeyframeAdd}></AddKeyframe>);
 
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('');
@@ -71,8 +59,9 @@ describe(AddKeyframe, () => {
     let onKeyframeAdd = jest.fn();
     let error = 'test';
     render(
-      <AddKeyframe onAddKeyframe={onKeyframeAdd}
-                   error={error}
+      <AddKeyframe
+        onAddKeyframe={onKeyframeAdd}
+        error={error}
       ></AddKeyframe>
     );
 
@@ -83,8 +72,9 @@ describe(AddKeyframe, () => {
     let onKeyframeAdd = jest.fn();
     let error = 'test';
     render(
-      <AddKeyframe onAddKeyframe={onKeyframeAdd}
-                   error={error}
+      <AddKeyframe
+        onAddKeyframe={onKeyframeAdd}
+        error={error}
       ></AddKeyframe>
     );
 
@@ -97,10 +87,7 @@ describe(AddKeyframe, () => {
 
   test('errors submitting bad input', async () => {
     let onKeyframeAdd = jest.fn();
-    render(
-      <AddKeyframe onAddKeyframe={onKeyframeAdd}
-      ></AddKeyframe>
-    );
+    render(<AddKeyframe onAddKeyframe={onKeyframeAdd}></AddKeyframe>);
 
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('');
@@ -112,8 +99,6 @@ describe(AddKeyframe, () => {
     await userEvent.click(btn);
     expect(onKeyframeAdd).toHaveBeenCalledTimes(0);
 
-    expect(screen.getByText('Enter a valid number'))
-      .toBeInTheDocument();
+    expect(screen.getByText('Enter a valid number')).toBeInTheDocument();
   });
-
-})
+});

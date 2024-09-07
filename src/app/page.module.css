@@ -32,7 +32,8 @@
 }
 
 @keyframes text-color-shift {
-  0% { }
+  0% {
+  }
   100% {
     background-position: 100% center;
   }

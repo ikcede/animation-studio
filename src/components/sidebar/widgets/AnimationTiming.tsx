@@ -14,51 +14,45 @@ import { BezierEditor, CubicBezier } from 'ts-bezier-easing-editor';
 
 type TimingChangeFunction = (timing: string) => void;
 
-const initialBezier: [string, string, string, string] = 
-    ['0.25', '0.25', '0.75', '0.75'];
+const initialBezier: [string, string, string, string] = [
+  '0.25',
+  '0.25',
+  '0.75',
+  '0.75',
+];
 
 const animationTypes = [
   {
     type: 'text',
-    icon: <TextFieldsIcon />
+    icon: <TextFieldsIcon />,
   },
   {
     type: 'bezier',
-    icon: <EscalatorOutlinedIcon />
+    icon: <EscalatorOutlinedIcon />,
   },
   {
     type: 'step',
-    icon: <SkipNextIcon />
+    icon: <SkipNextIcon />,
   },
 ];
 
-const bezierLabels = [
-  'x1',
-  'y1',
-  'x2',
-  'y2',
-];
+const bezierLabels = ['x1', 'y1', 'x2', 'y2'];
 
 const textTimingMap: {
-  [key: string]: [string, string, string, string]
+  [key: string]: [string, string, string, string];
 } = {
-  'linear': ['0.25', '0.25', '0.75', '0.75'],
-  'ease': ['0.25', '0.1', '0.25', '1'],
+  linear: ['0.25', '0.25', '0.75', '0.75'],
+  ease: ['0.25', '0.1', '0.25', '1'],
   'ease-in': ['0.42', '0', '1', '1'],
   'ease-out': ['0', '0', '0.58', '1'],
-  'ease-in-out': ['0.42', '0', '0.58', '1']
+  'ease-in-out': ['0.42', '0', '0.58', '1'],
 };
 
-const stepTypes = [
-  'jump-end',
-  'jump-start',
-  'jump-none',
-  'jump-both',
-];
+const stepTypes = ['jump-end', 'jump-start', 'jump-none', 'jump-both'];
 
 export interface AnimationTimingProps {
-  animation?: CustomAnimation,
-  onTimingChange?: TimingChangeFunction,
+  animation?: CustomAnimation;
+  onTimingChange?: TimingChangeFunction;
 }
 
 const AnimationTiming: React.FC<AnimationTimingProps> = ({
@@ -69,9 +63,9 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
   const [textSelection, setTextSelection] = React.useState('linear');
 
   const [bezier, setBezier] = React.useState(initialBezier);
-  const [readOnlyBezier, setReadOnlyBezier] = 
-      React.useState(initialBezier);
-  
+  const [readOnlyBezier, setReadOnlyBezier] =
+    React.useState(initialBezier);
+
   const [stepValue, setStepValue] = React.useState('1');
   const [stepType, setStepType] = React.useState(stepTypes[0]);
 
@@ -85,7 +79,7 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
 
   const changeType = (
     event: React.MouseEvent<HTMLElement>,
-    newType: string,
+    newType: string
   ) => {
     if (newType !== null) {
       setType(newType);
@@ -116,7 +110,7 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
 
   const changeBezierValue = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number,
+    index: number
   ) => {
     bezier[index] = e.target.value;
     setBezier([...bezier]);
@@ -124,7 +118,7 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
     if (isBezierValid()) {
       onTimingChange(buildBezierValue());
     }
-  }
+  };
 
   const bezierEdit = (bezier?: CubicBezier) => {
     if (bezier === undefined) {
@@ -138,13 +132,13 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
     } else {
       onTimingChange(buildBezierValue());
     }
-  }
+  };
 
   const changeStepValue = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setStepValue(e.target.value);
-  }
+  };
 
   const changeStepType = (event: SelectChangeEvent) => {
     let newSelection = event.target.value;
@@ -194,9 +188,7 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
           setStepType(values[1].trim());
           setType(animationTypes[2].type);
         }
-      }
-
-      else {
+      } else {
         setType(animationTypes[0].type);
         setTextSelection(animation.timing);
         if (textTimingMap[animation.timing] !== undefined) {
@@ -209,7 +201,7 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
 
   return (
     <>
-      <div className='input-row'>
+      <div className="input-row">
         <label>Timing:</label>
         <ToggleButtonGroup
           value={type}
@@ -217,20 +209,21 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
           onChange={changeType}
           aria-label="Iteration types"
         >
-          {animationTypes.map(type => 
-            <ToggleButton 
-                key={type.type}
-                value={type.type}
-                aria-label={type.type}
-                size='small'>
+          {animationTypes.map((type) => (
+            <ToggleButton
+              key={type.type}
+              value={type.type}
+              aria-label={type.type}
+              size="small"
+            >
               {type.icon}
             </ToggleButton>
-          )}
+          ))}
         </ToggleButtonGroup>
       </div>
 
-      {type === 'text' && 
-        <div className='input-row'>
+      {type === 'text' && (
+        <div className="input-row">
           <label>Timing Value:</label>
           <Select
             className={styling.select}
@@ -248,39 +241,42 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
             ))}
           </Select>
         </div>
-      }
+      )}
 
-      {type === 'bezier' && 
-        <div className='input-row'>
+      {type === 'bezier' && (
+        <div className="input-row">
           <label>Bezier:</label>
 
-          {bezier.map((val, index) => 
-            <TextField 
-                className={styling['number-input']}
-                aria-label={bezierLabels[index]}
-                key={bezierLabels[index]}
-                value={val}
-                onChange={(e) => changeBezierValue(e, index)} />
-          )}
+          {bezier.map((val, index) => (
+            <TextField
+              className={styling['number-input']}
+              aria-label={bezierLabels[index]}
+              key={bezierLabels[index]}
+              value={val}
+              onChange={(e) => changeBezierValue(e, index)}
+            />
+          ))}
         </div>
-      }
+      )}
 
-      {(type === 'text' || type === 'bezier') &&
+      {(type === 'text' || type === 'bezier') && (
         <BezierEditor
-            bezier={getBezier()}
-            width={250}
-            height={250}
-            onChange={bezierEdit}
-            readOnly={type !== 'bezier'}
+          bezier={getBezier()}
+          width={250}
+          height={250}
+          onChange={bezierEdit}
+          readOnly={type !== 'bezier'}
         ></BezierEditor>
-      }
+      )}
 
-      {type === 'step' && 
-        <div className='input-row'>
+      {type === 'step' && (
+        <div className="input-row">
           <label>Step:</label>
-          <TextField className={styling['number-input']}
-                    value={stepValue}
-                    onChange={changeStepValue}></TextField>
+          <TextField
+            className={styling['number-input']}
+            value={stepValue}
+            onChange={changeStepValue}
+          ></TextField>
           <Select
             className={styling.select}
             value={stepType}
@@ -297,9 +293,9 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
             ))}
           </Select>
         </div>
-      }
+      )}
     </>
-  )
-}
+  );
+};
 
-export default AnimationTiming
+export default AnimationTiming;

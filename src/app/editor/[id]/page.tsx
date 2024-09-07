@@ -1,10 +1,10 @@
-'use client'
+'use client';
 
 import React from 'react';
 import styling from './page.module.css';
 import AppBar from '@/components/app-bar/AppBar';
-import AnimationPreview from "@/components/preview/AnimationPreview";
-import Timeline from "@/components/timeline/Timeline";
+import AnimationPreview from '@/components/preview/AnimationPreview';
+import Timeline from '@/components/timeline/Timeline';
 import Sidebar from '@/components/sidebar/Sidebar';
 
 import { KeyframesContext } from '@/providers/KeyframesProvider';
@@ -30,12 +30,14 @@ export default function Page() {
       </div>
       <main className={styling.main}>
         <div className={styling.preview}>
-          <AnimationPreview isItemPreview={false}
-                            animation={animation}
-                            allKeyframes={[allKeyframes]}
-                            targetHtml={targetElement.html} 
-                            targetCss={targetElement.css}
-                            backgroundColor={settings.backgroundColor} />
+          <AnimationPreview
+            isItemPreview={false}
+            animation={animation}
+            allKeyframes={[allKeyframes]}
+            targetHtml={targetElement.html}
+            targetCss={targetElement.css}
+            backgroundColor={settings.backgroundColor}
+          />
         </div>
         <div>
           <Timeline></Timeline>

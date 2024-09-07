@@ -1,4 +1,3 @@
-
 .wrapper {
   --playhead-size: 14px;
   --timeline-height: 110px;
@@ -87,7 +86,7 @@
 }
 
 .playhead-head::after {
-  content: "";
+  content: '';
   position: absolute;
   bottom: calc(var(--playhead-size) / -2);
   left: 0;

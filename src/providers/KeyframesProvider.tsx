@@ -1,16 +1,17 @@
-'use client'
+'use client';
 
 import React from 'react';
 import { CustomKeyframes } from '@/model';
 
-export const KeyframesContext = 
-    React.createContext<CustomKeyframes>(
-        new CustomKeyframes(CustomKeyframes.getDefaultKeyframes()));
-export const KeyframesDispatchContext = 
-    React.createContext<React.Dispatch<KeyframesAction>>(() => {});
+export const KeyframesContext = React.createContext<CustomKeyframes>(
+  new CustomKeyframes(CustomKeyframes.getDefaultKeyframes())
+);
+export const KeyframesDispatchContext = React.createContext<
+  React.Dispatch<KeyframesAction>
+>(() => {});
 
 type KeyframesAction = {
-  keyframes: CustomKeyframes,
+  keyframes: CustomKeyframes;
 };
 
 const keyframesReducer = (
@@ -20,18 +21,15 @@ const keyframesReducer = (
   return action.keyframes;
 };
 
-export interface KeyframesProviderProps 
-    extends React.PropsWithChildren {
-  keyframes?: CustomKeyframes,
-  children: React.ReactNode
+export interface KeyframesProviderProps extends React.PropsWithChildren {
+  keyframes?: CustomKeyframes;
+  children: React.ReactNode;
 }
 
-const KeyframesProvider : React.FC<KeyframesProviderProps> = (
-  props
-) => {
+const KeyframesProvider: React.FC<KeyframesProviderProps> = (props) => {
   const [keyframes, dispatch] = React.useReducer(
-      keyframesReducer, 
-      new CustomKeyframes(CustomKeyframes.getDefaultKeyframes())
+    keyframesReducer,
+    new CustomKeyframes(CustomKeyframes.getDefaultKeyframes())
   );
 
   /**

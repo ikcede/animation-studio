@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import EditorProvider from "@/providers/EditorProvider";
+import EditorProvider from '@/providers/EditorProvider';
 import AnimationLib, { buildFromDefaultLib } from '@/model/AnimationLib';
 import data from '@/data/animationData';
 import React from 'react';
@@ -8,10 +8,10 @@ export default function Layout({
   children,
   params,
 }: Readonly<{
-  children: React.ReactNode,
+  children: React.ReactNode;
   params: {
-    id: string
-  }
+    id: string;
+  };
 }>) {
   const lib: AnimationLib = React.useMemo(() => {
     const id = params.id;
@@ -19,8 +19,8 @@ export default function Layout({
     if (id === 'custom') {
       let lib = buildFromDefaultLib();
       return lib;
-    } 
-    
+    }
+
     let idValue = -1;
     if (id.indexOf('v') > -1) {
       let ids = id.split('v');

@@ -10,8 +10,10 @@ export default class CustomKeyframes {
     } else {
       let styleSheet = new CSSStyleSheet();
       styleSheet.replaceSync(keyframeString);
-      this.keyframes = styleSheet.cssRules[0] instanceof CSSKeyframesRule ?
-        styleSheet.cssRules[0] : null;
+      this.keyframes =
+        styleSheet.cssRules[0] instanceof CSSKeyframesRule
+          ? styleSheet.cssRules[0]
+          : null;
     }
   }
 
@@ -45,13 +47,13 @@ export default class CustomKeyframes {
     for (let i = 0; i < newKeyframes.keyframes.cssRules.length; i++) {
       let rule = newKeyframes.keyframes.cssRules[i];
       rules.push([
-          parseFloat(rule.cssText.substring(0, rule.cssText.indexOf('%'))),
-          rule
+        parseFloat(rule.cssText.substring(0, rule.cssText.indexOf('%'))),
+        rule,
       ]);
     }
     rules.sort((a, b) => a[0] - b[0]);
 
-    for(let i = 0; i < rules.length; i++) {
+    for (let i = 0; i < rules.length; i++) {
       newKeyframes.keyframes.deleteRule(rules[i][0] + '%');
       if (!rules[i][1].cssText.match(/\% \{ \}/)) {
         newKeyframes.keyframes.appendRule(rules[i][1].cssText);
@@ -68,5 +70,5 @@ export default class CustomKeyframes {
         100% { font-size: 14px; }
       } 
     `;
-  }
+  };
 }

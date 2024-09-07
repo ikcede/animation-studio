@@ -1,13 +1,12 @@
-
 export type Style = {
-  prop: string,
-  val: string,
-  error?: string,
-}
+  prop: string;
+  val: string;
+  error?: string;
+};
 
 export type Properties = {
   [prop: string]: string;
-}
+};
 
 export default class Styles {
   styles: Style[] = [];
@@ -30,23 +29,25 @@ export default class Styles {
     let regex = /([\w-]*)\s*:\s*([^;]*)/g;
     let match;
     let properties = <Properties>{};
-  
+
     while ((match = regex.exec(declaration.cssText)) !== null) {
-      properties[match[1].trim()] = 
-        declaration.getPropertyValue(match[1].trim());
+      properties[match[1].trim()] = declaration.getPropertyValue(
+        match[1].trim()
+      );
     }
 
     return properties;
   }
 
-  /** 
+  /**
    * Converts a CSSStyleDeclaration to Properties
-   * 
+   *
    * Works more accurately because it pulls the parsed value
    */
   updateWithStyle(style: CSSStyleDeclaration) {
     return this.syncToProperties(
-        Styles.getPropertiesFromDeclaration(style));
+      Styles.getPropertiesFromDeclaration(style)
+    );
   }
 
   syncToProperties(properties: Properties): number {
@@ -67,7 +68,7 @@ export default class Styles {
     for (let key of Object.keys(clone)) {
       this.styles.push({
         prop: key,
-        val: clone[key]
+        val: clone[key],
       });
     }
 

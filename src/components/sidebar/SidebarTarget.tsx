@@ -1,28 +1,34 @@
-'use client'
+'use client';
 
 import React from 'react';
-import CodeMirror from "@uiw/react-codemirror";
-import { css as cssLang} from "@codemirror/lang-css";
-import { html as htmlLang } from "@codemirror/lang-html";
+import CodeMirror from '@uiw/react-codemirror';
+import { css as cssLang } from '@codemirror/lang-css';
+import { html as htmlLang } from '@codemirror/lang-html';
 import beautify from 'js-beautify';
 
 import styling from './SidebarTarget.module.css';
-import { TargetElementContext, TargetElementDispatchContext } from '@/providers/TargetElementProvider';
+import {
+  TargetElementContext,
+  TargetElementDispatchContext,
+} from '@/providers/TargetElementProvider';
 
 const SidebarTarget: React.FC = () => {
   const formatOptions = {
-    indent_size: 2
+    indent_size: 2,
   };
 
   const targetElement = React.useContext(TargetElementContext);
-  const targetElementDispatch = 
-      React.useContext(TargetElementDispatchContext);
+  const targetElementDispatch = React.useContext(
+    TargetElementDispatchContext
+  );
 
   const [html, setHtml] = React.useState(
-      beautify.html(targetElement.html, formatOptions));
+    beautify.html(targetElement.html, formatOptions)
+  );
   const [htmlError, setHtmlError] = React.useState('');
   const [css, setCss] = React.useState(
-      beautify.css(targetElement.css, formatOptions));
+    beautify.css(targetElement.css, formatOptions)
+  );
   const [cssError, setCssError] = React.useState('');
 
   /** Checks if the HTML string includes a proper target element */
@@ -32,16 +38,14 @@ const SidebarTarget: React.FC = () => {
     return el.getElementsByClassName('target').length > 0;
   };
 
-  const changeHtml = (
-    val: string
-  ) => {
+  const changeHtml = (val: string) => {
     setHtml(val);
     if (validateHtml(val)) {
       targetElementDispatch({
         el: {
           html: val,
-          css: css
-        }
+          css: css,
+        },
       });
       if (htmlError !== '') {
         setHtmlError('');
@@ -49,21 +53,19 @@ const SidebarTarget: React.FC = () => {
     } else {
       setHtmlError('HTML must include a .target element');
     }
-  }
+  };
 
-  const changeCss = (
-    val: string
-  ) => {
+  const changeCss = (val: string) => {
     setCss(val);
-    
+
     try {
       let stylesheet = new CSSStyleSheet();
       stylesheet.replaceSync(val);
       targetElementDispatch({
         el: {
           html: html,
-          css: val
-        }
+          css: val,
+        },
       });
       if (cssError !== '') {
         setCssError('');
@@ -71,22 +73,22 @@ const SidebarTarget: React.FC = () => {
     } catch (error: any) {
       setCssError(error.message);
     }
-  }
+  };
 
   return (
     <div className={styling.wrapper}>
       Customize the target element
-      <p>
-        CSS
-      </p>
+      <p>CSS</p>
       <CodeMirror
         className={cssError !== '' ? styling.error : ''}
         value={css}
-        height='250px'
-        width='100%'
-        theme='dark'
+        height="250px"
+        width="100%"
+        theme="dark"
         extensions={[cssLang()]}
-        placeholder={'.target {\n  color: green;\n  font-family: monospace; \n}'}
+        placeholder={
+          '.target {\n  color: green;\n  font-family: monospace; \n}'
+        }
         basicSetup={{
           lineNumbers: false,
           foldGutter: false,
@@ -96,15 +98,13 @@ const SidebarTarget: React.FC = () => {
       <span className={styling['error-text']}>
         {cssError !== '' ? cssError : ''}
       </span>
-      <p>
-        HTML
-      </p>
+      <p>HTML</p>
       <CodeMirror
         className={htmlError !== '' ? styling.error : ''}
         value={html}
-        height='250px'
-        width='100%'
-        theme='dark'
+        height="250px"
+        width="100%"
+        theme="dark"
         extensions={[htmlLang()]}
         placeholder={'<div class="target">\n  Animation Text\n</div>'}
         basicSetup={{

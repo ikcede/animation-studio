@@ -5,13 +5,16 @@ import Autocomplete from '@mui/material/Autocomplete';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import {all as properties} from 'known-css-properties';
+import { all as properties } from 'known-css-properties';
 import Button from '@mui/material/Button';
 
 import styling from './KeyframeEditor.module.css';
 import { KeyframeSelectionContext } from '../../providers/KeyframeSelectionProvider';
-import { KeyframesContext, KeyframesDispatchContext } from '../../providers/KeyframesProvider';
-import Styles, {Style} from '@/model/Styles';
+import {
+  KeyframesContext,
+  KeyframesDispatchContext,
+} from '../../providers/KeyframesProvider';
+import Styles, { Style } from '@/model/Styles';
 
 const KeyframeEditor: React.FC = () => {
   const keyframes = React.useContext(KeyframesContext);
@@ -24,7 +27,7 @@ const KeyframeEditor: React.FC = () => {
    * Gets all known properties minus browser specific ones
    */
   const knownProperties = React.useMemo(() => {
-    let filtered = properties.filter(e => e[0] !== '-');
+    let filtered = properties.filter((e) => e[0] !== '-');
     filtered.sort();
     return filtered;
   }, []);
@@ -36,18 +39,18 @@ const KeyframeEditor: React.FC = () => {
     let newStyles = new Styles();
     newStyles.styles = styleList ?? styles.styles;
     setStyles(newStyles);
-  }
+  };
 
   const addStyle = () => {
-    styles.styles.push({prop: '', val: ''});
+    styles.styles.push({ prop: '', val: '' });
     updateStyles();
-  }
+  };
 
   const deleteStyle = (e: React.MouseEvent, index: number) => {
     e.preventDefault();
     styles.styles.splice(index, 1);
     saveStyles();
-  }
+  };
 
   /**
    * Save current styles to keyframes
@@ -62,7 +65,7 @@ const KeyframeEditor: React.FC = () => {
       let ruleStyle = rule.style;
       ruleStyle.cssText = '';
 
-      for (let style of (styleList ?? styles.styles)) {
+      for (let style of styleList ?? styles.styles) {
         if (style.prop == '' || style.val == '') {
           continue;
         }
@@ -73,26 +76,28 @@ const KeyframeEditor: React.FC = () => {
     keyframesDispatch({
       keyframes: keyframes.clone(),
     });
-  }
+  };
 
   const setStyleValue = (
-      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-      index: number
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index: number
   ) => {
     styles.styles[index].val = e.target.value;
     updateStyles(styles.styles);
-  }
+  };
 
   const setStyleProperty = (
-      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-      index: number
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index: number
   ) => {
     styles.styles[index].prop = e.target.value;
     updateStyles(styles.styles);
-  }
+  };
 
   React.useEffect(() => {
-    if (keyframes.keyframes == null) {return;}
+    if (keyframes.keyframes == null) {
+      return;
+    }
 
     const rule = keyframes.keyframes.findRule(selectedKeyframe + '%');
     if (rule !== null) {
@@ -101,7 +106,9 @@ const KeyframeEditor: React.FC = () => {
   }, [selectedKeyframe]);
 
   React.useEffect(() => {
-    if (keyframes.keyframes == null) {return;}
+    if (keyframes.keyframes == null) {
+      return;
+    }
 
     const rule = keyframes.keyframes.findRule(selectedKeyframe + '%');
     if (rule !== null) {
@@ -112,11 +119,7 @@ const KeyframeEditor: React.FC = () => {
 
   return (
     <div className={styling.editor}>
-      <Box
-        component="form"
-        noValidate
-        autoComplete="off"
-      >
+      <Box component="form" noValidate autoComplete="off">
         {styles.styles.map((style, index) => (
           <div className={styling.row} key={index}>
             <Autocomplete
@@ -126,41 +129,49 @@ const KeyframeEditor: React.FC = () => {
               freeSolo
               value={style.prop}
               options={knownProperties}
-              renderInput={(params) => 
-                <TextField {...params} 
-                          placeholder='Property'
-                          aria-label='Property'
-                          autoComplete='off'
-                          onBlur={(e) => saveStyles()}
-                          onChange={(e) => setStyleProperty(e, index)} />}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  placeholder="Property"
+                  aria-label="Property"
+                  autoComplete="off"
+                  onBlur={(e) => saveStyles()}
+                  onChange={(e) => setStyleProperty(e, index)}
+                />
+              )}
             />
-            <TextField variant='outlined' 
-                       className={styling.value}
-                       placeholder='Value'
-                       aria-label='Value'
-                       autoComplete='off'
-                       value={style.val}
-                       onBlur={(e) => saveStyles()}
-                       onChange={(e) => setStyleValue(e, index)} />
-            <IconButton size='small'
-                        aria-label='Delete'
-                        className='delete-icon'
-                        onClick={(e) => deleteStyle(e, index)}>
+            <TextField
+              variant="outlined"
+              className={styling.value}
+              placeholder="Value"
+              aria-label="Value"
+              autoComplete="off"
+              value={style.val}
+              onBlur={(e) => saveStyles()}
+              onChange={(e) => setStyleValue(e, index)}
+            />
+            <IconButton
+              size="small"
+              aria-label="Delete"
+              className="delete-icon"
+              onClick={(e) => deleteStyle(e, index)}
+            >
               <CloseIcon></CloseIcon>
             </IconButton>
           </div>
         ))}
-        <div className='property-row'>
-          <Button className='button'
-                  size='small'
-                  variant='outlined'
-                  startIcon={<AddIcon aria-label='Add' />}
-                  onClick={addStyle}>
+        <div className="property-row">
+          <Button
+            className="button"
+            size="small"
+            variant="outlined"
+            startIcon={<AddIcon aria-label="Add" />}
+            onClick={addStyle}
+          >
             Style
           </Button>
         </div>
       </Box>
-    
     </div>
   );
 };

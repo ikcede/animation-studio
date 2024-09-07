@@ -9,13 +9,13 @@ import TextField from '@mui/material/TextField';
 type AddKeyframeFunction = (value: number) => void;
 
 export interface AddKeyframeProps {
-  onAddKeyframe: AddKeyframeFunction,
-  error?: string,
+  onAddKeyframe: AddKeyframeFunction;
+  error?: string;
 }
 
 const AddKeyframe: React.FC<AddKeyframeProps> = ({
   onAddKeyframe = () => {},
-  error = ''
+  error = '',
 }) => {
   const [value, setValue] = React.useState('');
   const [valueError, setValueError] = React.useState(error);
@@ -25,19 +25,19 @@ const AddKeyframe: React.FC<AddKeyframeProps> = ({
   }, [error]);
 
   const changeValue = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setValue(e.target.value);
     if (valueError !== '') {
       setValueError('');
     }
-  }
+  };
 
   const onKeyUp = (e: React.KeyboardEvent) => {
     if (e.key == 'Enter') {
       createKeyframe();
     }
-  }
+  };
 
   const createKeyframe = () => {
     if (value !== '') {
@@ -50,29 +50,30 @@ const AddKeyframe: React.FC<AddKeyframeProps> = ({
         setValue('');
       }
     }
-  }
+  };
 
   return (
     <div className={`${styling.widget} input-row`}>
-      <TextField 
-          variant='outlined'
-          autoComplete='off'
-          value={value}
-          onChange={changeValue}
-          onKeyUp={onKeyUp}
-          error={valueError !== ''}
-          helperText={valueError === '' ? undefined : valueError}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">%</InputAdornment>)
-          }}
+      <TextField
+        variant="outlined"
+        autoComplete="off"
+        value={value}
+        onChange={changeValue}
+        onKeyUp={onKeyUp}
+        error={valueError !== ''}
+        helperText={valueError === '' ? undefined : valueError}
+        InputProps={{
+          endAdornment: <InputAdornment position="end">%</InputAdornment>,
+        }}
       ></TextField>
-      <Button className='button'
-              startIcon={<AddIcon aria-label='Add'/>}
-              size='small'
-              variant='outlined'
-              onClick={() => createKeyframe()}
-              sx={{marginLeft: '16px'}}>
+      <Button
+        className="button"
+        startIcon={<AddIcon aria-label="Add" />}
+        size="small"
+        variant="outlined"
+        onClick={() => createKeyframe()}
+        sx={{ marginLeft: '16px' }}
+      >
         Keyframe
       </Button>
     </div>

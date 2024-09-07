@@ -1,3 +1,3 @@
 export interface EditorSettings {
-  backgroundColor?: string,
+  backgroundColor?: string;
 }

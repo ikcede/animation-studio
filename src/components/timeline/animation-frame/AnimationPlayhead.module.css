@@ -10,7 +10,7 @@
   height: 12px;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  
+
   border-bottom: 12px solid var(--color-orange);
 
   position: absolute;
@@ -23,7 +23,7 @@
   height: 12px;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  
+
   border-top: 12px solid var(--color-red);
 
   position: absolute;

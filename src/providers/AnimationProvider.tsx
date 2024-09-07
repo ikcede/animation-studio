@@ -1,17 +1,17 @@
-'use client'
+'use client';
 
 import React from 'react';
 import { CustomAnimation } from '@/model';
 
-export const AnimationContext = 
-  React.createContext(new CustomAnimation());
-export const AnimationDispatchContext = 
-  React.createContext<React.Dispatch<AnimationReducerAction>>(() => {});
+export const AnimationContext = React.createContext(new CustomAnimation());
+export const AnimationDispatchContext = React.createContext<
+  React.Dispatch<AnimationReducerAction>
+>(() => {});
 
 type AnimationReducerAction = {
-  type: string,
-  value?: string,
-  newAnimation?: CustomAnimation,
+  type: string;
+  value?: string;
+  newAnimation?: CustomAnimation;
 };
 
 const animationReducer = (
@@ -23,16 +23,15 @@ const animationReducer = (
       return animation.clone().apply({
         playState: 'running',
         ended: false,
-        useClone: animation.ended ? 
-          !animation.useClone :
-          animation.useClone,
-        startTime: animation.ended ? 
-          0 : animation.startTime,
+        useClone: animation.ended
+          ? !animation.useClone
+          : animation.useClone,
+        startTime: animation.ended ? 0 : animation.startTime,
       });
     }
     case 'pause': {
       return animation.clone().apply({
-        playState: 'paused'
+        playState: 'paused',
       });
     }
     case 'end': {
@@ -64,29 +63,28 @@ const animationReducer = (
   }
 };
 
-export interface AnimationProviderProps 
-    extends React.PropsWithChildren {
-  animation?: CustomAnimation,
-  children: React.ReactNode
+export interface AnimationProviderProps extends React.PropsWithChildren {
+  animation?: CustomAnimation;
+  children: React.ReactNode;
 }
 
-const AnimationProvider: React.FC<AnimationProviderProps> = (
-  props
-) => {
-  const [animation, dispatch] = 
-      React.useReducer(animationReducer, new CustomAnimation());
+const AnimationProvider: React.FC<AnimationProviderProps> = (props) => {
+  const [animation, dispatch] = React.useReducer(
+    animationReducer,
+    new CustomAnimation()
+  );
 
   /**
    * Set up initial animation
    */
-    React.useEffect(() => {
-      if (props.animation !== undefined) {
-        dispatch({
-          type: 'update',
-          newAnimation: props.animation,
-        });
-      }
-    }, [props]);
+  React.useEffect(() => {
+    if (props.animation !== undefined) {
+      dispatch({
+        type: 'update',
+        newAnimation: props.animation,
+      });
+    }
+  }, [props]);
 
   return (
     <AnimationContext.Provider value={animation}>

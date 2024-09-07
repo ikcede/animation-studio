@@ -44,7 +44,7 @@ function a11yProps(index: number) {
   };
 }
 
-const Sidebar: React.FC = ({ }) => {
+const Sidebar: React.FC = ({}) => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -54,12 +54,22 @@ const Sidebar: React.FC = ({ }) => {
   return (
     <Box className={styling.wrapper}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} 
-              onChange={handleChange}
-              aria-label="Sidebar tabs"
-              sx={{paddingLeft: '8px', paddingRight: '8px'}}>
-          <Tab icon={<BookmarksIcon />} label="Keyframes" {...a11yProps(0)} />
-          <Tab icon={<PlayCircleIcon />} label="Animation" {...a11yProps(1)} />
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="Sidebar tabs"
+          sx={{ paddingLeft: '8px', paddingRight: '8px' }}
+        >
+          <Tab
+            icon={<BookmarksIcon />}
+            label="Keyframes"
+            {...a11yProps(0)}
+          />
+          <Tab
+            icon={<PlayCircleIcon />}
+            label="Animation"
+            {...a11yProps(1)}
+          />
           <Tab icon={<CodeIcon />} label="Target" {...a11yProps(2)} />
           <Tab icon={<GetAppIcon />} label="Export" {...a11yProps(3)} />
         </Tabs>

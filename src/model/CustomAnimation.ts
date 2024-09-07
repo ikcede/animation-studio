@@ -1,21 +1,20 @@
-
 export interface AnimationDetails {
-  name?: string,
-  duration?: number,
-  playState?: string,
-  initialDelay?: number,
-  startTime?: number,
-  iterationCount?: number | 'infinite',
-  timing?: string,
-  fillMode?: string,
-  direction?: string,
-  useClone?: boolean,
-  ended?: boolean,
+  name?: string;
+  duration?: number;
+  playState?: string;
+  initialDelay?: number;
+  startTime?: number;
+  iterationCount?: number | 'infinite';
+  timing?: string;
+  fillMode?: string;
+  direction?: string;
+  useClone?: boolean;
+  ended?: boolean;
 }
 
-/** 
+/**
  * Default values for the CSS animation property
- * 
+ *
  * Exported animation code is compared against these values to
  * shorten output.
  */
@@ -59,7 +58,9 @@ export class CustomAnimation implements AnimationDetails {
     this.setDuration(style.getPropertyValue('animation-duration'));
     this.setStartTime(style.getPropertyValue('animation-delay'));
     this.setInitialDelay(style.getPropertyValue('animation-delay'));
-    this.setIterationCount(style.getPropertyValue('animation-iteration-count'));
+    this.setIterationCount(
+      style.getPropertyValue('animation-iteration-count')
+    );
     this.setPlayState(style.getPropertyValue('animation-play-state'));
     this.setFillMode(style.getPropertyValue('animation-fill-mode'));
     this.setTiming(style.getPropertyValue('animation-timing-function'));
@@ -71,9 +72,9 @@ export class CustomAnimation implements AnimationDetails {
   buildFromString = (props: string): CustomAnimation => {
     const style = document.createElement('div').style;
     style.cssText = props;
-  
+
     return this.buildFromDeclaration(style);
-  }
+  };
 
   _stringToSeconds(stringValue: string): number | null {
     let timeRegex = /(^[-+]?[0-9]*\.?[0-9]*)(s|ms)*$/g;
@@ -105,7 +106,7 @@ export class CustomAnimation implements AnimationDetails {
     if (delay === null) {
       return false;
     }
-    this.startTime = - delay;
+    this.startTime = -delay;
     return true;
   }
 
@@ -177,22 +178,22 @@ export class CustomAnimation implements AnimationDetails {
     return this.useClone ? this.name + '2' : this.name;
   }
 
-  toReactProps() : React.CSSProperties {
+  toReactProps(): React.CSSProperties {
     return {
       animationName: this._getName(),
       animationDuration: this.duration + 's',
       animationPlayState: this.playState,
-      animationDelay: (- this.startTime) + 's',
+      animationDelay: -this.startTime + 's',
       animationIterationCount: this.iterationCount,
       animationTimingFunction: this.timing,
       animationFillMode: this.fillMode,
       animationDirection: this.direction,
-    }
+    };
   }
 
   toCSSString(options?: {
-      name?: string, 
-      useStartTime?: boolean
+    name?: string;
+    useStartTime?: boolean;
   }): string {
     let cssString = `animation-name: ${this._getName(options?.name)};
   animation-duration: ${this.duration}s;
@@ -211,12 +212,14 @@ export class CustomAnimation implements AnimationDetails {
   }
 
   toCSSShorthand(options?: {
-      name?: string,
-      useStartTime?: boolean
+    name?: string;
+    useStartTime?: boolean;
   }): string {
-    let delay = options?.useStartTime ? -this.startTime : this.initialDelay;
+    let delay = options?.useStartTime
+      ? -this.startTime
+      : this.initialDelay;
     let cssString = `animation: ${this._getName(options?.name)}`;
-    
+
     if (this.duration !== defaultValues.duration) {
       cssString += ' ' + this.duration + 's';
     }
@@ -243,5 +246,4 @@ export class CustomAnimation implements AnimationDetails {
 
     return cssString + ';';
   }
-
 }

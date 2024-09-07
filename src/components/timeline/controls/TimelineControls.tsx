@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React from 'react';
 import styling from './TimelineControls.module.css';
@@ -14,11 +14,11 @@ import AddIcon from '@mui/icons-material/Add';
 export type TimelineControlFunction = () => void;
 
 export interface TimelineControlsProps {
-  playing?: boolean,
-  onPlay?: TimelineControlFunction,
-  onPause?: TimelineControlFunction,
-  onSkipStart?: TimelineControlFunction,
-  onSkipEnd?: TimelineControlFunction,
+  playing?: boolean;
+  onPlay?: TimelineControlFunction;
+  onPause?: TimelineControlFunction;
+  onSkipStart?: TimelineControlFunction;
+  onSkipEnd?: TimelineControlFunction;
 }
 
 const TimelineControls: React.FC<TimelineControlsProps> = ({
@@ -28,57 +28,64 @@ const TimelineControls: React.FC<TimelineControlsProps> = ({
   onSkipStart = () => {},
   onSkipEnd = () => {},
 }) => {
-
   const handlePlayClick = (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
     onPlay();
-  }
+  };
 
   const handlePauseClick = (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
     onPause();
-  }
+  };
 
   const handleSkipStartClick = (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
     onSkipStart();
-  }
+  };
 
   const handleSkipEndClick = (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
     onSkipEnd();
-  }
+  };
 
   return (
     <div className={styling.wrapper}>
       <div className={styling.group}>
-        <IconButton size='small'
-                    aria-label='Skip to start'
-                    onClick={handleSkipStartClick}>
+        <IconButton
+          size="small"
+          aria-label="Skip to start"
+          onClick={handleSkipStartClick}
+        >
           <SkipPreviousIcon></SkipPreviousIcon>
         </IconButton>
 
         {playing ? (
-          <IconButton size='small'
-                      aria-label='Pause'
-                      onClick={handlePauseClick}>
+          <IconButton
+            size="small"
+            aria-label="Pause"
+            onClick={handlePauseClick}
+          >
             <PauseIcon></PauseIcon>
           </IconButton>
         ) : (
-          <IconButton size='small'
-                      aria-label='Play'
-                      onClick={handlePlayClick}>
-          <PlayArrowIcon></PlayArrowIcon>
-        </IconButton>
+          <IconButton
+            size="small"
+            aria-label="Play"
+            onClick={handlePlayClick}
+          >
+            <PlayArrowIcon></PlayArrowIcon>
+          </IconButton>
         )}
-        
-        <IconButton size='small'
-                    aria-label='Skip to end'
-                    onClick={handleSkipEndClick}>
+
+        <IconButton
+          size="small"
+          aria-label="Skip to end"
+          onClick={handleSkipEndClick}
+        >
           <SkipNextIcon></SkipNextIcon>
         </IconButton>
       </div>

@@ -1,18 +1,18 @@
 import React from 'react';
 import styling from './ExportCode.module.css';
-import CodeMirror from "@uiw/react-codemirror";
-import { css } from "@codemirror/lang-css";
+import CodeMirror from '@uiw/react-codemirror';
+import { css } from '@codemirror/lang-css';
 import beautify from 'js-beautify';
 import { IconButton } from '@mui/material';
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 
 export interface ExportCodeProps {
-  keyframesCss?: string,
-  animationCss?: string,
+  keyframesCss?: string;
+  animationCss?: string;
 }
 
 const formatOptions = {
-  indent_size: 2
+  indent_size: 2,
 };
 
 const ExportCode: React.FC<ExportCodeProps> = ({
@@ -30,38 +30,42 @@ const ExportCode: React.FC<ExportCodeProps> = ({
     return beautify.css(animationCss, formatOptions);
   }, [animationCss]);
 
-  const copyKeyframes = React.useCallback((e: React.MouseEvent) => {
-    navigator.clipboard.writeText(formattedKeyframes);
-    setKeyframesCopied(true);
-    setAnimationCopied(false);
-    setTimeout(() => setKeyframesCopied(false), 4000);
-  }, [formattedKeyframes, setKeyframesCopied]);
+  const copyKeyframes = React.useCallback(
+    (e: React.MouseEvent) => {
+      navigator.clipboard.writeText(formattedKeyframes);
+      setKeyframesCopied(true);
+      setAnimationCopied(false);
+      setTimeout(() => setKeyframesCopied(false), 4000);
+    },
+    [formattedKeyframes, setKeyframesCopied]
+  );
 
-  const copyAnimation = React.useCallback((e: React.MouseEvent) => {
-    navigator.clipboard.writeText(formattedAnimation);
-    setAnimationCopied(true);
-    setKeyframesCopied(false);
-    setTimeout(() => setAnimationCopied(false), 4000);
-  }, [formattedAnimation, setAnimationCopied]);
+  const copyAnimation = React.useCallback(
+    (e: React.MouseEvent) => {
+      navigator.clipboard.writeText(formattedAnimation);
+      setAnimationCopied(true);
+      setKeyframesCopied(false);
+      setTimeout(() => setAnimationCopied(false), 4000);
+    },
+    [formattedAnimation, setAnimationCopied]
+  );
 
   return (
     <div className={styling.wrapper}>
       <div className={styling.controls}>
-        <p>
-          Keyframes
-        </p>
+        <p>Keyframes</p>
         <div className={styling.copy}>
           {keyframesCopied && <p>Copied!</p>}
-          <IconButton onClick={copyKeyframes} aria-label='Copy'>
+          <IconButton onClick={copyKeyframes} aria-label="Copy">
             <ContentPasteGoIcon />
           </IconButton>
         </div>
       </div>
       <CodeMirror
         value={formattedKeyframes}
-        height='200px'
-        width='100%'
-        theme='dark'
+        height="200px"
+        width="100%"
+        theme="dark"
         extensions={[css()]}
         editable={false}
         basicSetup={{
@@ -69,23 +73,21 @@ const ExportCode: React.FC<ExportCodeProps> = ({
           foldGutter: false,
         }}
       />
-      
+
       <div className={styling.controls}>
-        <p>
-          Animation
-        </p>
+        <p>Animation</p>
         <div className={styling.copy}>
           {animationCopied && <p>Copied!</p>}
-          <IconButton onClick={copyAnimation} aria-label='Copy'>
+          <IconButton onClick={copyAnimation} aria-label="Copy">
             <ContentPasteGoIcon />
           </IconButton>
         </div>
       </div>
       <CodeMirror
         value={formattedAnimation}
-        height='225px'
-        width='100%'
-        theme='dark'
+        height="225px"
+        width="100%"
+        theme="dark"
         extensions={[css()]}
         editable={false}
         basicSetup={{
@@ -94,7 +96,7 @@ const ExportCode: React.FC<ExportCodeProps> = ({
         }}
       />
     </div>
-  )
-}
+  );
+};
 
-export default ExportCode
+export default ExportCode;

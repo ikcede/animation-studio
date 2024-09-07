@@ -1,5 +1,3 @@
 import round from './round';
 
-export {
-  round,
-}
+export { round };

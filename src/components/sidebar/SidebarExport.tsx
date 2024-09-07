@@ -9,7 +9,7 @@ const SidebarExport: React.FC = () => {
 
   const animationCss = React.useMemo(() => {
     return `.target {
-  ${animation.toCSSShorthand({name: animation.name, useStartTime: false})}
+  ${animation.toCSSShorthand({ name: animation.name, useStartTime: false })}
 }`;
   }, [animation]);
 
@@ -19,9 +19,7 @@ const SidebarExport: React.FC = () => {
   }, [keyframes]);
 
   return (
-    <ExportCode keyframesCss={keyframeCss}
-                animationCss={animationCss}
-    />
+    <ExportCode keyframesCss={keyframeCss} animationCss={animationCss} />
   );
 };
 

@@ -4,7 +4,8 @@
   margin: 16px 24px;
 }
 
-.header, .row {
+.header,
+.row {
   display: flex;
   flex-direction: row;
   align-items: center;

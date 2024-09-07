@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React from 'react';
 import styling from './SidebarKeyframes.module.css';
@@ -11,22 +11,26 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ListIcon from '@mui/icons-material/List';
 
-import { KeyframeSelectionContext, KeyframeSelectionDispatchContext } from '../../providers/KeyframeSelectionProvider';
+import {
+  KeyframeSelectionContext,
+  KeyframeSelectionDispatchContext,
+} from '../../providers/KeyframeSelectionProvider';
 
 const SidebarKeyframes: React.FC = () => {
   const [editor, setEditor] = React.useState<string>('default');
 
   const selectedKeyframe = React.useContext(KeyframeSelectionContext);
-  const selectedKeyframeDispatch = 
-    React.useContext(KeyframeSelectionDispatchContext);
+  const selectedKeyframeDispatch = React.useContext(
+    KeyframeSelectionDispatchContext
+  );
 
   const onBackClick = (e: React.MouseEvent) => {
-    selectedKeyframeDispatch({value: -1});
-  }
+    selectedKeyframeDispatch({ value: -1 });
+  };
 
   const handleEditorChange = (
     event: React.MouseEvent<HTMLElement>,
-    newEditor: string,
+    newEditor: string
   ) => {
     if (newEditor !== null) {
       setEditor(newEditor);
@@ -36,20 +40,20 @@ const SidebarKeyframes: React.FC = () => {
   return (
     <div className={styling.wrapper}>
       {selectedKeyframe == -1 ? (
-        <div className='list'>
-          <p>
-            Active Keyframes
-          </p>
+        <div className="list">
+          <p>Active Keyframes</p>
           <KeyframeList></KeyframeList>
         </div>
       ) : (
-        <div className='editor'>
+        <div className="editor">
           <div className={styling.controls}>
-            <Button className='button'
-                    size='small'
-                    variant='outlined'
-                    startIcon={<ArrowBackIosNewIcon />}
-                    onClick={onBackClick}>
+            <Button
+              className="button"
+              size="small"
+              variant="outlined"
+              startIcon={<ArrowBackIosNewIcon />}
+              onClick={onBackClick}
+            >
               Back
             </Button>
             <ToggleButtonGroup
@@ -58,17 +62,16 @@ const SidebarKeyframes: React.FC = () => {
               onChange={handleEditorChange}
               aria-label="editor type"
             >
-              <ToggleButton 
-                  value='default'
-                  aria-label='default'
-                  size='small'>
+              <ToggleButton
+                value="default"
+                aria-label="default"
+                size="small"
+              >
                 <ListIcon />
               </ToggleButton>
             </ToggleButtonGroup>
           </div>
-          <p>
-            Editing: {selectedKeyframe}%
-          </p>
+          <p>Editing: {selectedKeyframe}%</p>
           <KeyframeEditor></KeyframeEditor>
         </div>
       )}
