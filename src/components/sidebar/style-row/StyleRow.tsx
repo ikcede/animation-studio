@@ -18,7 +18,7 @@ const StyleRow: React.FC<StyleRowProps> = ({
   index = 0,
   initialProperty = '',
   initialValue = '',
-  autoFocus = false,
+  autoFocus,
   onPropertyChange = () => {},
   onValueChange = () => {},
   onDelete = () => {},
@@ -39,7 +39,7 @@ const StyleRow: React.FC<StyleRowProps> = ({
     (e: React.MouseEvent) => {
       onDelete(index);
     },
-    [onDelete]
+    [index, onDelete]
   );
 
   /** Process changes to the property autocomplete */
@@ -49,7 +49,7 @@ const StyleRow: React.FC<StyleRowProps> = ({
       setPropertyError('');
       onPropertyChange(value, index);
     },
-    [onPropertyChange]
+    [index, onPropertyChange]
   );
 
   /** Process changes to the property input */
@@ -59,20 +59,7 @@ const StyleRow: React.FC<StyleRowProps> = ({
       setPropertyError('');
       onPropertyChange(e.target.value, index);
     },
-    [onPropertyChange]
-  );
-
-  /** Checks for an error with the property */
-  const checkPropertyError = React.useCallback(
-    (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setPropertyError('');
-      let testProperty = e.target.value.trim();
-      if (testProperty.length > 0 && !AllCSSProperties.has(testProperty)) {
-        setPropertyError('Invalid property. ');
-      }
-      checkValueError(e);
-    },
-    [property]
+    [index, onPropertyChange]
   );
 
   /** Process changes to the property's value */
@@ -82,29 +69,38 @@ const StyleRow: React.FC<StyleRowProps> = ({
       onValueChange(e.target.value, index);
       setValueError('');
     },
-    [onValueChange]
+    [index, onValueChange]
   );
 
-  /** Checks for an error with the property's value */
-  const checkValueError = React.useCallback(
+  /** Validate both the property and the value */
+  const validate = React.useCallback(() => {
+    setPropertyError('');
+    setValueError('');
+
+    let testValue = value.trim();
+    let testProperty = property.trim();
+
+    // If the property is wrong, ignore the value
+    if (testProperty.length > 0 && !AllCSSProperties.has(testProperty)) {
+      setPropertyError('Invalid property.');
+      return;
+    }
+
+    if (testProperty.length > 0 && testValue.length > 0) {
+      let tempDiv = document.createElement('div');
+      tempDiv.style.setProperty(testProperty, testValue);
+      if (tempDiv.style.length == 0) {
+        setValueError('Invalid value.');
+      }
+    }
+  }, [value, property, setPropertyError, setValueError]);
+
+  /** Checks for errors on blur */
+  const handleBlur = React.useCallback(
     (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setValueError('');
-      if (propertyError !== '') {
-        return;
-      }
-
-      let testValue = value.trim();
-      let testProperty = property.trim();
-
-      if (testProperty.length > 0 && testValue.length > 0) {
-        let tempDiv = document.createElement('div');
-        tempDiv.style.setProperty(testProperty, testValue);
-        if (tempDiv.style.length == 0) {
-          setValueError('Invalid value.');
-        }
-      }
+      validate();
     },
-    [property, value, propertyError]
+    [validate]
   );
 
   return (
@@ -124,10 +120,10 @@ const StyleRow: React.FC<StyleRowProps> = ({
               {...params}
               placeholder="Property"
               autoComplete="off"
-              autoFocus={autoFocus}
+              autoFocus={autoFocus ? true : undefined}
               error={propertyError !== ''}
               onChange={handlePropertyChange}
-              onBlur={checkPropertyError}
+              onBlur={handleBlur}
             />
           )}
         />
@@ -139,7 +135,7 @@ const StyleRow: React.FC<StyleRowProps> = ({
           value={value}
           error={valueError !== ''}
           onChange={handleValueChange}
-          onBlur={checkValueError}
+          onBlur={handleBlur}
           inputProps={{
             'aria-label': 'Value',
             'data-value-index': index,

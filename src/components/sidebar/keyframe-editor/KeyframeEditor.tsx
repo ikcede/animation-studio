@@ -1,7 +1,6 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import AddIcon from '@mui/icons-material/Add';
-import { all as properties } from 'known-css-properties';
 import Button from '@mui/material/Button';
 
 import styling from './KeyframeEditor.module.css';
@@ -132,7 +131,7 @@ const KeyframeEditor: React.FC = () => {
             index={index}
             initialProperty={style.property}
             initialValue={style.value}
-            autoFocus={style.autoFocus !== undefined}
+            autoFocus={style.autoFocus ? true : undefined}
             onPropertyChange={setStyleProperty}
             onValueChange={setStyleValue}
             onDelete={deleteStyle}

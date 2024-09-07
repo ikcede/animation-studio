@@ -14,7 +14,7 @@ Since this is a project I built for fun in about a month, I don't intend to full
 
 Next:
 
-  - Optimize editor component
+- Optimize editor component by moving context out of editor into a wrapper
 - Launch beta
 
 Backlog:
