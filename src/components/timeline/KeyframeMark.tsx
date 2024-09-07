@@ -50,7 +50,7 @@ const KeyframeMark: React.FC<KeyframeMarkProps> = ({
       return round(percent, precision);
     }
     return Math.floor(percent) + '.*';
-  }, [percent, round, precision]);
+  }, [percent, precision]);
 
   return (
     <div

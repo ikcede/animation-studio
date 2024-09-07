@@ -171,10 +171,12 @@ const AnimationTiming: React.FC<AnimationTimingProps> = ({
         let values = bezierMatch[1].split(',');
 
         if (values.length == 4) {
-          for (let i = 0; i < 4; i++) {
-            bezier[i] = values[i].trim();
-          }
-          setBezier([...bezier]);
+          setBezier((oldBezier) => {
+            for (let i = 0; i < 4; i++) {
+              oldBezier[i] = values[i].trim();
+            }
+            return [...oldBezier];
+          });
           setType(animationTypes[1].type);
         }
       }

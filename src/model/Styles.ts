@@ -27,10 +27,14 @@ export default class Styles {
     return out;
   }
 
-  static buildFromDeclaration(declaration: CSSStyleDeclaration): Style[] {
+  static buildFromDeclaration(declaration?: CSSStyleDeclaration): Style[] {
+    let styles = new Array<Style>();
+    if (declaration === undefined) {
+      return styles;
+    }
+
     let regex = /([\w-]*)\s*:\s*([^;]*)/g;
     let match;
-    let styles = new Array<Style>();
 
     while ((match = regex.exec(declaration.cssText)) !== null) {
       styles.push({

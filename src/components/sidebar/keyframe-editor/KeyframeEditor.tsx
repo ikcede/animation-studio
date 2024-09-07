@@ -4,36 +4,28 @@ import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 
 import styling from './KeyframeEditor.module.css';
-import { KeyframeSelectionContext } from '@/providers/KeyframeSelectionProvider';
-import {
-  KeyframesContext,
-  KeyframesDispatchContext,
-} from '@/providers/KeyframesProvider';
 import Styles, { Style } from '@/model/Styles';
 import StyleRow from '../style-row/StyleRow';
 
-const KeyframeEditor: React.FC = () => {
-  const keyframes = React.useContext(KeyframesContext);
-  const keyframesDispatch = React.useContext(KeyframesDispatchContext);
-  const selectedKeyframe = React.useContext(KeyframeSelectionContext);
+interface KeyframeEditorProps {
+  keyframes: CSSKeyframeRule | null;
+  onKeyframeChange?: (cssText: string) => void;
+}
 
-  const [styles, setStyles] = React.useState(new Array<Style>());
+const KeyframeEditor: React.FC<KeyframeEditorProps> = ({
+  keyframes,
+  onKeyframeChange = () => {},
+}) => {
+  const [styles, setStyles] = React.useState(
+    Styles.buildFromDeclaration(keyframes?.style) ?? new Array<Style>()
+  );
 
   /**
    * Save current styles to keyframes
    */
   const saveStyles = React.useCallback(() => {
-    if (keyframes.keyframes == null) {
-      return;
-    }
-    const rule = keyframes.keyframes.findRule(selectedKeyframe + '%');
-    if (rule !== null) {
-      rule.style.cssText = Styles.toCSSString(styles);
-    }
-    keyframesDispatch({
-      keyframes: keyframes.clone(),
-    });
-  }, [keyframes, selectedKeyframe, styles, keyframesDispatch]);
+    onKeyframeChange(Styles.toCSSString(styles));
+  }, [styles, onKeyframeChange]);
 
   /** Adds an empty [Style] to the end of the style list */
   const addStyle = React.useCallback(
@@ -106,16 +98,12 @@ const KeyframeEditor: React.FC = () => {
     [addStyle]
   );
 
+  /** Listen for changes to keyframes if needed */
   React.useEffect(() => {
-    if (keyframes.keyframes == null) {
-      return;
-    }
-
-    const rule = keyframes.keyframes.findRule(selectedKeyframe + '%');
-    if (rule !== null) {
-      setStyles(Styles.buildFromDeclaration(rule.style));
-    }
-  }, [selectedKeyframe]);
+    setStyles(
+      Styles.buildFromDeclaration(keyframes?.style) ?? new Array<Style>()
+    );
+  }, [keyframes]);
 
   return (
     <div className={styling.editor}>

@@ -3,7 +3,7 @@
 import React from 'react';
 import styling from './SidebarKeyframes.module.css';
 import KeyframeList from './KeyframeList';
-import KeyframeEditor from './keyframe-editor/KeyframeEditor';
+import KeyframeEditorWrapper from './keyframe-editor-wrapper/KeyframeEditorWrapper';
 
 import Button from '@mui/material/Button';
 import ToggleButton from '@mui/material/ToggleButton';
@@ -72,7 +72,7 @@ const SidebarKeyframes: React.FC = () => {
             </ToggleButtonGroup>
           </div>
           <p>Editing: {selectedKeyframe}%</p>
-          <KeyframeEditor></KeyframeEditor>
+          <KeyframeEditorWrapper />
         </div>
       )}
     </div>
