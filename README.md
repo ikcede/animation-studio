@@ -15,6 +15,7 @@ Since this is a project I built for fun in about a month, I don't intend to full
 Next:
 
 * Get rid of keyframe blur editing
+  * Need to rewrite the whole keyframe editor
 * Launch beta
 
 Backlog:
@@ -22,6 +23,8 @@ Backlog:
 * Add new animations to lib
 * Clean up longform CSS string outputs
 * Clean up preview logic
+* Allow for higher precision keyframe values
+* Support keyframe codemirror editor
 * Timeline:
   * Speed mods
 * Mobile touch support -.-

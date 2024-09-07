@@ -1,4 +1,4 @@
-import { AnimationDetails, CustomAnimation } from '..';
+import { AnimationDetails, CustomAnimation } from '../CustomAnimation';
 
 let data = <AnimationDetails>{
   name: 'test',
@@ -12,9 +12,9 @@ let data = <AnimationDetails>{
   direction: 'forwards',
   useClone: false,
   ended: false,
-}
+};
 
-describe(CustomAnimation, () => {
+describe('CustomAnimation', () => {
   it('constructs from AnimationDetails', () => {
     let animation = new CustomAnimation(data);
 
@@ -49,5 +49,5 @@ describe(CustomAnimation, () => {
 
     animation.setDuration('100ms');
     expect(animation.duration).toBe(0.1);
-  })
+  });
 });

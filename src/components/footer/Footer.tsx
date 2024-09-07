@@ -2,9 +2,14 @@ import React from 'react';
 import styling from './Footer.module.css';
 import Link from 'next/link';
 
+/**
+ * Footer component displaying information about the project.
+ * 
+ * @returns {JSX.Element}
+ */
 const Footer: React.FC = () => {
   return (
-    <div className={styling.wrapper}>
+    <footer className={styling.wrapper}>
       <div className={styling.item}>
         Built by: 
         <Link href='https://github.com/ikcede'
@@ -26,7 +31,7 @@ const Footer: React.FC = () => {
           Github repo
         </Link>
       </div>
-    </div>
+    </footer>
   )
 }
 

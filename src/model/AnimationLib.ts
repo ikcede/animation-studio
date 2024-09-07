@@ -2,7 +2,6 @@
  * This needs to be a typed object to be returned
  * directly from NextJS
  */
-
 export default interface AnimationLib {
   id: number;
   name: string;
