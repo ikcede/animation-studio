@@ -34,6 +34,11 @@ const Footer: React.FC = () => {
           Github repo
         </Link>
       </div>
+      <div className={styling.item}>
+        <Link href="https://forms.gle/twdbLxMobmNuiYw47" target="_blank">
+          Feedback
+        </Link>
+      </div>
     </footer>
   );
 };
