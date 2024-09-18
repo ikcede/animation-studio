@@ -14,13 +14,15 @@ Since this is a project I built for fun in about a month, I don't intend to full
 
 Next:
 
-- Launch beta
+- Fix mobile view editor width
+- Fix zoom in on text fields on mobile
 
 Backlog:
 
 - Keyframes:
 
   - Edit keyframe from keyframe view
+  - Go from property to value on ":" keydown
   - Support keyframe codemirror editor
   - Allow for higher precision keyframe values
 
