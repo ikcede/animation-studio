@@ -4,18 +4,18 @@ import AnimationLib, { buildFromDefaultLib } from '@/model/AnimationLib';
 import data from '@/data/animationData';
 import React from 'react';
 
-export default function Layout({
+export default async function Layout({
   children,
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }>) {
-  const lib: AnimationLib = React.useMemo(() => {
-    const id = params.id;
+  const { id } = await params;
 
+  const lib: AnimationLib = React.useMemo(() => {
     if (id === 'custom') {
       let lib = buildFromDefaultLib();
       return lib;
@@ -35,11 +35,9 @@ export default function Layout({
 
     let libById = data.find((e) => e.id === idValue);
     return buildFromDefaultLib(libById);
-  }, [params]);
+  }, [id]);
 
   const variant: number = React.useMemo(() => {
-    const id = params.id;
-
     if (id.indexOf('v') > -1) {
       let ids = id.split('v');
       const variantValue = parseInt(ids[1]);
@@ -50,7 +48,7 @@ export default function Layout({
     }
 
     return -1;
-  }, [params]);
+  }, [id]);
 
   return (
     <EditorProvider animationLib={lib} variant={variant}>
