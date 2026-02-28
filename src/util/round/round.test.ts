@@ -1,4 +1,4 @@
-import round from '../round';
+import round from '../round/round';
 
 describe('round', () => {
   it('rounds to nearest integer when no decimal places specified', () => {

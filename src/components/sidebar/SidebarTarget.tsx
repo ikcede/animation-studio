@@ -1,35 +1,36 @@
 'use client';
 
-import React from 'react';
+import { useEffect, useState, FC, useCallback } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { css as cssLang } from '@codemirror/lang-css';
 import { html as htmlLang } from '@codemirror/lang-html';
 import beautify from 'js-beautify';
 
 import styling from './SidebarTarget.module.css';
-import {
-  TargetElementContext,
-  TargetElementDispatchContext,
-} from '@/providers/TargetElementProvider';
+import { useTimelineContext } from '@/context/TimelineContext/TimelineContext';
 
-const SidebarTarget: React.FC = () => {
+const SidebarTarget: FC = () => {
   const formatOptions = {
     indent_size: 2,
   };
 
-  const targetElement = React.useContext(TargetElementContext);
-  const targetElementDispatch = React.useContext(
-    TargetElementDispatchContext
-  );
+  const { targetHtml, targetCss, setTargetHtml, setTargetCss } =
+    useTimelineContext();
 
-  const [html, setHtml] = React.useState(
-    beautify.html(targetElement.html, formatOptions)
+  const [html, setHtml] = useState(
+    beautify.html(targetHtml, formatOptions)
   );
-  const [htmlError, setHtmlError] = React.useState('');
-  const [css, setCss] = React.useState(
-    beautify.css(targetElement.css, formatOptions)
-  );
-  const [cssError, setCssError] = React.useState('');
+  const [htmlError, setHtmlError] = useState('');
+  const [css, setCss] = useState(beautify.css(targetCss, formatOptions));
+  const [cssError, setCssError] = useState('');
+
+  /** Update the HTML and CSS when the target HTML and CSS changes */
+  useEffect(() => {
+    setHtml(beautify.html(targetHtml, formatOptions));
+    setHtmlError('');
+    setCss(beautify.css(targetCss, formatOptions));
+    setCssError('');
+  }, [targetHtml, targetCss]);
 
   /** Checks if the HTML string includes a proper target element */
   const validateHtml = (htmlString: string): boolean => {
@@ -38,42 +39,38 @@ const SidebarTarget: React.FC = () => {
     return el.getElementsByClassName('target').length > 0;
   };
 
-  const changeHtml = (val: string) => {
-    setHtml(val);
-    if (validateHtml(val)) {
-      targetElementDispatch({
-        el: {
-          html: val,
-          css: css,
-        },
-      });
-      if (htmlError !== '') {
-        setHtmlError('');
+  const changeHtml = useCallback(
+    (val: string) => {
+      setHtml(val);
+      if (validateHtml(val)) {
+        setTargetHtml(val);
+        if (htmlError !== '') {
+          setHtmlError('');
+        }
+      } else {
+        setHtmlError('HTML must include a .target element');
       }
-    } else {
-      setHtmlError('HTML must include a .target element');
-    }
-  };
+    },
+    [setTargetHtml, setHtmlError, htmlError]
+  );
 
-  const changeCss = (val: string) => {
-    setCss(val);
+  const changeCss = useCallback(
+    (val: string) => {
+      setCss(val);
 
-    try {
-      let stylesheet = new CSSStyleSheet();
-      stylesheet.replaceSync(val);
-      targetElementDispatch({
-        el: {
-          html: html,
-          css: val,
-        },
-      });
-      if (cssError !== '') {
-        setCssError('');
+      try {
+        let stylesheet = new CSSStyleSheet();
+        stylesheet.replaceSync(val);
+        setTargetCss(val);
+        if (cssError !== '') {
+          setCssError('');
+        }
+      } catch (error: any) {
+        setCssError(error.message);
       }
-    } catch (error: any) {
-      setCssError(error.message);
-    }
-  };
+    },
+    [setTargetCss, setCssError, cssError]
+  );
 
   return (
     <div className={styling.wrapper}>

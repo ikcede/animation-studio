@@ -1,10 +1,10 @@
 import React from 'react';
 import { AnimationContext } from '@/providers/AnimationProvider';
-import { KeyframesContext } from '@/providers/KeyframesProvider';
 import ExportCode from '@/components/export-code/ExportCode';
+import { useTimelineContext } from '@/context/TimelineContext/TimelineContext';
 
 const SidebarExport: React.FC = () => {
-  const keyframes = React.useContext(KeyframesContext);
+  const { keyframes } = useTimelineContext();
   const animation = React.useContext(AnimationContext);
 
   const animationCss = React.useMemo(() => {

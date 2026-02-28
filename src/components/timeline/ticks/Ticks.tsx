@@ -1,5 +1,5 @@
 import React from 'react';
-import round from '@/util/round';
+import round from '@/util/round/round';
 import styling from './Ticks.module.css';
 
 /**

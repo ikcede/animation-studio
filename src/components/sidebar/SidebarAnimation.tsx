@@ -20,18 +20,19 @@ import {
   AnimationContext,
   AnimationDispatchContext,
 } from '@/providers/AnimationProvider';
-import {
-  KeyframesContext,
-  KeyframesDispatchContext,
-} from '@/providers/KeyframesProvider';
 import AnimationTiming from './widgets/AnimationTiming';
 import AnimationDirection from './widgets/AnimationDirection';
+import { useTimelineContext } from '@/context/TimelineContext/TimelineContext';
 
 const SidebarAnimation: React.FC = () => {
   const animation = React.useContext(AnimationContext);
   const animationDispatch = React.useContext(AnimationDispatchContext);
-  const keyframes = React.useContext(KeyframesContext);
-  const keyframesDispatch = React.useContext(KeyframesDispatchContext);
+  const {
+    keyframes,
+    setKeyframes,
+    animation: timelineAnimation,
+    setAnimation: setTimelineAnimation,
+  } = useTimelineContext();
 
   const [name, setName] = React.useState(animation.name);
   const [duration, setDuration] = React.useState('1');
@@ -45,17 +46,16 @@ const SidebarAnimation: React.FC = () => {
     setName(newName);
 
     if (newName.length > 0) {
-      animationDispatch({
-        type: 'update',
-        newAnimation: animation.clone().apply({ name: newName }),
-      });
+      // animationDispatch({
+      //   type: 'update',
+      //   newAnimation: animation.clone().apply({ name: newName }),
+      // });
+      setTimelineAnimation(animation.clone().apply({ name: newName }));
 
       // Also update keyframes because these point to the animation name
       let newKeyframes = keyframes.clone();
       newKeyframes.keyframes!.name = newName;
-      keyframesDispatch({
-        keyframes: newKeyframes,
-      });
+      setKeyframes(newKeyframes);
     }
   };
 
@@ -66,10 +66,11 @@ const SidebarAnimation: React.FC = () => {
     setDuration(newDuration);
 
     animation.setDuration(newDuration);
-    animationDispatch({
-      type: 'update',
-      newAnimation: animation.clone(),
-    });
+    // animationDispatch({
+    //   type: 'update',
+    //   newAnimation: animation.clone(),
+    // });
+    setTimelineAnimation(animation.clone());
   };
 
   const changeIteration = (

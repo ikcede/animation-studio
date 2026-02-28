@@ -1,15 +1,11 @@
 import { KeyframeSelectionContext } from '@/providers/KeyframeSelectionProvider';
-import {
-  KeyframesContext,
-  KeyframesDispatchContext,
-} from '@/providers/KeyframesProvider';
 import React from 'react';
 import KeyframeEditor from '../keyframe-editor/KeyframeEditor';
+import { useTimelineContext } from '@/context/TimelineContext/TimelineContext';
 
 const KeyframeEditorWrapper: React.FC = () => {
-  const keyframes = React.useContext(KeyframesContext);
-  const keyframesDispatch = React.useContext(KeyframesDispatchContext);
   const selectedKeyframe = React.useContext(KeyframeSelectionContext);
+  const { keyframes, setKeyframes } = useTimelineContext();
 
   const [activeKeyframe, setActiveKeyframe] =
     React.useState<CSSKeyframeRule | null>(null);
@@ -26,11 +22,9 @@ const KeyframeEditorWrapper: React.FC = () => {
       if (rule !== null) {
         rule.style.cssText = cssText;
       }
-      keyframesDispatch({
-        keyframes: keyframes.clone(),
-      });
+      setKeyframes(keyframes.clone());
     },
-    [keyframes, selectedKeyframe, keyframesDispatch]
+    [keyframes, selectedKeyframe, setKeyframes]
   );
 
   /** Only send updated values on selected keyframe change */

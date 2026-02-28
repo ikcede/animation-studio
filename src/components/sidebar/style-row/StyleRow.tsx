@@ -2,7 +2,7 @@ import React from 'react';
 import styling from './StyleRow.module.css';
 import { Autocomplete, TextField, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { PureCSSProperties, AllCSSProperties } from '@/util/CSSProperties';
+import { PureCSSProperties, AllCSSProperties } from '@/util/CSSProperties/CSSProperties';
 
 export interface StyleRowProps {
   index?: number;

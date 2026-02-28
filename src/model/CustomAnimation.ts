@@ -18,7 +18,7 @@ export interface AnimationDetails {
  * Exported animation code is compared against these values to
  * shorten output.
  */
-const defaultValues = {
+export const defaultValues = {
   duration: 0,
   timing: 'ease',
   delay: 0,

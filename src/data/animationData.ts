@@ -1,6 +1,6 @@
 /** We're gonna start off hard coding this */
 
-import AnimationLib from '@/model/AnimationLib';
+import AnimationDto from '@/model/AnimationDto';
 
 const animations = [
   {
@@ -321,5 +321,5 @@ const animations = [
   },
 ];
 
-const data = new Array<AnimationLib>().concat([...animations]);
+const data = new Array<AnimationDto>().concat([...animations]);
 export default data;

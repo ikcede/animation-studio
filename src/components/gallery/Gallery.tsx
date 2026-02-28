@@ -5,7 +5,7 @@ import styling from './Gallery.module.css';
 import GalleryItem from './GalleryItem';
 import data from '@/data/animationData';
 import FilterBar from './widgets/FilterBar';
-import AnimationLib from '@/model/AnimationLib';
+import AnimationDto from '@/model/AnimationDto';
 
 const allFilters = ['All', 'Enter', 'Exit', 'Text'];
 
@@ -17,7 +17,7 @@ const Gallery: React.FC = () => {
   };
 
   const isCollapsed = React.useCallback(
-    (lib: AnimationLib) => {
+    (lib: AnimationDto) => {
       if (activeFilter.length > 0 && activeFilter !== 'All') {
         if (lib.tags === undefined) {
           return true;

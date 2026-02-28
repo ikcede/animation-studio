@@ -1,8 +1,10 @@
 import { ReactNode } from 'react';
 import { redirect } from 'next/navigation';
 import EditorProvider from '@/providers/EditorProvider';
-import AnimationLib, { buildFromDefaultLib } from '@/model/AnimationLib';
+import AnimationDto, { buildFromDefaultLib } from '@/model/AnimationDto';
 import data from '@/data/animationData';
+import { EditorContextProvider } from '@/context/EditorContext/EditorContext';
+import { TimelineContextProvider } from '@/context/TimelineContext/TimelineContext';
 
 export default async function Layout({
   children,
@@ -15,10 +17,9 @@ export default async function Layout({
 }>) {
   const { id } = await params;
 
-  const getLib = (): AnimationLib => {
+  const getLib = (): AnimationDto | undefined => {
     if (id === 'custom') {
-      let lib = buildFromDefaultLib();
-      return lib;
+      return undefined;
     }
 
     let idValue = -1;
@@ -51,8 +52,12 @@ export default async function Layout({
   };
 
   return (
-    <EditorProvider animationLib={getLib()} variant={getVariant()}>
-      {children}
-    </EditorProvider>
+    <EditorContextProvider>
+      <TimelineContextProvider>
+        <EditorProvider animationLib={getLib()} variant={getVariant()}>
+          {children}
+        </EditorProvider>
+      </TimelineContextProvider>
+    </EditorContextProvider>
   );
 }

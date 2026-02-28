@@ -9,12 +9,8 @@ import KeyframeMark from './KeyframeMark';
 import TimelineControls from './controls/TimelineControls';
 import KeyframeControls from './controls/KeyframeControls';
 
-import round from '@/util/round';
+import round from '@/util/round/round';
 
-import {
-  KeyframesContext,
-  KeyframesDispatchContext,
-} from '@/providers/KeyframesProvider';
 import {
   AnimationContext,
   AnimationDispatchContext,
@@ -23,7 +19,8 @@ import {
   KeyframeSelectionContext,
   KeyframeSelectionDispatchContext,
 } from '@/providers/KeyframeSelectionProvider';
-import AnimationFrame from './animation-frame/AnimationFrame';
+import AnimationFrame from './AnimationFrame/AnimationFrame';
+import { useTimelineContext } from '@/context/TimelineContext/TimelineContext';
 
 export type KeyframeChangeFunction = (
   newKeyframes: CSSKeyframesRule
@@ -41,8 +38,7 @@ const Timeline: React.FC = ({}) => {
     KeyframeSelectionDispatchContext
   );
 
-  const keyframes = React.useContext(KeyframesContext);
-  const keyframesDispatch = React.useContext(KeyframesDispatchContext);
+  const { keyframes, setKeyframes } = useTimelineContext();
 
   const [playheadDown, setPlayheadDown] = React.useState(false);
 
@@ -132,9 +128,7 @@ const Timeline: React.FC = ({}) => {
         let percent = round(getPercent(e) * 100);
         if (keyframes.keyframes!.findRule(percent + '%') === null) {
           keyframes.keyframes![keyframeDown].keyText = percent + '%';
-          keyframesDispatch({
-            keyframes: keyframes.clone(),
-          });
+          setKeyframes(keyframes.clone());
           keyframeSelectionDispatch({ value: percent });
         }
       } else if (playheadDown || keyframeDown > -1) {
@@ -150,7 +144,7 @@ const Timeline: React.FC = ({}) => {
       keyframeDown,
       getPercent,
       animationDispatch,
-      keyframesDispatch,
+      setKeyframes,
       keyframeSelectionDispatch,
     ]
   );
@@ -163,9 +157,7 @@ const Timeline: React.FC = ({}) => {
       if (keyframes.keyframes!.findRule(percent + '%') === null) {
         keyframes.keyframes!.appendRule(`${percent}% { }`);
       }
-      keyframesDispatch({
-        keyframes: keyframes.clone(),
-      });
+      setKeyframes(keyframes.clone());
       setAddMode(false);
     } else {
       animationDispatch({
@@ -216,9 +208,7 @@ const Timeline: React.FC = ({}) => {
 
   const deleteSelectedKeyframe = () => {
     keyframes.keyframes!.deleteRule(selectedKeyframe + '%');
-    keyframesDispatch({
-      keyframes: keyframes.clone(),
-    });
+    setKeyframes(keyframes.clone());
     keyframeSelectionDispatch({ value: -1 });
   };
 
