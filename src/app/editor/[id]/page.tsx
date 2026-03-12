@@ -1,19 +1,18 @@
 'use client';
 
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import styling from './page.module.css';
 import AppBar from '@/components/app-bar/AppBar';
 import AnimationPreview from '@/components/preview/AnimationPreview';
 import Timeline from '@/components/timeline/Timeline';
 import Sidebar from '@/components/sidebar/Sidebar';
 
-import { AnimationContext } from '@/providers/AnimationProvider';
 import { useTimelineContext } from '@/context/TimelineContext/TimelineContext';
 import { useEditorContext } from '@/context/EditorContext/EditorContext';
 
 export default function Page() {
-  const animation = useContext(AnimationContext);
-  const { keyframes, targetHtml, targetCss } = useTimelineContext();
+  const { animation, keyframes, targetHtml, targetCss } =
+    useTimelineContext();
   const { editorState } = useEditorContext();
   const [allKeyframes, setAllKeyframes] = useState('');
 

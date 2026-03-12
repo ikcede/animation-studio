@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import styling from './Timeline.module.css';
 import playKeyframes from '@/styles/play.module.css';
@@ -12,15 +12,12 @@ import KeyframeControls from './controls/KeyframeControls';
 import round from '@/util/round/round';
 
 import {
-  AnimationContext,
-  AnimationDispatchContext,
-} from '@/providers/AnimationProvider';
-import {
   KeyframeSelectionContext,
   KeyframeSelectionDispatchContext,
 } from '@/providers/KeyframeSelectionProvider';
 import AnimationFrame from './AnimationFrame/AnimationFrame';
 import { useTimelineContext } from '@/context/TimelineContext/TimelineContext';
+import { useTimelineControlsContext } from '@/context/TimelineControlsContext/TimelineControlsContext';
 
 export type KeyframeChangeFunction = (
   newKeyframes: CSSKeyframesRule
@@ -30,15 +27,13 @@ const Timeline: React.FC = ({}) => {
   const animationName = playKeyframes.play;
   const animationClone = playKeyframes.play2;
 
-  const animation = React.useContext(AnimationContext);
-  const animationDispatch = React.useContext(AnimationDispatchContext);
-
   const selectedKeyframe = React.useContext(KeyframeSelectionContext);
   const keyframeSelectionDispatch = React.useContext(
     KeyframeSelectionDispatchContext
   );
 
-  const { keyframes, setKeyframes } = useTimelineContext();
+  const { animation, keyframes, setKeyframes } = useTimelineContext();
+  const { pause, end, setTime } = useTimelineControlsContext();
 
   const [playheadDown, setPlayheadDown] = React.useState(false);
 
@@ -84,11 +79,9 @@ const Timeline: React.FC = ({}) => {
     (e: React.MouseEvent) => {
       e.preventDefault();
       setPlayheadDown(true);
-      animationDispatch({
-        type: 'pause',
-      });
+      pause();
     },
-    [animationDispatch]
+    [pause]
   );
 
   const handleKeyframeDown = React.useCallback(
@@ -120,10 +113,7 @@ const Timeline: React.FC = ({}) => {
         }
       } else if (e.buttons === 1 && playheadDown) {
         let percent = getPercent(e);
-        animationDispatch({
-          type: 'setTime',
-          value: (percent * animation.duration).toString(),
-        });
+        setTime(percent * animation.duration);
       } else if (e.buttons === 1 && keyframeDown > -1) {
         let percent = round(getPercent(e) * 100);
         if (keyframes.keyframes!.findRule(percent + '%') === null) {
@@ -143,8 +133,8 @@ const Timeline: React.FC = ({}) => {
       animation.duration,
       keyframeDown,
       getPercent,
-      animationDispatch,
       setKeyframes,
+      setTime,
       keyframeSelectionDispatch,
     ]
   );
@@ -160,44 +150,13 @@ const Timeline: React.FC = ({}) => {
       setKeyframes(keyframes.clone());
       setAddMode(false);
     } else {
-      animationDispatch({
-        type: 'setTime',
-        value: (percent * animation.duration).toString(),
-      });
+      setTime(percent * animation.duration);
     }
   };
 
-  const onPlayClick = () => {
-    animationDispatch({
-      type: 'play',
-    });
-  };
-
-  const handlePlayEnd = () => {
-    animationDispatch({
-      type: 'end',
-    });
-  };
-
-  const onSkipStart = () => {
-    animationDispatch({
-      type: 'setTime',
-      value: '0',
-    });
-  };
-
-  const onSkipEnd = () => {
-    animationDispatch({
-      type: 'setTime',
-      value: animation.duration.toString(),
-    });
-  };
-
-  const onPause = () => {
-    animationDispatch({
-      type: 'pause',
-    });
-  };
+  const handlePlayEnd = useCallback(() => {
+    end();
+  }, [end]);
 
   const selectKeyframe = (percent: number) => {
     keyframeSelectionDispatch({ value: percent });
@@ -221,10 +180,6 @@ const Timeline: React.FC = ({}) => {
       <div className={styling.controls}>
         <TimelineControls
           playing={animation.playState === 'running'}
-          onPlay={onPlayClick}
-          onPause={onPause}
-          onSkipStart={onSkipStart}
-          onSkipEnd={onSkipEnd}
         ></TimelineControls>
         <KeyframeControls
           keyframeSelected={showDeleteKeyframe()}

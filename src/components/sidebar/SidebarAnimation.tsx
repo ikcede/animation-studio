@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import TextField from '@mui/material/TextField';
 import {
@@ -16,28 +16,27 @@ import WestIcon from '@mui/icons-material/West';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 
 import styling from './SidebarAnimation.module.css';
-import {
-  AnimationContext,
-  AnimationDispatchContext,
-} from '@/providers/AnimationProvider';
 import AnimationTiming from './widgets/AnimationTiming';
 import AnimationDirection from './widgets/AnimationDirection';
 import { useTimelineContext } from '@/context/TimelineContext/TimelineContext';
 
 const SidebarAnimation: React.FC = () => {
-  const animation = React.useContext(AnimationContext);
-  const animationDispatch = React.useContext(AnimationDispatchContext);
   const {
     keyframes,
     setKeyframes,
-    animation: timelineAnimation,
-    setAnimation: setTimelineAnimation,
+    animation,
+    setAnimation,
+    updateAnimation,
   } = useTimelineContext();
 
-  const [name, setName] = React.useState(animation.name);
-  const [duration, setDuration] = React.useState('1');
-  const [iteration, setIteration] = React.useState('1');
-  const [fillMode, setFillMode] = React.useState(animation.fillMode);
+  const [name, setName] = useState<string>(animation.name);
+  const [duration, setDuration] = useState<string>(
+    animation.duration.toString()
+  );
+  const [iteration, setIteration] = useState<string>(
+    animation.iterationCount.toString()
+  );
+  const [fillMode, setFillMode] = useState<string>(animation.fillMode);
 
   const changeName = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -46,11 +45,7 @@ const SidebarAnimation: React.FC = () => {
     setName(newName);
 
     if (newName.length > 0) {
-      // animationDispatch({
-      //   type: 'update',
-      //   newAnimation: animation.clone().apply({ name: newName }),
-      // });
-      setTimelineAnimation(animation.clone().apply({ name: newName }));
+      setAnimation(animation.clone().apply({ name: newName }));
 
       // Also update keyframes because these point to the animation name
       let newKeyframes = keyframes.clone();
@@ -65,12 +60,10 @@ const SidebarAnimation: React.FC = () => {
     let newDuration = e.target.value;
     setDuration(newDuration);
 
-    animation.setDuration(newDuration);
-    // animationDispatch({
-    //   type: 'update',
-    //   newAnimation: animation.clone(),
-    // });
-    setTimelineAnimation(animation.clone());
+    const durationValue = parseFloat(newDuration);
+    if (!Number.isNaN(durationValue)) {
+      updateAnimation({ duration: durationValue }, true);
+    }
   };
 
   const changeIteration = (
@@ -80,26 +73,24 @@ const SidebarAnimation: React.FC = () => {
     if (newIteration !== null) {
       setIteration(newIteration);
 
-      animation.setIterationCount(newIteration);
-      animationDispatch({
-        type: 'update',
-        newAnimation: animation.clone(),
-      });
+      updateAnimation(
+        {
+          iterationCount:
+            newIteration === 'infinite'
+              ? 'infinite'
+              : parseInt(newIteration),
+        },
+        true
+      );
     }
   };
 
   const changeTiming = (newTiming: string) => {
-    animationDispatch({
-      type: 'update',
-      newAnimation: animation.clone().apply({ timing: newTiming }),
-    });
+    updateAnimation({ timing: newTiming }, true);
   };
 
   const changeDirection = (newDirection: string) => {
-    animationDispatch({
-      type: 'update',
-      newAnimation: animation.clone().apply({ direction: newDirection }),
-    });
+    updateAnimation({ direction: newDirection }, true);
   };
 
   const changeFillMode = (
@@ -108,12 +99,7 @@ const SidebarAnimation: React.FC = () => {
   ) => {
     if (newFillMode !== null) {
       setFillMode(newFillMode);
-
-      animation.setFillMode(newFillMode);
-      animationDispatch({
-        type: 'update',
-        newAnimation: animation.clone(),
-      });
+      updateAnimation({ fillMode: newFillMode }, true);
     }
   };
 

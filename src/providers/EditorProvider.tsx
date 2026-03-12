@@ -6,14 +6,12 @@ import {
   ReactNode,
   useCallback,
   useEffect,
-  useState,
 } from 'react';
 
 import AnimationDto, {
   buildFromDefaultLib,
   getLibKeyframes,
 } from '@/model/AnimationDto';
-import AnimationProvider from './AnimationProvider';
 import KeyframeSelectionProvider from './KeyframeSelectionProvider';
 import { CustomAnimation } from '@/model/CustomAnimation';
 import CustomKeyframes from '@/model/CustomKeyframes';
@@ -28,8 +26,6 @@ export interface EditorProviderProps extends PropsWithChildren {
 }
 
 const EditorProvider: FC<EditorProviderProps> = (props) => {
-  const [animation, setAnimation] = useState(new CustomAnimation());
-
   const { userAnimations } = useEditorContext();
   const { loadState } = useTimelineContext();
 
@@ -55,7 +51,6 @@ const EditorProvider: FC<EditorProviderProps> = (props) => {
         ) {
           newAnimation.name += '-' + lib.variants[variant].name;
         }
-        setAnimation(newAnimation);
       }
 
       loadState({
@@ -86,16 +81,11 @@ const EditorProvider: FC<EditorProviderProps> = (props) => {
         targetHtml: savedAnimation.targetHtml,
         targetCss: savedAnimation.targetCss,
       });
-      setAnimation(savedAnimation.animation);
     }
   }, [props.animationLib, props.variant]);
 
   return (
-    <AnimationProvider animation={animation}>
-      <KeyframeSelectionProvider>
-        {props.children}
-      </KeyframeSelectionProvider>
-    </AnimationProvider>
+    <KeyframeSelectionProvider>{props.children}</KeyframeSelectionProvider>
   );
 };
 

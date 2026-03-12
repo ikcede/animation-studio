@@ -5,6 +5,7 @@ import AnimationDto, { buildFromDefaultLib } from '@/model/AnimationDto';
 import data from '@/data/animationData';
 import { EditorContextProvider } from '@/context/EditorContext/EditorContext';
 import { TimelineContextProvider } from '@/context/TimelineContext/TimelineContext';
+import { TimelineControlsContextProvider } from '@/context/TimelineControlsContext/TimelineControlsContext';
 
 export default async function Layout({
   children,
@@ -54,9 +55,11 @@ export default async function Layout({
   return (
     <EditorContextProvider>
       <TimelineContextProvider>
-        <EditorProvider animationLib={getLib()} variant={getVariant()}>
-          {children}
-        </EditorProvider>
+        <TimelineControlsContextProvider>
+          <EditorProvider animationLib={getLib()} variant={getVariant()}>
+            {children}
+          </EditorProvider>
+        </TimelineControlsContextProvider>
       </TimelineContextProvider>
     </EditorContextProvider>
   );
