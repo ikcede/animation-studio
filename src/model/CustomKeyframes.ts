@@ -1,3 +1,5 @@
+import { DEFAULT_KEYFRAMES } from '@/util/constants/defaultAnimation';
+
 export default class CustomKeyframes {
   keyframes: CSSKeyframesRule | null;
   keyframeString: string;
@@ -31,7 +33,7 @@ export default class CustomKeyframes {
   toStringWithClone(): string {
     let clone = this.clone();
     if (clone.keyframes !== null) {
-      clone.keyframes.name += '2';
+      clone.keyframes.name += '-clone';
       return this.toString() + '\n' + clone.toString();
     }
     return this.toString() + '\n/* Clone failed */';
@@ -64,11 +66,6 @@ export default class CustomKeyframes {
   }
 
   static getDefaultKeyframes = (): string => {
-    return `
-      @keyframes default-animation {
-        0% { font-size: 40px; }
-        100% { font-size: 14px; }
-      } 
-    `;
+    return DEFAULT_KEYFRAMES;
   };
 }

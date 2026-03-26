@@ -26,10 +26,12 @@ const ExportCodeDialog: React.FC<ExportCodeDialogProps> = ({
     <Dialog onClose={handleClose} open={open} fullWidth maxWidth={'sm'}>
       <div className={styling.wrapper}>
         <div className={styling.header}>
-          <h2>Animation Code</h2>
-          <IconButton onClick={() => handleClose()}>
-            <CloseIcon />
-          </IconButton>
+          <div className={styling.headerTitleRow}>
+            <h2>Animation Code</h2>
+            <IconButton onClick={() => handleClose()}>
+              <CloseIcon />
+            </IconButton>
+          </div>
         </div>
         <div className={styling.row}>
           <ExportCode

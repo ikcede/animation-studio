@@ -51,12 +51,18 @@ p {
   line-height: 1.5em;
 }
 
+.label {
+  color: var(--color-grey);
+  font-size: 14px;
+}
+
 /** Material styling */
 button.MuiIconButton-root {
   color: var(--color-grey);
 }
 
-button.MuiIconButton-root.Mui-disabled {
+button.MuiIconButton-root.Mui-disabled,
+button.MuiButton-root.Mui-disabled {
   color: var(--color-disabled);
   cursor: not-allowed;
 }
@@ -67,6 +73,10 @@ button.MuiIconButton-root.Mui-disabled {
   color: var(--color-grey);
   border: var(--border-default);
   text-transform: none;
+}
+
+.MuiButton-root.button-dark {
+  background: var(--color-background);
 }
 
 .MuiButton-root.button-cta {
@@ -281,7 +291,7 @@ span.MuiTabs-indicator {
 
 /** Popups */
 .MuiPaper-root.MuiPaper-elevation {
-  background: var(--color-background);
+  background: var(--color-background-lighter);
   color: var(--color-white);
 
   .MuiAutocomplete-option,

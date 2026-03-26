@@ -1,7 +1,6 @@
 import React from 'react';
 import styling from './AnimationFrame.module.css';
 import { CustomAnimation } from '@/model/CustomAnimation';
-import AnimationPlayhead from './AnimationPlayhead';
 import CustomKeyframes from '@/model/CustomKeyframes';
 
 export interface AnimationFrameProps {
@@ -33,10 +32,6 @@ const AnimationFrame: React.FC<AnimationFrameProps> = ({
       }}
     >
       <div className={styling.name}>{animation.name}</div>
-
-      {animation.timing !== 'linear' && (
-        <AnimationPlayhead animation={animation} />
-      )}
     </div>
   );
 };

@@ -1,77 +1,91 @@
 'use client';
 
-import React from 'react';
+import {
+  FC,
+  PropsWithChildren,
+  ReactNode,
+  useCallback,
+  useEffect,
+} from 'react';
 
-import AnimationLib, {
+import AnimationDto, {
   buildFromDefaultLib,
   getLibKeyframes,
-} from '@/model/AnimationLib';
-import AnimationProvider from './AnimationProvider';
+} from '@/model/AnimationDto';
 import KeyframeSelectionProvider from './KeyframeSelectionProvider';
-import KeyframesProvider from './KeyframesProvider';
-import TargetElementProvider from './TargetElementProvider';
-import EditorSettingsProvider from './EditorSettingsProvider';
 import { CustomAnimation } from '@/model/CustomAnimation';
 import CustomKeyframes from '@/model/CustomKeyframes';
+import { useEditorContext } from '@/context/EditorContext/EditorContext';
+import { buildAnimation } from '@/util/buildAnimation/buildAnimation';
+import { useTimelineContext } from '@/context/TimelineContext/TimelineContext';
 
-export interface EditorProviderProps extends React.PropsWithChildren {
-  animationLib?: AnimationLib;
+export interface EditorProviderProps extends PropsWithChildren {
+  animationLib?: AnimationDto;
   variant?: number;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-const EditorProvider: React.FC<EditorProviderProps> = (props) => {
-  const [html, setHtml] = React.useState('<div class="target"></div>');
-  const [css, setCSS] = React.useState('.target {\n  \n}');
-  const [keyframes, setKeyframes] = React.useState(
-    new CustomKeyframes(CustomKeyframes.getDefaultKeyframes())
-  );
-  const [animation, setAnimation] = React.useState(new CustomAnimation());
+const EditorProvider: FC<EditorProviderProps> = (props) => {
+  const { workingCopy } = useEditorContext();
+  const { loadState } = useTimelineContext();
 
-  React.useEffect(() => {
-    if (props.animationLib !== undefined) {
-      let lib = buildFromDefaultLib(props.animationLib);
+  const loadAnimationLib = useCallback(
+    (animationLib: AnimationDto, variant?: number) => {
+      const lib = buildFromDefaultLib(animationLib);
 
-      if (lib.targetHtml !== '') {
-        setHtml(lib.targetHtml!);
-      }
-
-      if (lib.targetCss !== '') {
-        setCSS(lib.targetCss!);
-      }
-
-      let keyframesString = getLibKeyframes(lib, props.variant);
+      const keyframesString = getLibKeyframes(lib, variant);
+      let newKeyframes = new CustomKeyframes(
+        CustomKeyframes.getDefaultKeyframes()
+      );
       if (keyframesString !== undefined && keyframesString !== '') {
-        setKeyframes(new CustomKeyframes(keyframesString));
+        newKeyframes = new CustomKeyframes(keyframesString);
       }
 
+      let newAnimation = new CustomAnimation();
       if (lib.animation !== '') {
-        let newAnimation = new CustomAnimation();
         newAnimation.buildFromString(lib.animation!);
         if (
-          props.variant !== undefined &&
+          variant !== undefined &&
           lib.variants &&
-          lib.variants[props.variant]
+          lib.variants[variant]
         ) {
-          newAnimation.name += '-' + lib.variants[props.variant].name;
+          newAnimation.name += '-' + lib.variants[variant].name;
         }
-        setAnimation(newAnimation);
       }
+
+      loadState({
+        targetHtml: lib.targetHtml,
+        targetCss: lib.targetCss,
+        keyframes: newKeyframes,
+        animation: newAnimation,
+      });
+    },
+    []
+  );
+
+  // Set up the page on reload
+  useEffect(() => {
+    // Use the animation library from props if provided
+    if (props.animationLib !== undefined) {
+      loadAnimationLib(props.animationLib, props.variant);
+      return;
+    }
+
+    // Check for a working copy
+    if (workingCopy !== undefined) {
+      console.log('loading working copy:', workingCopy);
+      const savedAnimation = buildAnimation(workingCopy);
+      loadState({
+        animation: savedAnimation.animation,
+        keyframes: savedAnimation.keyframes,
+        targetHtml: savedAnimation.targetHtml,
+        targetCss: savedAnimation.targetCss,
+      });
     }
   }, [props.animationLib, props.variant]);
 
   return (
-    <EditorSettingsProvider>
-      <AnimationProvider animation={animation}>
-        <KeyframesProvider keyframes={keyframes}>
-          <KeyframeSelectionProvider>
-            <TargetElementProvider html={html} css={css}>
-              {props.children}
-            </TargetElementProvider>
-          </KeyframeSelectionProvider>
-        </KeyframesProvider>
-      </AnimationProvider>
-    </EditorSettingsProvider>
+    <KeyframeSelectionProvider>{props.children}</KeyframeSelectionProvider>
   );
 };
 

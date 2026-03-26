@@ -24,7 +24,7 @@
 .editing {
   display: flex;
   flex: 1;
-  margin-right: 16px;
+  margin-right: 8px;
   justify-content: flex-end;
   align-items: center;
 

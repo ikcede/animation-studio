@@ -12,17 +12,13 @@ import styling from './KeyframeList.module.css';
 
 import AddKeyframe from './widgets/AddKeyframe';
 import {
-  KeyframesContext,
-  KeyframesDispatchContext,
-} from '@/providers/KeyframesProvider';
-import {
   KeyframeSelectionContext,
   KeyframeSelectionDispatchContext,
 } from '@/providers/KeyframeSelectionProvider';
+import { useTimelineContext } from '@/context/TimelineContext/TimelineContext';
 
 const KeyframeList: React.FC = () => {
-  const keyframes = React.useContext(KeyframesContext);
-  const keyframesDispatch = React.useContext(KeyframesDispatchContext);
+  const { keyframes, setKeyframes } = useTimelineContext();
 
   const selectedKeyframe = React.useContext(KeyframeSelectionContext);
   const selectedKeyframeDispatch = React.useContext(
@@ -57,9 +53,7 @@ const KeyframeList: React.FC = () => {
     e.stopPropagation();
     if (keyframe !== '0%' && keyframe !== '100%') {
       keyframes.keyframes!.deleteRule(keyframe);
-      keyframesDispatch({
-        keyframes: keyframes.clone(),
-      });
+      setKeyframes(keyframes.clone());
       selectedKeyframeDispatch({ value: -1 });
     }
   };
@@ -67,10 +61,7 @@ const KeyframeList: React.FC = () => {
   const handleAdd = (value: number) => {
     if (keyframes.keyframes!.findRule(value + '%') === null) {
       keyframes.keyframes!.appendRule(`${value}% { }`);
-
-      keyframesDispatch({
-        keyframes: keyframes.clone(),
-      });
+      setKeyframes(keyframes.clone());
     } else {
       setAddError(`Keyframe ${value} already exists`);
     }

@@ -1,24 +1,26 @@
+import { ReactNode } from 'react';
 import { redirect } from 'next/navigation';
 import EditorProvider from '@/providers/EditorProvider';
-import AnimationLib, { buildFromDefaultLib } from '@/model/AnimationLib';
+import AnimationDto, { buildFromDefaultLib } from '@/model/AnimationDto';
 import data from '@/data/animationData';
-import React from 'react';
+import { EditorContextProvider } from '@/context/EditorContext/EditorContext';
+import { TimelineContextProvider } from '@/context/TimelineContext/TimelineContext';
+import { TimelineControlsContextProvider } from '@/context/TimelineControlsContext/TimelineControlsContext';
 
-export default function Layout({
+export default async function Layout({
   children,
   params,
 }: Readonly<{
-  children: React.ReactNode;
-  params: {
+  children: ReactNode;
+  params: Promise<{
     id: string;
-  };
+  }>;
 }>) {
-  const lib: AnimationLib = React.useMemo(() => {
-    const id = params.id;
+  const { id } = await params;
 
+  const getLib = (): AnimationDto | undefined => {
     if (id === 'custom') {
-      let lib = buildFromDefaultLib();
-      return lib;
+      return undefined;
     }
 
     let idValue = -1;
@@ -35,11 +37,9 @@ export default function Layout({
 
     let libById = data.find((e) => e.id === idValue);
     return buildFromDefaultLib(libById);
-  }, [params]);
+  };
 
-  const variant: number = React.useMemo(() => {
-    const id = params.id;
-
+  const getVariant = (): number => {
     if (id.indexOf('v') > -1) {
       let ids = id.split('v');
       const variantValue = parseInt(ids[1]);
@@ -50,11 +50,17 @@ export default function Layout({
     }
 
     return -1;
-  }, [params]);
+  };
 
   return (
-    <EditorProvider animationLib={lib} variant={variant}>
-      {children}
-    </EditorProvider>
+    <EditorContextProvider>
+      <TimelineContextProvider>
+        <TimelineControlsContextProvider>
+          <EditorProvider animationLib={getLib()} variant={getVariant()}>
+            {children}
+          </EditorProvider>
+        </TimelineControlsContextProvider>
+      </TimelineContextProvider>
+    </EditorContextProvider>
   );
 }

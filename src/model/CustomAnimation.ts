@@ -18,7 +18,7 @@ export interface AnimationDetails {
  * Exported animation code is compared against these values to
  * shorten output.
  */
-const defaultValues = {
+export const defaultValues = {
   duration: 0,
   timing: 'ease',
   delay: 0,
@@ -175,7 +175,7 @@ export class CustomAnimation implements AnimationDetails {
     if (forceName !== undefined) {
       return forceName;
     }
-    return this.useClone ? this.name + '2' : this.name;
+    return this.useClone ? this.name + '-clone' : this.name;
   }
 
   toReactProps(): React.CSSProperties {

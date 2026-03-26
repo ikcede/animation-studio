@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import round from '@/util/round';
+import round from '@/util/round/round';
 import styling from './KeyframeMark.module.css';
 
 export interface KeyframeMarkProps {

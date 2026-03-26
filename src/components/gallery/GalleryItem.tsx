@@ -1,6 +1,6 @@
 import React from 'react';
 import styling from './GalleryItem.module.css';
-import AnimationLib, { getLibKeyframes } from '@/model/AnimationLib';
+import AnimationDto, { getLibKeyframes } from '@/model/AnimationDto';
 import Link from 'next/link';
 import {
   IconButton,
@@ -15,7 +15,7 @@ import { CustomAnimation } from '@/model/CustomAnimation';
 import AnimationPreview from '@/components/preview/AnimationPreview';
 
 export interface GalleryItemProps {
-  lib: AnimationLib;
+  lib: AnimationDto;
   collapsed?: boolean;
 }
 

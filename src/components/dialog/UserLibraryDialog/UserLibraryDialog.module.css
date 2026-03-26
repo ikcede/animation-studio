@@ -1,0 +1,29 @@
+.animationLibrary {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  flex-wrap: wrap;
+  padding: 16px 0;
+  justify-content: flex-start;
+  min-height: 200px;
+}
+
+.animationItem {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  padding: 8px;
+  background: var(--color-background-lighter);
+  border: var(--border-default);
+  cursor: pointer;
+
+  &.selected {
+    outline: 2px solid var(--color-red);
+  }
+}
+
+.animationItem > div {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
