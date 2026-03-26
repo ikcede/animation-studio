@@ -20,30 +20,25 @@ Next:
 Backlog:
 
 - Keyframes:
-
   - Edit keyframe from keyframe view
   - Go from property to value on ":" keydown
   - Support keyframe codemirror editor
   - Allow for higher precision keyframe values
 
 - Library:
-
   - Add new animations to lib
   - Search to filter animations
 
 - Animations:
-
   - Clean up longform CSS string outputs
   - Support linear() timing functions
   - Support composite keyframes and animations
 
 - Timeline:
-
   - Speed mods
   - Mobile drag keyframes support
 
 - General:
-  - Saving + Projects
   - Keyboard shortcuts
 
 ## Getting Started
