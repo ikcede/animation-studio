@@ -26,7 +26,7 @@ export interface EditorProviderProps extends PropsWithChildren {
 }
 
 const EditorProvider: FC<EditorProviderProps> = (props) => {
-  const { userAnimations } = useEditorContext();
+  const { workingCopy } = useEditorContext();
   const { loadState } = useTimelineContext();
 
   const loadAnimationLib = useCallback(
@@ -72,9 +72,9 @@ const EditorProvider: FC<EditorProviderProps> = (props) => {
     }
 
     // Check for a working copy
-    if (userAnimations.workingCopy !== undefined) {
-      console.log('loading working copy:', userAnimations.workingCopy);
-      const savedAnimation = buildAnimation(userAnimations.workingCopy);
+    if (workingCopy !== undefined) {
+      console.log('loading working copy:', workingCopy);
+      const savedAnimation = buildAnimation(workingCopy);
       loadState({
         animation: savedAnimation.animation,
         keyframes: savedAnimation.keyframes,

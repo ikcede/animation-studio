@@ -1,17 +1,24 @@
-import React from 'react';
-import styling from './AppBar.module.css';
+import { FC, useState } from 'react';
+
 import Link from 'next/link';
-import IconButton from '@mui/material/IconButton';
 import AnimationIcon from '@mui/icons-material/Animation';
+import FolderIcon from '@mui/icons-material/Folder';
 import SettingsIcon from '@mui/icons-material/Settings';
+import IconButton from '@mui/material/IconButton';
+
 import EditorSettingsDialog from '../dialog/EditorSettingsDialog';
+import UserLibraryDialog from '../dialog/UserLibraryDialog/UserLibraryDialog';
+import styling from './AppBar.module.css';
+import { useEditorContext } from '@/context/EditorContext/EditorContext';
 
 export interface AppBarProps {
   animationName: string;
 }
 
-const AppBar: React.FC<AppBarProps> = ({ animationName }) => {
-  const [settingsOpen, setSettingsOpen] = React.useState(false);
+const AppBar: FC<AppBarProps> = ({ animationName }) => {
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [userLibraryOpen, setUserLibraryOpen] = useState(false);
+  const { isSaved } = useEditorContext();
 
   return (
     <>
@@ -23,19 +30,31 @@ const AppBar: React.FC<AppBarProps> = ({ animationName }) => {
         <div className={styling.editing}>
           <AnimationIcon />
           {animationName}
+          {isSaved ? '' : '*'}
         </div>
 
         <div className={styling.settings}>
+          <IconButton onClick={() => setUserLibraryOpen(true)}>
+            <FolderIcon />
+          </IconButton>
           <IconButton onClick={() => setSettingsOpen(true)}>
             <SettingsIcon />
           </IconButton>
         </div>
       </div>
 
-      <EditorSettingsDialog
-        open={settingsOpen}
-        onClose={() => setSettingsOpen(false)}
-      />
+      {settingsOpen && (
+        <EditorSettingsDialog
+          open={settingsOpen}
+          onClose={() => setSettingsOpen(false)}
+        />
+      )}
+      {userLibraryOpen && (
+        <UserLibraryDialog
+          open={userLibraryOpen}
+          onClose={() => setUserLibraryOpen(false)}
+        />
+      )}
     </>
   );
 };

@@ -42,13 +42,15 @@ const ExportCodeDialog: FC<EditorSettingsDialogProps> = ({
     <Dialog onClose={handleClose} open={open} fullWidth maxWidth={'sm'}>
       <div className={styling.wrapper}>
         <div className={styling.header}>
-          <h2>Settings</h2>
-          <IconButton onClick={() => handleClose()}>
-            <CloseIcon />
-          </IconButton>
+          <div className={styling.headerTitleRow}>
+            <h2>Settings</h2>
+            <IconButton onClick={() => handleClose()}>
+              <CloseIcon />
+            </IconButton>
+          </div>
         </div>
         <div className={styling.row}>
-          <p>Background Color:</p>
+          <p className="label">Background Color:</p>
           <TextField
             variant="outlined"
             placeholder="rgb(25, 25, 25)"

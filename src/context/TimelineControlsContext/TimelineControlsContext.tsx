@@ -5,7 +5,6 @@ import {
   useCallback,
   useContext,
   useMemo,
-  useState,
 } from 'react';
 import { useTimelineContext } from '../TimelineContext/TimelineContext';
 

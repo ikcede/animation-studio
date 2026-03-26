@@ -21,13 +21,8 @@ import AnimationDirection from './widgets/AnimationDirection';
 import { useTimelineContext } from '@/context/TimelineContext/TimelineContext';
 
 const SidebarAnimation: React.FC = () => {
-  const {
-    keyframes,
-    setKeyframes,
-    animation,
-    setAnimation,
-    updateAnimation,
-  } = useTimelineContext();
+  const { animation, setAnimation, updateAnimation } =
+    useTimelineContext();
 
   const [name, setName] = useState<string>(animation.name);
   const [duration, setDuration] = useState<string>(
@@ -46,11 +41,6 @@ const SidebarAnimation: React.FC = () => {
 
     if (newName.length > 0) {
       setAnimation(animation.clone().apply({ name: newName }));
-
-      // Also update keyframes because these point to the animation name
-      let newKeyframes = keyframes.clone();
-      newKeyframes.keyframes!.name = newName;
-      setKeyframes(newKeyframes);
     }
   };
 
@@ -62,7 +52,7 @@ const SidebarAnimation: React.FC = () => {
 
     const durationValue = parseFloat(newDuration);
     if (!Number.isNaN(durationValue)) {
-      updateAnimation({ duration: durationValue }, true);
+      updateAnimation({ duration: durationValue }, true, true);
     }
   };
 
@@ -80,17 +70,18 @@ const SidebarAnimation: React.FC = () => {
               ? 'infinite'
               : parseInt(newIteration),
         },
+        true,
         true
       );
     }
   };
 
   const changeTiming = (newTiming: string) => {
-    updateAnimation({ timing: newTiming }, true);
+    updateAnimation({ timing: newTiming }, true, true);
   };
 
   const changeDirection = (newDirection: string) => {
-    updateAnimation({ direction: newDirection }, true);
+    updateAnimation({ direction: newDirection }, true, true);
   };
 
   const changeFillMode = (
@@ -99,7 +90,7 @@ const SidebarAnimation: React.FC = () => {
   ) => {
     if (newFillMode !== null) {
       setFillMode(newFillMode);
-      updateAnimation({ fillMode: newFillMode }, true);
+      updateAnimation({ fillMode: newFillMode }, true, true);
     }
   };
 

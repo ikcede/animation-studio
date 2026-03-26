@@ -175,7 +175,7 @@ export class CustomAnimation implements AnimationDetails {
     if (forceName !== undefined) {
       return forceName;
     }
-    return this.useClone ? this.name + '2' : this.name;
+    return this.useClone ? this.name + '-clone' : this.name;
   }
 
   toReactProps(): React.CSSProperties {

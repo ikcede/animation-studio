@@ -17,7 +17,9 @@ export const serializeAnimation = ({
   targetHtml,
   targetCss,
 }: SerializeAnimationProps): SerializedAnimation => {
-  const animationString = animation.toCSSShorthand();
+  const animationString = animation.toCSSShorthand({
+    name: animation.name,
+  });
   const keyframesString = keyframes.toString();
 
   return {

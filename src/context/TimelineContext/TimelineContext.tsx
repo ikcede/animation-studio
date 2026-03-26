@@ -21,7 +21,11 @@ import {
 type TimelineContextProps = {
   animation: CustomAnimation;
   setAnimation: (animation: CustomAnimation) => void;
-  updateAnimation: (details: AnimationDetails, save?: boolean) => void;
+  updateAnimation: (
+    details: AnimationDetails,
+    saveWorkingCopy?: boolean,
+    isBreakingChange?: boolean
+  ) => void;
   keyframes: CustomKeyframes;
   setKeyframes: (keyframes: CustomKeyframes) => void;
   targetHtml: string;
@@ -41,6 +45,7 @@ type AnimationStateProps = {
   keyframes?: CustomKeyframes;
   targetHtml?: string;
   targetCss?: string;
+  isBreakingChange?: boolean;
 };
 
 export const TimelineContext = createContext<
@@ -57,7 +62,7 @@ export const TimelineContext = createContext<
 export const TimelineContextProvider = ({
   children,
 }: TimelineContextProviderProps) => {
-  const { saveWorkingAnimation } = useEditorContext();
+  const { saveWorkingAnimation, setIsSaved } = useEditorContext();
 
   // Set default values for the base animation
   const [activeHtml, setActiveHtml] = useState(DEFAULT_HTML);
@@ -75,6 +80,7 @@ export const TimelineContextProvider = ({
       keyframes,
       targetHtml,
       targetCss,
+      isBreakingChange,
     }: AnimationStateProps) => {
       saveWorkingAnimation({
         animation: animation ?? activeAnimation,
@@ -82,6 +88,9 @@ export const TimelineContextProvider = ({
         targetHtml: targetHtml ?? activeHtml,
         targetCss: targetCss ?? activeCss,
       });
+      if (isBreakingChange) {
+        setIsSaved(false);
+      }
     },
     [
       activeAnimation,
@@ -89,6 +98,7 @@ export const TimelineContextProvider = ({
       activeHtml,
       activeCss,
       saveWorkingAnimation,
+      setIsSaved,
     ]
   );
 
@@ -119,26 +129,48 @@ export const TimelineContextProvider = ({
   const setAnimation = useCallback(
     (animation: CustomAnimation) => {
       setActiveAnimation(animation);
-      saveState({ animation });
+      saveState({ animation, isBreakingChange: true });
     },
     [setActiveAnimation, saveState]
   );
 
   const updateAnimation = useCallback(
-    (details: AnimationDetails, save?: boolean) => {
+    (
+      details: AnimationDetails,
+      saveWorkingCopy?: boolean,
+      isBreakingChange?: boolean
+    ) => {
       const newAnimation = activeAnimation.clone().apply(details);
       setActiveAnimation(newAnimation);
-      if (save) {
-        saveState({ animation: newAnimation });
+
+      if (details.name !== undefined) {
+        let newKeyframes = activeKeyframes.clone();
+        newKeyframes.keyframes!.name = details.name;
+        setActiveKeyframes(newKeyframes);
+      }
+
+      if (saveWorkingCopy) {
+        saveState({
+          animation: newAnimation,
+          keyframes: activeKeyframes,
+          isBreakingChange,
+        });
       }
     },
-    [activeAnimation, saveState]
+    [
+      activeAnimation,
+      activeKeyframes,
+      setActiveKeyframes,
+      setActiveAnimation,
+      saveState,
+      setIsSaved,
+    ]
   );
 
   const setKeyframes = useCallback(
     (keyframes: CustomKeyframes) => {
       setActiveKeyframes(keyframes);
-      saveState({ keyframes });
+      saveState({ keyframes, isBreakingChange: true });
     },
     [setActiveKeyframes, saveState]
   );
@@ -146,7 +178,7 @@ export const TimelineContextProvider = ({
   const setTargetHtml = useCallback(
     (targetHtml: string) => {
       setActiveHtml(targetHtml);
-      saveState({ targetHtml });
+      saveState({ targetHtml, isBreakingChange: true });
     },
     [setActiveHtml, saveState]
   );
@@ -154,7 +186,7 @@ export const TimelineContextProvider = ({
   const setTargetCss = useCallback(
     (targetCss: string) => {
       setActiveCss(targetCss);
-      saveState({ targetCss });
+      saveState({ targetCss, isBreakingChange: true });
     },
     [setActiveCss, saveState]
   );

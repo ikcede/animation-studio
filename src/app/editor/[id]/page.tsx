@@ -17,7 +17,7 @@ export default function Page() {
   const [allKeyframes, setAllKeyframes] = useState('');
 
   useEffect(() => {
-    setAllKeyframes(keyframes.toStringWithClone());
+    setAllKeyframes(keyframes.toString());
   }, [keyframes]);
 
   return (

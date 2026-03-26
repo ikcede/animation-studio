@@ -1,6 +1,7 @@
-import React from 'react';
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import styling from './AnimationPreview.module.css';
 import { CustomAnimation } from '@/model/CustomAnimation';
+import CustomKeyframes from '@/model/CustomKeyframes';
 
 export interface AnimationPreviewProps {
   animation: CustomAnimation;
@@ -11,9 +12,11 @@ export interface AnimationPreviewProps {
   targetHtml?: string;
   targetCss?: string;
   backgroundColor?: string;
+  width?: number;
+  height?: number;
 }
 
-const AnimationPreview: React.FC<AnimationPreviewProps> = ({
+const AnimationPreview: FC<AnimationPreviewProps> = ({
   animation,
   allKeyframes = [],
   isItemPreview = false,
@@ -21,13 +24,12 @@ const AnimationPreview: React.FC<AnimationPreviewProps> = ({
   targetHtml,
   targetCss,
   backgroundColor,
+  width = 200,
+  height = 200,
 }) => {
-  const wrapper = React.useRef<HTMLDivElement>(null);
-  const [animationCss, setAnimationCss] = React.useState(
-    animation.toCSSString({ useStartTime: true })
-  );
+  const wrapper = useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     let node = wrapper.current;
     if (
       node !== null &&
@@ -38,9 +40,31 @@ const AnimationPreview: React.FC<AnimationPreviewProps> = ({
     }
   }, [targetHtml]);
 
-  React.useEffect(() => {
-    setAnimationCss(animation.toCSSString({ useStartTime: true }));
-  }, [animation]);
+  const animationCss = useMemo(
+    () =>
+      animation
+        .clone()
+        .apply({
+          name: animation.name + '-preview-' + itemPreviewId,
+        })
+        .toCSSString({
+          useStartTime: !isItemPreview,
+        }),
+    [animation, isItemPreview, itemPreviewId]
+  );
+
+  const keyframesCss = useMemo(() => {
+    const previewKeyframes = allKeyframes.map((keyframes) => {
+      const tempKeyframes = new CustomKeyframes(keyframes);
+      if (tempKeyframes.keyframes !== null) {
+        tempKeyframes.keyframes.name += '-preview-' + itemPreviewId;
+      }
+      return isItemPreview
+        ? tempKeyframes.toString()
+        : tempKeyframes.toStringWithClone();
+    });
+    return previewKeyframes.join('\n');
+  }, [allKeyframes, isItemPreview, itemPreviewId]);
 
   return (
     <div
@@ -49,18 +73,20 @@ const AnimationPreview: React.FC<AnimationPreviewProps> = ({
         ' preview-' +
         itemPreviewId
       }
-      style={{ backgroundColor: backgroundColor || undefined }}
+      style={{
+        backgroundColor: backgroundColor || undefined,
+        width: width + 'px',
+        height: height + 'px',
+      }}
     >
-      {allKeyframes.map((keyframesCssText, index) => (
-        <style key={index}>{keyframesCssText}</style>
-      ))}
+      <style>{keyframesCss}</style>
 
       {isItemPreview && (
         <>
           <style>{`.preview-${itemPreviewId} {\n${targetCss}\n}`}</style>
           <style>
             {`.preview-${itemPreviewId}:hover .target {
-              ${animation.toCSSString()}
+              ${animationCss}
               animation-iteration-count: 1;
               animation-play-state: running;
               animation-fill-mode: both;
@@ -80,7 +106,10 @@ const AnimationPreview: React.FC<AnimationPreviewProps> = ({
       <div
         className={styling['target-wrapper']}
         ref={wrapper}
-        style={{ zoom: isItemPreview ? '50%' : undefined }}
+        style={{
+          zoom: isItemPreview ? '30%' : undefined,
+          cursor: isItemPreview ? 'pointer' : undefined,
+        }}
       >
         <div className="target"></div>
       </div>

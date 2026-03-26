@@ -56,7 +56,7 @@ const Timeline: React.FC = ({}) => {
     }
   }, [keyframes]);
 
-  const getPercent = React.useCallback(
+  const getPercent = useCallback(
     (e: React.MouseEvent) => {
       const rect = mainRef.current!.getBoundingClientRect();
 
@@ -75,7 +75,7 @@ const Timeline: React.FC = ({}) => {
     [mainRef]
   );
 
-  const handlePlayheadDown = React.useCallback(
+  const handlePlayheadDown = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
       setPlayheadDown(true);
@@ -84,7 +84,7 @@ const Timeline: React.FC = ({}) => {
     [pause]
   );
 
-  const handleKeyframeDown = React.useCallback(
+  const handleKeyframeDown = useCallback(
     (index: number) => {
       if (keyframes.keyframes !== null) {
         let target = keyframes.keyframes[index];
@@ -100,11 +100,11 @@ const Timeline: React.FC = ({}) => {
     [keyframes]
   );
 
-  const getDownStyle = React.useCallback((): string => {
+  const getDownStyle = useCallback((): string => {
     return playheadDown || keyframeDown > -1 ? styling.down : '';
   }, [playheadDown, keyframeDown]);
 
-  const handleMouseMove = React.useCallback(
+  const handleMouseMove = useCallback(
     (e: React.MouseEvent) => {
       if (addMode) {
         let percent = round(getPercent(e), 2) * 100;
@@ -158,22 +158,24 @@ const Timeline: React.FC = ({}) => {
     end();
   }, [end]);
 
-  const selectKeyframe = (percent: number) => {
+  const selectKeyframe = useCallback((percent: number) => {
     keyframeSelectionDispatch({ value: percent });
-  };
+  }, [keyframeSelectionDispatch]);
 
-  const showDeleteKeyframe = () =>
-    selectedKeyframe > 0 && selectedKeyframe !== 100;
+  const showDeleteKeyframe = useCallback(() =>
+    selectedKeyframe > 0 && selectedKeyframe !== 100,
+    [selectedKeyframe]
+  );
 
-  const deleteSelectedKeyframe = () => {
+  const deleteSelectedKeyframe = useCallback(() => {
     keyframes.keyframes!.deleteRule(selectedKeyframe + '%');
     setKeyframes(keyframes.clone());
     keyframeSelectionDispatch({ value: -1 });
-  };
+  }, [keyframes, setKeyframes, keyframeSelectionDispatch, selectedKeyframe]);
 
-  const addKeyframeMode = () => {
+  const addKeyframeMode = useCallback(() => {
     setAddMode(!addMode);
-  };
+  }, [addMode, setAddMode]);
 
   return (
     <div className={styling.wrapper} onMouseMove={handleMouseMove}>

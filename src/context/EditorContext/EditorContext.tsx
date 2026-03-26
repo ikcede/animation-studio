@@ -32,8 +32,10 @@ type EditorContextProps = {
   saveWorkingAnimation: (props: SaveAnimationProps) => void;
   loadAnimation: (id: string) => UserAnimation | null;
   saveEditorState: (state: EditorState) => void;
+  deleteAnimation: (id: string) => void;
   editorState: EditorState | undefined;
   userAnimations: UserAnimationLibrary;
+  workingCopy: SerializedAnimation | undefined;
 };
 
 type EditorContextProviderProps = {
@@ -67,6 +69,10 @@ export const EditorContextProvider = ({
   const [editorState, setEditorState] = useLocalStorage<
     EditorState | undefined
   >('editorState', defaultEditorState);
+
+  const [workingCopy, setWorkingCopy] = useLocalStorage<
+    SerializedAnimation | undefined
+  >('workingCopy', undefined);
 
   /** All saved animations */
   const [userAnimations, setUserAnimations] =
@@ -117,29 +123,22 @@ export const EditorContextProvider = ({
         library: newLibrary,
       });
 
+      setWorkingCopy(serializedAnimation);
       setIsSaved(true);
-      setEditorState((prevState: EditorState | undefined) => {
-        if (prevState === undefined) {
-          return defaultEditorState;
-        }
-        return {
-          ...prevState,
-          saveFileId: id,
-        };
-      });
     },
-    [userAnimations, setUserAnimations, setEditorState]
+    [userAnimations, setUserAnimations, setWorkingCopy, setIsSaved]
   );
 
   const saveWorkingAnimation = useCallback(
     ({
+      id,
       animation,
       keyframes,
       targetHtml,
       targetCss,
     }: SaveAnimationProps) => {
       const serializedAnimation = serializeAnimation({
-        id: 'working-copy',
+        id: id ?? 'working-copy',
         animation: animation,
         keyframes: keyframes,
         targetHtml: targetHtml,
@@ -147,13 +146,9 @@ export const EditorContextProvider = ({
       });
 
       console.log('saving working animation:', serializedAnimation);
-
-      setUserAnimations({
-        ...userAnimations,
-        workingCopy: serializedAnimation,
-      });
+      setWorkingCopy(serializedAnimation);
     },
-    [userAnimations, setUserAnimations]
+    [setWorkingCopy]
   );
 
   const loadAnimation = useCallback(
@@ -165,24 +160,9 @@ export const EditorContextProvider = ({
       if (serializedAnimation === undefined) {
         return null;
       }
-
-      const userAnimation = buildAnimation(serializedAnimation);
-
-      setIsSaved(true);
-      setEditorState((prevState: EditorState | undefined) => {
-        let newState =
-          prevState === undefined
-            ? defaultEditorState
-            : {
-                ...prevState,
-              };
-        newState.saveFileId = id;
-        return newState;
-      });
-
-      return userAnimation;
+      return buildAnimation(serializedAnimation);
     },
-    [userAnimations, setIsSaved]
+    [userAnimations, setIsSaved, setWorkingCopy]
   );
 
   const saveEditorState = useCallback(
@@ -194,6 +174,18 @@ export const EditorContextProvider = ({
     [setEditorState]
   );
 
+  const deleteAnimation = useCallback(
+    (id: string) => {
+      setUserAnimations({
+        ...userAnimations,
+        library: userAnimations.library.filter(
+          (animation) => animation.id !== id
+        ),
+      });
+    },
+    [userAnimations, setUserAnimations]
+  );
+
   const value = useMemo(
     () => ({
       isSaved,
@@ -202,8 +194,10 @@ export const EditorContextProvider = ({
       saveWorkingAnimation,
       loadAnimation,
       saveEditorState,
+      deleteAnimation,
       editorState,
       userAnimations,
+      workingCopy,
     }),
     [
       isSaved,
@@ -212,8 +206,10 @@ export const EditorContextProvider = ({
       saveWorkingAnimation,
       loadAnimation,
       saveEditorState,
+      deleteAnimation,
       editorState,
       userAnimations,
+      workingCopy,
     ]
   );
 

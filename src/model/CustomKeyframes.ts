@@ -33,7 +33,7 @@ export default class CustomKeyframes {
   toStringWithClone(): string {
     let clone = this.clone();
     if (clone.keyframes !== null) {
-      clone.keyframes.name += '2';
+      clone.keyframes.name += '-clone';
       return this.toString() + '\n' + clone.toString();
     }
     return this.toString() + '\n/* Clone failed */';
